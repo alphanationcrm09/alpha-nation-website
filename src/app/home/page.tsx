@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PublicCarriers from "@/components/PublicCarriers";
-import PublicAgents from "@/components/PublicAgents";
 
 export const metadata: Metadata = {
   title: "Alpha Nation | Final Expense, Life & Health Insurance",
@@ -78,7 +77,7 @@ export default function Home() {
           <div className="about-stats">
             <article><strong>3,000+</strong><span>Agents and professionals in our network</span></article>
             <article><strong>40+</strong><span>Insurance carrier relationships</span></article>
-            <article><strong>40,000+</strong><span>People helped with insurance needs each year</span></article>
+            <article><strong>40,000–50,000</strong><span>People helped with insurance needs each year</span></article>
             <p className="stats-note">Figures represent Alpha Nation's reported network and annual reach. Carrier, product and agent availability varies by state.</p>
           </div>
         </div>
@@ -102,9 +101,9 @@ export default function Home() {
 
       <section className="section agents-section" id="agents">
         <div className="wrap">
-          <div className="section-heading"><p className="eyebrow">OUR PROFESSIONALS</p><h2>Meet available Alpha Nation agents.</h2><p className="lead">Our wider network includes more than 3,000 agents and professionals. Featured profiles are shown only after their assigned state license records have been verified.</p></div>
-          <PublicAgents />
-          <p className="directory-note">Agent availability and the states each professional is authorized to serve are subject to confirmation when an appointment is requested.</p>
+          <div className="section-heading"><p className="eyebrow">OUR AGENTS</p><h2>Connect with an Alpha Nation professional.</h2><p className="lead">Alongside our wider network of more than 3,000 agents, Alpha Nation works with a core group of agents who are regularly available to assist with customer requests.</p></div>
+          <div className="directory-empty"><h3>Speak with our team</h3><p>Tell us your state and the type of insurance you are exploring. We will coordinate with an available professional and confirm the relevant licensing before an introduction.</p><a className="button" href="/quote">Request an appointment</a></div>
+          <p className="directory-note">Individual agent profiles will be displayed when their names, photos, professional details and current state licensing information are verified for publication.</p>
         </div>
       </section>
 
