@@ -48,7 +48,7 @@ Set public build variables in **Workers Builds → Build variables and secrets**
 | `TURNSTILE_SECRET_KEY` | Cloudflare Turnstile secret; server runtime only |
 | `RESEND_API_KEY` | Resend API key used only by server routes for lead alerts |
 | `RESEND_FROM_EMAIL` | Verified sender address in your Resend domain |
-| `LEAD_NOTIFICATION_EMAIL` | Owner notification destination; defaults to `aalphanation@gmail.com` |
+| `LEAD_NOTIFICATION_EMAIL` | Owner notification destination; defaults to `khanbahi202502@gmail.com` |
 
 Never use a `NEXT_PUBLIC_` prefix for any secret. Email alerts require a verified Resend sender and the three email variables above. Customer requests remain visible in the secure admin panel even when email delivery is not configured. Do not paste secrets into GitHub, source files, chat, or screenshots. The secret key is not required during the Next.js browser bundle build; it is used only by server routes at runtime.
 
