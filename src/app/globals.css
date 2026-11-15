@@ -108,3 +108,21 @@
 @keyframes crmWelcomePulse{50%{transform:scale(1.12);opacity:.72}}
 @keyframes crmLogoLight{0%{filter:drop-shadow(0 0 10px rgba(35,151,255,.35))}50%{filter:drop-shadow(0 0 32px rgba(45,169,255,.95)) brightness(1.2)}100%{filter:drop-shadow(0 0 16px rgba(45,169,255,.55))}}
 @media(prefers-reduced-motion:reduce){.crm-welcome-content,.crm-welcome-glow,.crm-welcome-mark{animation:none}}
+
+/* Timed Alpha Nation brand intro overlay */
+.alpha-intro-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 50% 42%,#0a2850 0%,#061426 35%,#02050a 76%);color:#f5f9ff;text-align:center;opacity:1;visibility:visible;transition:opacity .75s ease,visibility .75s ease}
+.alpha-intro-leaving{opacity:0;visibility:hidden;pointer-events:none}
+.alpha-intro-glow{position:absolute;width:min(78vw,680px);aspect-ratio:1;border:1px solid #168bff20;border-radius:50%;box-shadow:0 0 0 48px #168bff08,0 0 0 96px #168bff05;animation:alphaIntroPulse 2.2s ease-in-out infinite}
+.alpha-intro-content{position:relative;z-index:1;width:min(760px,90vw);display:flex;flex-direction:column;align-items:center;animation:alphaIntroEnter .65s ease both}
+.alpha-intro-mark{width:88px;margin-bottom:20px;filter:drop-shadow(0 0 18px #168bff80)}
+.alpha-intro-mark svg{display:block;width:100%;height:auto}
+.alpha-intro-eyebrow{margin:0 0 8px;color:#91a6bf;font-size:10px;font-weight:700;letter-spacing:4px}
+.alpha-intro-content h1{margin:0;font:800 clamp(36px,7vw,62px)/1.1 var(--sans);letter-spacing:3px}
+.alpha-intro-content h1 span{color:#2f91ff}
+.alpha-intro-quote{margin:18px 0 0;color:#dcecff;font:clamp(18px,3vw,25px)/1.45 var(--serif)}
+@keyframes alphaIntroEnter{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes alphaIntroPulse{50%{transform:scale(1.08);opacity:.65}}
+/* The previous scroll-to-explore welcome section is no longer part of the homepage */
+.welcome-screen,.welcome-scroll{display:none!important}
+.main-site-start{display:block}
+@media(prefers-reduced-motion:reduce){.alpha-intro-content,.alpha-intro-glow{animation:none}.alpha-intro-overlay{transition:none}}
