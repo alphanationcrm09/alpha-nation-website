@@ -3,16 +3,16 @@ import PublicCarriers from "@/components/PublicCarriers";
 import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
 const solutions = [
-  { title: "Life Insurance", text: "Explore term and permanent life insurance options for the people who depend on you.", href: "/quote", number: "01" },
-  { title: "Final Expense", text: "Understand coverage designed to help prepare for funeral and end-of-life expenses.", href: "/quote", number: "02" },
-  { title: "Mortgage Protection", text: "Consider how life insurance could support your household if the unexpected happens.", href: "/quote", number: "03" },
-  { title: "Health & Medicare", text: "Get guidance on individual, family, ACA and Medicare-related coverage options.", href: "/quote", number: "04" },
+  { title: "Life Insurance", text: "Explore protection options for the people who depend on you, and understand how coverage fits your family's plans.", href: "/life-insurance", number: "01" },
+  { title: "Final Expense", text: "Learn about coverage designed to help beneficiaries manage funeral and end-of-life expenses.", href: "/final-expense", number: "02" },
+  { title: "Term Life", text: "Consider coverage for a defined period while you manage a mortgage, raise a family or replace income.", href: "/term-life", number: "03" },
+  { title: "Whole Life", text: "Understand permanent coverage, premiums, cash value and the policy details worth reviewing.", href: "/whole-life", number: "04" },
 ];
 
 const planningTools = [
-  ["Life insurance needs", "Estimate a coverage amount using your family's financial responsibilities and resources.", "#financial-needs"],
-  ["Coverage conversation", "Prepare questions and request a discussion with an insurance professional.", "/quote"],
-  ["Beneficiary support", "Find help with beneficiary questions and policy-related next steps.", "#beneficiary-services"],
+  ["Coverage calculator", "Estimate a potential coverage gap by comparing financial needs with available resources.", "/calculator"],
+  ["How it works", "Understand the steps from an initial conversation through an insurer's application process.", "/how-it-works"],
+  ["Beneficiary support", "Find guidance on claims, beneficiary updates and policy-related next steps.", "/beneficiary-services"],
 ];
 
 export default function PublicHome() {
@@ -23,10 +23,10 @@ export default function PublicHome() {
           <div className="an-hero-copy">
             <p className="eyebrow">THOUGHTFUL INSURANCE GUIDANCE</p>
             <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
-            <p className="an-hero-lead">Clear information and personal guidance to help individuals and families explore insurance options at every stage of life.</p>
+            <p className="an-hero-lead">Clear information, useful planning tools and personal guidance to help you explore life insurance options with confidence.</p>
             <div className="an-hero-actions">
-              <Link className="button" href="/quote">Explore insurance options <span aria-hidden="true">↗</span></Link>
-              <Link className="an-text-button" href="#financial-needs">Calculate your needs</Link>
+              <Link className="button" href="/quote">Explore coverage options <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="/calculator">Calculate your needs</Link>
             </div>
             <div className="an-trust-line"><span>People-first guidance</span><i /><span>Multiple carrier options</span><i /><span>Support at every stage</span></div>
           </div>
@@ -41,15 +41,15 @@ export default function PublicHome() {
         <div className="wrap an-intro-band-inner">
           <p className="eyebrow">ALPHA NATION</p>
           <h2>Make informed decisions with a clearer view of your options.</h2>
-          <p>Insurance is personal. We help you understand the questions, compare available options and connect with a professional for the next step.</p>
+          <p>Insurance is personal. Start with your priorities, understand the details and connect with a professional for the next step.</p>
         </div>
       </section>
 
       <section className="section an-tools-section" id="planning">
         <div className="wrap">
           <div className="section-heading an-heading-row">
-            <div><p className="eyebrow">PLANNING & TOOLS</p><h2>Start with what you need to know.</h2></div>
-            <p className="lead">Useful starting points for understanding your coverage, planning ahead and getting support.</p>
+            <div><p className="eyebrow">PLANNING & TOOLS</p><h2>Useful guidance before you choose.</h2></div>
+            <p className="lead">Explore your coverage needs, learn how the process works and find support for an existing policy.</p>
           </div>
           <div className="an-tool-grid">
             {planningTools.map(([title, text, href], index) => <article className="an-tool-card" key={title}>
@@ -64,7 +64,8 @@ export default function PublicHome() {
           <div className="an-calculator-intro">
             <p className="eyebrow">FINANCIAL NEEDS CALCULATOR</p>
             <h2>How much life insurance might your family need?</h2>
-            <p>Alpha Nation’s needs-based approach starts with the money your family might need and subtracts resources already available. Consider mortgage balances, debts, future living expenses, education costs and final expenses, then account for savings, investments and existing life insurance.</p>
+            <p>Start with the money your family might need and subtract resources already available. Consider mortgage balances, debts, future living expenses, education costs and final expenses, then account for savings, investments and existing life insurance.</p>
+            <Link className="an-inline-link" href="/calculator">Open the full calculator ↗</Link>
           </div>
           <FinancialNeedsCalculator />
         </div>
@@ -72,7 +73,7 @@ export default function PublicHome() {
 
       <section className="section an-solutions-section" id="insurance">
         <div className="wrap">
-          <div className="section-heading"><p className="eyebrow">INSURANCE SOLUTIONS</p><h2>Coverage conversations for every stage of life.</h2><p className="lead">Explore the categories below. Products, eligibility and availability vary by carrier and state.</p></div>
+          <div className="section-heading"><p className="eyebrow">INSURANCE SOLUTIONS</p><h2>Explore protection for different needs.</h2><p className="lead">Learn the basics, compare policy features and ask about options available in your state.</p></div>
           <div className="an-solution-grid">
             {solutions.map((item) => <article className="an-solution-card" key={item.title}><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href}>Learn more <span aria-hidden="true">↗</span></Link></article>)}
           </div>
@@ -85,8 +86,8 @@ export default function PublicHome() {
           <div>
             <p className="eyebrow">BENEFICIARY SERVICES</p>
             <h2>Help when a policy question matters most.</h2>
-            <p>If you are a policyholder or beneficiary and need help understanding the next steps, contact our team. We can help direct your inquiry and explain where to request policy or claims information.</p>
-            <Link className="button" href="/contact">Get assistance</Link>
+            <p>If you are a policyholder or beneficiary and need help understanding the next steps, find out how to contact the issuing carrier and what information to prepare.</p>
+            <Link className="button" href="/beneficiary-services">Explore beneficiary support</Link>
             <p className="an-small-note">Claims decisions and benefit payments are determined by the issuing insurance carrier under the policy terms.</p>
           </div>
         </div>
@@ -95,7 +96,7 @@ export default function PublicHome() {
       <section className="section an-about-section" id="about">
         <div className="wrap an-about-grid">
           <div><p className="eyebrow">ABOUT ALPHA NATION</p><h2>A more considered way to explore insurance.</h2></div>
-          <div><p>Alpha Nation is an insurance brokerage connected with a range of insurance carriers and a wider network of insurance agents and professionals. We help individuals and families explore life, health and senior-related coverage information and request conversations about options that fit their circumstances.</p><p>Carrier appointments, product availability, licensing, eligibility and policy terms are confirmed for each state and situation. We do not promise that every product is available everywhere.</p><Link className="an-inline-link" href="/contact">Talk with Alpha Nation <span aria-hidden="true">↗</span></Link></div>
+          <div><p>Alpha Nation connects individuals and families with insurance information and professionals who can help explain available options. Our focus is helping people ask better questions and understand the details before deciding whether to apply.</p><p>Carrier appointments, product availability, licensing, eligibility and policy terms are confirmed for each state and situation. We do not promise that every product is available everywhere.</p><Link className="an-inline-link" href="/contact">Talk with Alpha Nation <span aria-hidden="true">↗</span></Link></div>
         </div>
       </section>
 
@@ -111,15 +112,18 @@ export default function PublicHome() {
         <div className="wrap">
           <div className="section-heading"><p className="eyebrow">HOW IT WORKS</p><h2>A straightforward place to begin.</h2></div>
           <div className="an-process-grid">
-            <article><b>01</b><h3>Tell us what matters</h3><p>Share your state and the type of coverage or support you are looking for.</p></article>
-            <article><b>02</b><h3>Review the possibilities</h3><p>Our team checks relevant requirements and helps direct your inquiry.</p></article>
-            <article><b>03</b><h3>Choose your next step</h3><p>An appropriately licensed professional can explain available options if you decide to continue.</p></article>
+            <article><b>01</b><h3>Tell us what matters</h3><p>Share your state, age range and the type of protection you are exploring.</p></article>
+            <article><b>02</b><h3>Review the possibilities</h3><p>A professional checks relevant requirements and explains available options.</p></article>
+            <article><b>03</b><h3>Choose your next step</h3><p>If you decide to continue, the insurer's formal application and underwriting process determines eligibility.</p></article>
           </div>
+          <Link className="an-inline-link" href="/how-it-works">See the full process ↗</Link>
         </div>
       </section>
 
+      <section className="section an-faq-teaser"><div className="wrap an-faq-teaser-inner"><div><p className="eyebrow">QUESTIONS BEFORE YOU START?</p><h2>Understand the details that matter.</h2><p>Get clear answers about coverage, underwriting, beneficiaries and what happens after you apply.</p></div><Link className="button" href="/faq">Browse insurance FAQs ↗</Link></div></section>
+
       <section className="an-help-section" id="help">
-        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/quote">Request an appointment</Link></div></div>
+        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/quote">Request information</Link></div></div>
       </section>
     </>
   );
