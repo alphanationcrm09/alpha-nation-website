@@ -1,6 +1,7 @@
 alter table public.appointments
   add column if not exists legal_first_name text,
   add column if not exists legal_last_name text,
+  add column if not exists residential_address text,
   add column if not exists beneficiary_name text,
   add column if not exists beneficiary_relationship text,
   add column if not exists coverage_amount numeric(12,2);
@@ -20,5 +21,7 @@ alter table public.service_states enable row level security;
 revoke all on public.service_states from anon,authenticated;
 grant select on public.service_states to anon,authenticated;
 grant insert,update,delete on public.service_states to authenticated;
+drop policy if exists "Public can view active service states" on public.service_states;
+drop policy if exists "Staff manage service states" on public.service_states;
 create policy "Public can view active service states" on public.service_states for select to anon,authenticated using(status='active' or private.is_website_staff());
 create policy "Staff manage service states" on public.service_states for all to authenticated using(private.is_website_staff()) with check(private.is_website_staff());
