@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteChrome, SiteFooter } from "@/components/SiteChrome";
 import WelcomeIntro from "@/components/WelcomeIntro";
 import "./globals.css";
+import "./brand.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
