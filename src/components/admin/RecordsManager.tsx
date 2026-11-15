@@ -43,11 +43,11 @@ export default function RecordsManager({ kind }: { kind: "appointments" | "inqui
       <thead><tr>{(isAppointment ? ["Received","Customer","Phone","State","Service","Preferred date/time","Status"] : ["Received","Customer","Phone","State","Type","Message","Status"]).map((heading) => <th key={heading}>{heading}</th>)}</tr></thead>
       <tbody>{rows.map((row) => <tr key={row.id}>
         <td>{new Date(row.created_at).toLocaleString()}</td>
-        <td>{row.full_name}</td>
+        <td>{row.full_name}<small>{String(row.residential_address||"")}</small><small>{row.beneficiary_name ? `Beneficiary: ${row.beneficiary_name} (${row.beneficiary_relationship||"—"})` : ""}</small></td>
         <td><a href={`tel:${row.phone}`}>{row.phone}</a>{row.email && <small>{row.email}</small>}</td>
         <td>{row.state_code || "—"}</td>
         {isAppointment ? <>
-          <td>{String(row.insurance_type || "")}</td>
+          <td>{String(row.insurance_type || "")}<small>{row.coverage_amount ? `Coverage: ${Number(row.coverage_amount).toLocaleString()}` : ""}</small></td>
           <td>{String(row.preferred_date || "—")} {String(row.preferred_time || "")}<small>{String(row.customer_timezone || "")}</small></td>
           <td><select value={row.status} onChange={(event) => updateStatus(row.id, event.target.value)}>{["new","contacted","scheduled","confirmed","completed","reschedule_requested","cancellation_requested","cancelled","no_show"].map((status) => <option key={status}>{status}</option>)}</select></td>
         </> : <>
