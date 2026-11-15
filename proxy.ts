@@ -31,7 +31,8 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  const { data: { claims }, error } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getClaims();
+  const claims = data?.claims;
   const isLogin = request.nextUrl.pathname === loginPath;
   const isSecurity = request.nextUrl.pathname === "/admin/security";
 

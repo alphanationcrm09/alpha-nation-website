@@ -35,7 +35,8 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const supabase = await createSupabaseServerClient();
-    const { data: { claims }, error } = await supabase.auth.getClaims();
+    const { data, error } = await supabase.auth.getClaims();
+    const claims = data?.claims;
     if (error || !claims?.sub) return NextResponse.json({ error: "Not signed in." }, { status: 401 });
     const { data: role } = await supabase.from("staff_roles").select("role,active").eq("user_id", claims.sub).maybeSingle();
     if (!role || role.active !== true) return NextResponse.json({ error: "Admin access is inactive." }, { status: 403 });

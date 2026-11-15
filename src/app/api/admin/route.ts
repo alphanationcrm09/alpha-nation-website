@@ -12,7 +12,8 @@ const licenseStatuses = new Set(["unverified", "pending", "verified", "expired",
 
 async function authorize() {
   const supabase = await createSupabaseServerClient();
-  const { data: { claims }, error } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getClaims();
+  const claims = data?.claims;
   if (error || !claims?.sub) return null;
   const { data: role, error: roleError } = await supabase.from("staff_roles").select("role,active").eq("user_id", claims.sub).maybeSingle();
   if (roleError || !role || role.active !== true) return null;
@@ -119,7 +120,7 @@ export async function POST(request: NextRequest) {
       if (error) return fail("Could not check existing agent profiles.", 500);
       const names = new Set((existing || []).map((row) => row.full_name));
       const missing = known.filter((agent) => !names.has(agent.name)).map((agent) => ({
-        full_name: agent.name, states: agent.states.split(",").map((value) => value.trim()),
+        full_name: agent.name, states: agent.states.split(",").map((value: string) => value.trim()),
         work_days: agent.saturday ? ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] : ["Monday","Tuesday","Wednesday","Thursday","Friday"],
         start_time: "08:00", end_time: "20:00", status: "pending_verification",
       }));

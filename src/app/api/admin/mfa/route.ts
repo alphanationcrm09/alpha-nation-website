@@ -11,7 +11,8 @@ function sameOrigin(request: NextRequest) {
 
 async function authorizedStaff() {
   const supabase = await createSupabaseServerClient();
-  const { data: { claims }, error } = await supabase.auth.getClaims();
+  const { data, error } = await supabase.auth.getClaims();
+  const claims = data?.claims;
   if (error || !claims?.sub) return null;
   const { data: role } = await supabase.from("staff_roles").select("active").eq("user_id", claims.sub).maybeSingle();
   if (role?.active !== true) return null;
@@ -59,7 +60,7 @@ export async function POST(request: NextRequest) {
       const factorId = typeof body.factorId === "string" ? body.factorId : "";
       if (!/^[0-9a-f-]{36}$/i.test(factorId)) return NextResponse.json({ error: "Invalid authenticator factor." }, { status: 400 });
       const { data: factors } = await supabase.auth.mfa.listFactors();
-      const factor = (factors?.totp || []).find((item) => item.id === factorId);
+      const factor = (factors?.all || []).find((item) => item.id === factorId);
       if (!factor || factor.status !== "unverified") return NextResponse.json({ error: "Only an unfinished authenticator setup can be removed here." }, { status: 400 });
       const { error } = await supabase.auth.mfa.unenroll({ factorId });
       if (error) return NextResponse.json({ error: "Could not remove the unfinished setup." }, { status: 400 });
