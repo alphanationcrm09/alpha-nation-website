@@ -10,6 +10,6 @@ export function SiteChrome(){
 
 export function SiteFooter(){
   const path=usePathname();
-  if(path.startsWith("/admin") || path === "/") return null;
+  if(path.startsWith("/admin")) return null;
   return <Footer />;
 }
