@@ -85,3 +85,26 @@
 @media(max-width:850px){.main-intro-grid,.about-grid{grid-template-columns:1fr;gap:24px}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.carriers-section .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.agent-directory{grid-template-columns:repeat(2,minmax(0,1fr))}.state-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.needs-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.welcome-screen{min-height:100svh;padding:55px 0 90px}.welcome-screen-content>.alpha-brand{margin-bottom:27px}.welcome-screen h1{letter-spacing:2px}.welcome-quote{font-size:23px}.main-intro{padding:48px 0}.product-grid,.agent-directory,.needs-grid{grid-template-columns:1fr}.carriers-section .card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.state-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.about-stats{grid-template-columns:1fr 1fr}.about-stats article{min-height:112px;padding:16px 13px}.about-stats strong{font-size:29px}.welcome-scroll{bottom:18px}}
 @media(prefers-reduced-motion:reduce){.product-card,.needs-grid a{transition:none}}
+
+/* CRM-matched welcome experience */
+.alpha-brand{display:inline-flex;align-items:center;gap:9px;font-size:17px;font-weight:800;letter-spacing:.7px;white-space:nowrap}
+.alpha-brand .alpha-mark{width:43px;height:34px;display:block;filter:drop-shadow(0 0 8px #168bff50)}
+.alpha-wordmark{color:#eef6ff}
+.alpha-wordmark b{color:#2f91ff}
+.alpha-brand-compact .alpha-mark{width:105px;height:81px}
+.crm-welcome{position:relative;min-height:100svh;display:grid;place-items:center;overflow:hidden;padding:50px 20px;background:#01050b;color:#f5f9ff;text-align:center}
+.crm-welcome-glow{position:absolute;width:min(420px,85vw);height:min(420px,85vw);border-radius:50%;background:radial-gradient(circle,rgba(32,137,255,.20),transparent 68%);filter:blur(10px);animation:crmWelcomePulse 2.1s ease-in-out infinite}
+.crm-welcome-content{position:relative;z-index:2;width:min(760px,100%);display:flex;align-items:center;flex-direction:column;animation:crmWelcomeIn .7s cubic-bezier(.2,.8,.2,1) both}
+.crm-welcome-mark{width:105px;margin:0 auto 20px;filter:drop-shadow(0 0 16px rgba(35,151,255,.55));animation:crmLogoLight 2.1s ease .55s both}
+.crm-welcome-mark svg{display:block;width:100%;height:auto}
+.crm-welcome-eyebrow{margin:0 0 8px;color:#91a6bf;font-size:11px;letter-spacing:3px;font-weight:700}
+.crm-welcome h1{margin:0;font-size:clamp(34px,6vw,54px);letter-spacing:2px;font-weight:800;line-height:1.15}
+.crm-welcome h1 span{color:#2f91ff}
+.crm-welcome-quote{margin:20px 0 8px;color:#eef6ff;font-family:var(--serif);font-size:clamp(21px,3vw,29px);line-height:1.45}
+.crm-welcome-copy{max-width:590px;margin:8px 0 27px;color:#91a6bf;font-size:13px;line-height:1.8}
+.crm-welcome-button{min-width:205px;gap:12px}
+.crm-welcome-caption{margin:28px 0 0;color:#607b96;font-size:10px;letter-spacing:1.6px;text-transform:uppercase}
+@keyframes crmWelcomeIn{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes crmWelcomePulse{50%{transform:scale(1.12);opacity:.72}}
+@keyframes crmLogoLight{0%{filter:drop-shadow(0 0 10px rgba(35,151,255,.35))}50%{filter:drop-shadow(0 0 32px rgba(45,169,255,.95)) brightness(1.2)}100%{filter:drop-shadow(0 0 16px rgba(45,169,255,.55))}}
+@media(prefers-reduced-motion:reduce){.crm-welcome-content,.crm-welcome-glow,.crm-welcome-mark{animation:none}}
