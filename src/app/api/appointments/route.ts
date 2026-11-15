@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstile,
+  validEmail, validPhone, verifyTurnstile, sendOwnerNotification,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -23,7 +23,13 @@ export async function POST(request: NextRequest) {
   if (body.contactConsent !== true) return NextResponse.json({ error: "Contact consent is required." }, { status: 400 });
   if (!await verifyTurnstile(request, body.turnstileToken, "appointment")) return NextResponse.json({ error: "Security verification failed. Please retry the challenge." }, { status: 403 });
 
-  const full_name = cleanText(body.fullName, 120);
+  const legal_first_name = cleanText(body.legalFirstName, 60);
+  const legal_last_name = cleanText(body.legalLastName, 60);
+  const full_name = `${legal_first_name} ${legal_last_name}`.trim();
+  const residential_address = cleanText(body.residentialAddress, 240);
+  const beneficiary_name = cleanText(body.beneficiaryName, 120);
+  const beneficiary_relationship = cleanText(body.beneficiaryRelationship, 60);
+  const coverage_amount = Number(body.coverageAmount);
   const phone = cleanText(body.phone, 32);
   const email = cleanText(body.email, 254) || null;
   const state_code = cleanText(body.stateCode, 2).toUpperCase();
@@ -37,7 +43,10 @@ export async function POST(request: NextRequest) {
 
   const validStates = new Set(["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]);
   const validProducts = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"]);
-  if (full_name.length < 2 || !validPhone(phone) || (email && !validEmail(email))
+  if (legal_first_name.length < 1 || legal_last_name.length < 1 || full_name.length < 3
+    || residential_address.length < 5 || beneficiary_name.length < 2 || beneficiary_relationship.length < 2
+    || !Number.isInteger(coverage_amount) || coverage_amount < 2000 || coverage_amount > 50000
+    || !validPhone(phone) || (email && !validEmail(email))
     || !validStates.has(state_code) || !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code)
     || city.length < 2 || !validProducts.has(insurance_type)
     || !/^\d{4}-\d{2}-\d{2}$/.test(preferred_date)
@@ -64,10 +73,12 @@ export async function POST(request: NextRequest) {
   if (!await consumeRateLimit(request, "appointment", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
   const { error } = await client.from("appointments").insert({
-    full_name, phone, email, state_code, zip_code, city, insurance_type,
+    full_name, legal_first_name, legal_last_name, residential_address, beneficiary_name,
+    beneficiary_relationship, coverage_amount, phone, email, state_code, zip_code, city, insurance_type,
     preferred_date, preferred_time, customer_timezone, source, contact_consent: true,
     marketing_consent: false, application_consent: false, status: "new",
   });
   if (error) return NextResponse.json({ error: "We could not submit your request. Please try again." }, { status: 500 });
+  await sendOwnerNotification("appointment", `New appointment request for ${insurance_type}, ${state_code}, preferred date ${preferred_date}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
 }
