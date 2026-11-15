@@ -23,7 +23,7 @@ export default function AdminSection({ title, children }: { title: string; child
   }
   return <section className="admin-shell"><div className="wrap">
     <header className="admin-head"><Link href="/"><AlphaLogo /></Link><div><span>{email}</span><button className="button button-small" onClick={logout}>Sign out</button></div></header>
-    <nav className="admin-subnav"><Link href="/admin">Overview</Link><Link href="/admin/appointments">Appointments</Link><Link href="/admin/inquiries">Inquiries</Link><Link href="/admin/carriers">Carriers</Link><Link href="/admin/agents">Agents</Link></nav>
+    <nav className="admin-subnav"><Link href="/admin">Overview</Link><Link href="/admin/appointments">Appointments</Link><Link href="/admin/inquiries">Inquiries</Link><Link href="/admin/carriers">Carriers</Link><Link href="/admin/agents">Agents</Link><Link href="/admin/states">States</Link></nav>
     <p className="eyebrow">WEBSITE MANAGEMENT</p><h1>{title}</h1>
     {loading ? <p>Verifying secure session…</p> : children}
   </div></section>;
