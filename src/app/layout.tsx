@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SiteChrome } from "@/components/SiteChrome";
+import { SiteChrome, SiteFooter } from "@/components/SiteChrome";
 import { SplashScreen } from "@/components/SplashScreen";
 import "./globals.css";
 
@@ -24,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><SplashScreen /><SiteChrome /><main>{children}</main></body></html>;
+  return <html lang="en"><body><SplashScreen /><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
 }
