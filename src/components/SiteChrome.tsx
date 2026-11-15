@@ -4,7 +4,7 @@ import {Header,Footer} from "@/components/SiteShell";
 
 export function SiteChrome(){
   const path=usePathname();
-  if(path.startsWith("/admin") || path === "/") return null;
+  if(path.startsWith("/admin")) return null;
   return <Header />;
 }
 
