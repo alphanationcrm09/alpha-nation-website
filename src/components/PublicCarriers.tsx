@@ -1,0 +1,3 @@
+"use client";
+import {useEffect,useState} from "react";import {supabase} from "@/lib/supabase";
+export default function PublicCarriers(){const [names,setNames]=useState<string[]>([]);useEffect(()=>{(async()=>{if(!supabase)return;const {data}=await supabase.from("carriers").select("display_name,name").eq("status","active").order("display_name");setNames((data||[]).map(x=>x.display_name||x.name))})()},[]);return <div className="card-grid">{names.map(n=><article className="info-card" key={n}><h3>{n}</h3><p>Availability and appointment authority must be confirmed for your state and requested product.</p></article>)}</div>}

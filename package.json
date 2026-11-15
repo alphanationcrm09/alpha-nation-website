@@ -1,0 +1,50 @@
+{
+  "name": "alpha-nation-website",
+  "version": "2.1.0",
+  "description": "Alpha Nation insurance information website and secure admin workspace",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "preview": "opennextjs-cloudflare build && wrangler dev",
+    "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
+    "upload": "opennextjs-cloudflare build && opennextjs-cloudflare upload",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts"
+  },
+  "keywords": [
+    "nextjs",
+    "tailwindcss",
+    "free"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "@headlessui/react": "^2.0.3",
+    "@heroicons/react": "^2.1.3",
+    "next": "16.4.6",
+    "next-themes": "^0.3.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "react-hook-form": "^7.51.4",
+    "@supabase/supabase-js": "^2.57.0",
+    "@supabase/ssr": "0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.16.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "16.4.6",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "@opennextjs/cloudflare": "1.20.17",
+    "wrangler": "4.162.0"
+  },
+  "engines": {
+    "node": ">=22.16.0",
+    "npm": ">=10.9.2"
+  },
+  "packageManager": "npm@10.9.2"
+}

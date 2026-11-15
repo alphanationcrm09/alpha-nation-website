@@ -1,0 +1,6 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { PageHero } from "@/components/SiteShell";
+export const metadata: Metadata = { title: "Pricing information" };
+const factors = [["Age", "Age is one factor insurers use when determining eligibility and premiums."],["Health and history", "Some products ask health questions or use other underwriting requirements."],["Coverage amount", "The amount of coverage selected affects the premium."],["Policy type", "Term and permanent life products have different structures and costs."],["Tobacco use", "Tobacco use can affect underwriting and pricing."],["Carrier and state", "Product availability, underwriting and rates differ by carrier and state."]];
+export default function PricingPage() { return <><PageHero eyebrow="PRICING INFORMATION" title="What affects insurance costs?" description="There is no single price that applies to everyone. A quote depends on the applicant, product, coverage amount and insurer."/><section className="section"><div className="wrap"><div className="card-grid">{factors.map(([h,p])=><article className="info-card" key={h}><h3>{h}</h3><p>{p}</p></article>)}</div><div className="closing-cta inline-cta"><h2>Have questions about your options?</h2><Link className="button" href="/quote">Request information</Link></div></div></section></>; }
