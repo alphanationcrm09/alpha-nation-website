@@ -70,6 +70,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Please select today or a future date." }, { status: 400 });
   }
 
+  const { data: serviceState, error: stateError } = await client.from("service_states").select("state_code").eq("state_code", state_code).eq("status", "active").maybeSingle();
+  if (stateError || !serviceState) return NextResponse.json({ error: "Appointment requests are not currently available for the selected state." }, { status: 400 });
+
   if (!await consumeRateLimit(request, "appointment", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
   const { error } = await client.from("appointments").insert({
