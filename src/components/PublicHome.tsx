@@ -1,133 +1,125 @@
 import Link from "next/link";
 import PublicCarriers from "@/components/PublicCarriers";
+import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
-const products = [
-  ["Final Expense Insurance", "Explore life insurance options intended to help families prepare for funeral and end-of-life expenses."],
-  ["Whole Life Insurance", "Learn about permanent life insurance and the policy features available from different carriers."],
-  ["Term Life Insurance", "Explore protection for a selected period, based on your needs and eligibility."],
-  ["Mortgage Protection", "Discuss life insurance options that could help protect your household's financial plans."],
-  ["Health Insurance", "Explore individual and family health coverage options."],
-  ["Medicare", "Get help understanding Medicare-related coverage options and enrollment considerations."],
-  ["ACA Health Insurance", "Learn about individual and family plans available through the ACA marketplace."],
-  ["Auto & Home", "Ask about options for protecting your vehicle and property."],
-  ["Supplemental Coverage", "Explore additional coverage options that may complement existing insurance."],
-  ["Credit & Debt Services", "Request information about available services and review all terms before proceeding."]
-] as const;
+const solutions = [
+  { title: "Life Insurance", text: "Explore term and permanent life insurance options for the people who depend on you.", href: "/quote", number: "01" },
+  { title: "Final Expense", text: "Understand coverage designed to help prepare for funeral and end-of-life expenses.", href: "/quote", number: "02" },
+  { title: "Mortgage Protection", text: "Consider how life insurance could support your household if the unexpected happens.", href: "/quote", number: "03" },
+  { title: "Health & Medicare", text: "Get guidance on individual, family, ACA and Medicare-related coverage options.", href: "/quote", number: "04" },
+];
 
-const states = [
-  ["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],
-  ["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["FL","Florida"],["GA","Georgia"],
-  ["HI","Hawaii"],["ID","Idaho"],["IL","Illinois"],["IN","Indiana"],["IA","Iowa"],
-  ["KS","Kansas"],["KY","Kentucky"],["LA","Louisiana"],["ME","Maine"],["MD","Maryland"],
-  ["MA","Massachusetts"],["MI","Michigan"],["MN","Minnesota"],["MS","Mississippi"],["MO","Missouri"],
-  ["MT","Montana"],["NE","Nebraska"],["NV","Nevada"],["NH","New Hampshire"],["NJ","New Jersey"],
-  ["NM","New Mexico"],["NY","New York"],["NC","North Carolina"],["ND","North Dakota"],["OH","Ohio"],
-  ["OK","Oklahoma"],["OR","Oregon"],["PA","Pennsylvania"],["RI","Rhode Island"],["SC","South Carolina"],
-  ["SD","South Dakota"],["TN","Tennessee"],["TX","Texas"],["UT","Utah"],["VT","Vermont"],
-  ["VA","Virginia"],["WA","Washington"],["WV","West Virginia"],["WI","Wisconsin"],["WY","Wyoming"]
-] as const;
-
-const audiences = [
-  { title: "Starting out", subtitle: "Young adults", copy: "Understand the basics and explore coverage as your priorities, career and family plans take shape.", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1000&q=85", alt: "Young adults spending time together outdoors" },
-  { title: "Building a family", subtitle: "Adults & families", copy: "Compare ways to think about protecting the people, responsibilities and plans that matter to your household.", image: "https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=1000&q=85", alt: "Parents spending time with their children" },
-  { title: "Planning ahead", subtitle: "Older adults", copy: "Explore life, Final Expense and Medicare-related information with a professional who can explain the details.", image: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=85", alt: "Older couple enjoying time together" }
-] as const;
+const planningTools = [
+  ["Life insurance needs", "Estimate a coverage amount using your family's financial responsibilities and resources.", "#financial-needs"],
+  ["Coverage conversation", "Prepare questions and request a discussion with an insurance professional.", "/quote"],
+  ["Beneficiary support", "Find help with beneficiary questions and policy-related next steps.", "#beneficiary-services"],
+];
 
 export default function PublicHome() {
   return (
     <>
       <section className="an-hero">
-        <div className="an-hero-copy">
-          <p className="eyebrow">INSURANCE GUIDANCE FOR REAL LIFE</p>
-          <h1>Coverage conversations for <em>every stage of life.</em></h1>
-          <p className="an-hero-lead">Whether you're starting out, raising a family or planning for the years ahead, Alpha Nation helps you explore insurance options and connect with a professional for the next step.</p>
-          <div className="an-hero-actions">
-            <Link className="button" href="/quote">Explore your options <span aria-hidden="true">→</span></Link>
-            <Link className="an-text-button" href="/contact">Talk with our team</Link>
+        <div className="wrap an-hero-grid">
+          <div className="an-hero-copy">
+            <p className="eyebrow">THOUGHTFUL INSURANCE GUIDANCE</p>
+            <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
+            <p className="an-hero-lead">Clear information and personal guidance to help individuals and families explore insurance options at every stage of life.</p>
+            <div className="an-hero-actions">
+              <Link className="button" href="/quote">Explore insurance options <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="#financial-needs">Calculate your needs</Link>
+            </div>
+            <div className="an-trust-line"><span>People-first guidance</span><i /><span>Multiple carrier options</span><i /><span>Support at every stage</span></div>
           </div>
-          <div className="an-trust-line"><span>Independent guidance</span><i /> <span>Carrier choice</span><i /> <span>People-first support</span></div>
-        </div>
-        <div className="an-hero-visual">
-          <div className="an-hero-photo" role="img" aria-label="A multigenerational family spending time together" />
-          <div className="an-photo-caption"><span className="an-caption-mark">AN</span><span><b>Protection is personal.</b><small>Start with a conversation.</small></span></div>
-        </div>
-      </section>
-
-      <section className="an-intro-strip">
-        <div className="wrap an-intro-grid">
-          <div><p className="eyebrow">WELCOME TO ALPHA NATION</p><h2>Good decisions start with clear information.</h2></div>
-          <p>Insurance can look different at every age and life stage. We help you understand the questions to ask, explore carrier options and find an appropriate next step without pressure.</p>
+          <div className="an-hero-visual">
+            <div className="an-hero-photo" role="img" aria-label="A multigenerational family spending time together" />
+            <div className="an-hero-caption"><span className="an-caption-monogram">AN</span><span><b>For every generation</b><small>Guidance built around real life</small></span></div>
+          </div>
         </div>
       </section>
 
-      <section className="section an-audience-section" id="about">
+      <section className="an-intro-band">
+        <div className="wrap an-intro-band-inner">
+          <p className="eyebrow">ALPHA NATION</p>
+          <h2>Make informed decisions with a clearer view of your options.</h2>
+          <p>Insurance is personal. We help you understand the questions, compare available options and connect with a professional for the next step.</p>
+        </div>
+      </section>
+
+      <section className="section an-tools-section" id="planning">
         <div className="wrap">
-          <div className="section-heading an-heading-centered"><p className="eyebrow">HERE FOR YOUR NEXT CHAPTER</p><h2>Different lives. Different priorities.</h2><p className="lead">The right conversation begins with where you are today.</p></div>
-          <div className="an-audience-grid">
-            {audiences.map((person) => <article className="an-audience-card" key={person.title}>
-              <div className="an-audience-image" role="img" aria-label={person.alt} style={{ backgroundImage: `url("${person.image}")` }} />
-              <div className="an-audience-copy"><span>{person.subtitle}</span><h3>{person.title}</h3><p>{person.copy}</p><Link href="/quote">Explore coverage <span aria-hidden="true">↗</span></Link></div>
+          <div className="section-heading an-heading-row">
+            <div><p className="eyebrow">PLANNING & TOOLS</p><h2>Start with what you need to know.</h2></div>
+            <p className="lead">Useful starting points for understanding your coverage, planning ahead and getting support.</p>
+          </div>
+          <div className="an-tool-grid">
+            {planningTools.map(([title, text, href], index) => <article className="an-tool-card" key={title}>
+              <span className="an-tool-index">0{index + 1}</span><h3>{title}</h3><p>{text}</p><Link href={href}>Explore <span aria-hidden="true">↗</span></Link>
             </article>)}
           </div>
         </div>
       </section>
 
-      <section className="section an-about-section">
-        <div className="wrap an-about-grid">
-          <div className="an-about-photo" role="img" aria-label="An insurance professional speaking with a customer" />
-          <div className="an-about-copy">
-            <p className="eyebrow">ABOUT ALPHA NATION</p>
-            <h2>More than a policy. A clearer way to compare.</h2>
-            <p>Alpha Nation is an insurance brokerage affiliated with more than 40 insurance carriers and connected to a wider network of insurance agents and professionals.</p>
-            <p>We help individuals and families explore life, health, senior and other insurance-related services, understand the next steps and connect with professionals who can discuss products available for their state and needs.</p>
-            <p>Recommendations, applications and policy decisions remain subject to carrier rules, eligibility, state requirements and professional licensing.</p>
-            <Link className="an-inline-link" href="/agents">How professional coordination works <span aria-hidden="true">↗</span></Link>
+      <section className="section an-calculator-section" id="financial-needs">
+        <div className="wrap">
+          <div className="an-calculator-intro">
+            <p className="eyebrow">FINANCIAL NEEDS CALCULATOR</p>
+            <h2>How much life insurance might your family need?</h2>
+            <p>Alpha Nation’s needs-based approach starts with the money your family might need and subtracts resources already available. Consider mortgage balances, debts, future living expenses, education costs and final expenses, then account for savings, investments and existing life insurance.</p>
+          </div>
+          <FinancialNeedsCalculator />
+        </div>
+      </section>
+
+      <section className="section an-solutions-section" id="insurance">
+        <div className="wrap">
+          <div className="section-heading"><p className="eyebrow">INSURANCE SOLUTIONS</p><h2>Coverage conversations for every stage of life.</h2><p className="lead">Explore the categories below. Products, eligibility and availability vary by carrier and state.</p></div>
+          <div className="an-solution-grid">
+            {solutions.map((item) => <article className="an-solution-card" key={item.title}><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href}>Learn more <span aria-hidden="true">↗</span></Link></article>)}
           </div>
         </div>
       </section>
 
-      <section className="section an-products-section" id="products">
-        <div className="wrap">
-          <div className="section-heading"><p className="eyebrow">OUR PRODUCTS & SERVICES</p><h2>Explore the coverage you're looking for.</h2><p className="lead">Start with a category. A licensed professional can explain the products, terms and availability that apply to your situation.</p></div>
-          <div className="an-product-grid">
-            {products.map(([name, description], index) => <article className="an-product-card" key={name}><span className="an-product-number">{String(index + 1).padStart(2, "0")}</span><h3>{name}</h3><p>{description}</p><Link href="/quote">Learn more <span aria-hidden="true">↗</span></Link></article>)}
+      <section className="section an-beneficiary-section" id="beneficiary-services">
+        <div className="wrap an-beneficiary-grid">
+          <div className="an-beneficiary-photo" role="img" aria-label="An adult daughter talking with an older parent" />
+          <div>
+            <p className="eyebrow">BENEFICIARY SERVICES</p>
+            <h2>Help when a policy question matters most.</h2>
+            <p>If you are a policyholder or beneficiary and need help understanding the next steps, contact our team. We can help direct your inquiry and explain where to request policy or claims information.</p>
+            <Link className="button" href="/contact">Get assistance</Link>
+            <p className="an-small-note">Claims decisions and benefit payments are determined by the issuing insurance carrier under the policy terms.</p>
           </div>
+        </div>
+      </section>
+
+      <section className="section an-about-section" id="about">
+        <div className="wrap an-about-grid">
+          <div><p className="eyebrow">ABOUT ALPHA NATION</p><h2>A more considered way to explore insurance.</h2></div>
+          <div><p>Alpha Nation is an insurance brokerage connected with a range of insurance carriers and a wider network of insurance agents and professionals. We help individuals and families explore life, health and senior-related coverage information and request conversations about options that fit their circumstances.</p><p>Carrier appointments, product availability, licensing, eligibility and policy terms are confirmed for each state and situation. We do not promise that every product is available everywhere.</p><Link className="an-inline-link" href="/contact">Talk with Alpha Nation <span aria-hidden="true">↗</span></Link></div>
         </div>
       </section>
 
       <section className="section an-carriers-section" id="carriers">
         <div className="wrap">
-          <div className="an-carriers-heading"><div><p className="eyebrow">OUR CARRIER PARTNERS</p><h2>More choice. One place to start.</h2></div><p>We work with a range of insurance carriers. The directory reflects carriers currently listed as active in our system.</p></div>
+          <div className="an-carriers-heading"><div><p className="eyebrow">CARRIER RELATIONSHIPS</p><h2>Explore options from carrier partners.</h2></div><p>Our directory displays carriers currently marked active in our system. A listing does not guarantee product availability or appointment authority in your state.</p></div>
           <PublicCarriers />
-          <p className="directory-note">A carrier listing does not guarantee that every product is available in every state. Product availability, appointment authority and eligibility must be confirmed.</p>
-          <Link className="an-inline-link" href="/carriers">View carrier information <span aria-hidden="true">↗</span></Link>
+          <Link className="an-inline-link" href="/carriers">Carrier information and availability <span aria-hidden="true">↗</span></Link>
         </div>
       </section>
 
-      <section className="section an-network-section" id="agents">
-        <div className="wrap an-network-grid">
-          <div><p className="eyebrow">PEOPLE FIRST</p><h2>Connect with the right professional for your request.</h2><p>Alpha Nation is connected to a wider network of agents and insurance professionals. Before an introduction, our team checks the relevant state, product and availability requirements.</p><Link className="button" href="/agents">How it works <span aria-hidden="true">→</span></Link></div>
-          <div className="an-network-facts"><div><strong>40+</strong><span>Carrier relationships reported by Alpha Nation</span></div><div><strong>3,000+</strong><span>Agents and professionals in the wider network, as reported by Alpha Nation</span></div><p>Network figures are supplied by Alpha Nation and are not a statement that every professional is currently appointed or available in every state.</p></div>
-        </div>
-      </section>
-
-      <section className="section an-states-section" id="states">
+      <section className="section an-process-section" id="how-it-works">
         <div className="wrap">
-          <div className="section-heading"><p className="eyebrow">ACROSS THE UNITED STATES</p><h2>Where are you looking for coverage?</h2><p className="lead">Choose your state when you request an appointment. Our team will confirm current carrier, product and agent availability for your location.</p></div>
-          <div className="an-state-grid">{states.map(([code, name]) => <Link href="/quote" className="an-state-chip" key={code}><b>{code}</b>{name}</Link>)}</div>
-          <p className="directory-note">This is a state selection guide, not a representation that every product or agent is licensed or available in every state.</p>
+          <div className="section-heading"><p className="eyebrow">HOW IT WORKS</p><h2>A straightforward place to begin.</h2></div>
+          <div className="an-process-grid">
+            <article><b>01</b><h3>Tell us what matters</h3><p>Share your state and the type of coverage or support you are looking for.</p></article>
+            <article><b>02</b><h3>Review the possibilities</h3><p>Our team checks relevant requirements and helps direct your inquiry.</p></article>
+            <article><b>03</b><h3>Choose your next step</h3><p>An appropriately licensed professional can explain available options if you decide to continue.</p></article>
+          </div>
         </div>
       </section>
 
-      <section className="section an-how-section" id="how-it-works">
-        <div className="wrap">
-          <div className="section-heading an-heading-centered"><p className="eyebrow">A SIMPLE PLACE TO START</p><h2>Three steps. Your decision.</h2></div>
-          <div className="an-steps-grid"><article><b>01</b><h3>Tell us what matters</h3><p>Share your state and the type of coverage or service you want to discuss.</p></article><article><b>02</b><h3>Talk it through</h3><p>Our team reviews your request and checks the relevant requirements and availability.</p></article><article><b>03</b><h3>Review your options</h3><p>If you choose to continue, an appropriately licensed professional can explain the available options.</p></article></div>
-        </div>
-      </section>
-
-      <section className="an-final-cta">
-        <div className="wrap an-final-cta-inner"><div><p className="eyebrow">START A CONVERSATION</p><h2>Let's talk about what matters to you.</h2><p>No pressure to proceed. Start by telling us what you want to understand.</p></div><div className="an-hero-actions"><Link className="button" href="/quote">Request an appointment <span aria-hidden="true">→</span></Link><Link className="an-text-button" href="/contact">Contact Alpha Nation</Link></div></div>
+      <section className="an-help-section" id="help">
+        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/quote">Request an appointment</Link></div></div>
       </section>
     </>
   );
