@@ -1,7 +1,12 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-export async function proxy(request: NextRequest) {
+/**
+ * Keep admin authentication on the Edge Middleware path supported by
+ * OpenNext Cloudflare. Next.js 16 still supports middleware.ts (deprecated
+ * in favor of proxy.ts); proxy.ts uses the Node.js runtime.
+ */
+export async function middleware(request: NextRequest) {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const loginPath = "/admin/login";
