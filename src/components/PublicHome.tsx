@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { AlphaLogo } from "@/components/AlphaLogo";
 import PublicCarriers from "@/components/PublicCarriers";
 
 const products = [
