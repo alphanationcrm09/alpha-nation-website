@@ -2,10 +2,10 @@ import Link from "next/link";
 import { AlphaLogo } from "@/components/AlphaLogo";
 
 const links = [
-  ["/life-insurance", "Life Insurance"],
-  ["/final-expense", "Final Expense"],
+  ["/life-insurance", "Insurance"],
+  ["/beneficiary-services", "Beneficiary Services"],
   ["/calculator", "Planning & Tools"],
-  ["/how-it-works", "How It Works"],
+  ["/#about", "About"],
   ["/faq", "Help"],
 ];
 
@@ -22,7 +22,7 @@ export function Footer() {
     <div><Link href="/" className="logo-link"><AlphaLogo /></Link><p>Clear insurance information and personal guidance for individuals and families.</p></div>
     <div><b>Insurance</b><Link href="/life-insurance">Life insurance</Link><Link href="/term-life">Term life</Link><Link href="/whole-life">Whole life</Link><Link href="/final-expense">Final expense</Link><Link href="/carriers">Carrier information</Link></div>
     <div><b>Resources & Support</b><Link href="/calculator">Coverage calculator</Link><Link href="/how-it-works">How it works</Link><Link href="/beneficiary-services">Beneficiary services</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact Alpha Nation</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><a href="mailto:aalphanation@gmail.com">aalphanation@gmail.com</a></div>
-  </div><div className="wrap legal-note">General information only. Product availability, eligibility, terms and pricing vary by state and carrier. This website does not bind coverage. Estimates are illustrative and are not insurance advice, an offer of insurance or a quote. A customer login is available only when an authorized customer account has been provisioned.</div></footer>;
+  </div><div className="wrap legal-note">General information only. Product availability, eligibility, terms and pricing vary by state and carrier. This website does not bind coverage. Estimates are illustrative and are not insurance advice, an offer of insurance or a quote. Customer login is not enabled until an authorized customer portal is provisioned.</div></footer>;
 }
 
 export function PageHero({ eyebrow, title, description }: { eyebrow?: string; title: string; description: string }) {
