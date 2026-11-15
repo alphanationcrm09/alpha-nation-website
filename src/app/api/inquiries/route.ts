@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstile,
+  validEmail, validPhone, verifyTurnstile, sendOwnerNotification,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -47,5 +47,6 @@ export async function POST(request: NextRequest) {
     source: "Website", contact_consent: true, status: "new",
   });
   if (error) return NextResponse.json({ error: "We could not send your message. Please try again." }, { status: 500 });
+  await sendOwnerNotification("inquiry", `New ${inquiry_type} inquiry received from ${state_code || "an unspecified state"}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
 }
