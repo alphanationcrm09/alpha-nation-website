@@ -13,7 +13,7 @@
     "binding": "ASSETS"
   },
   "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "alpha-nation-website" }
+    { "binding": "WORKER_SELF_REFERENCE", "service": "alpha-nation-site" }
   ],
   "vars": { "NEXTJS_ENV": "production" }
 }
