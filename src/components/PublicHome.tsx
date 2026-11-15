@@ -28,7 +28,7 @@ export default function PublicHome() {
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
             <p className="eyebrow">INSURANCE GUIDANCE, BUILT AROUND YOU</p>
-            <h1>Protect the life<br />you’ve <em>built.</em></h1>
+            <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
             <p className="an-hero-lead">Explore life insurance and other coverage options with clear information, practical planning tools and personal guidance from Alpha Nation.</p>
             <div className="an-hero-actions">
               <Link className="button" href="/quote">Explore coverage options <span aria-hidden="true">↗</span></Link>
