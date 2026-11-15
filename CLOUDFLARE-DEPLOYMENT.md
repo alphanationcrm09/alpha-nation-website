@@ -78,6 +78,10 @@ Authenticate Wrangler against the intended Cloudflare account, then run:
 npm run deploy
 ```
 
+**Workers Builds build command:** `npm run cf:build` (this runs the existing Webpack Next.js build, then runs OpenNext with `--skipNextBuild` so it does not rebuild with Turbopack).
+
+**Workers Builds deploy command:** `npx opennextjs-cloudflare deploy`.
+
 The Worker name is `alpha-nation-website`. Check the deployed Worker logs and test the generated `workers.dev` hostname. Preserve configured environment values when deploying from Wrangler; do not overwrite secrets.
 
 ## 6. Post-deploy acceptance tests
