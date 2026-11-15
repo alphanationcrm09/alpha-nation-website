@@ -31,8 +31,7 @@ export default function WelcomeIntro() {
       <div className="alpha-intro-glow" />
       <div className="alpha-intro-content">
         <AlphaLogo compact />
-        <p className="alpha-intro-eyebrow">WELCOME TO</p>
-        <h1>ALPHA <span>NATION</span></h1>
+        <p className="alpha-intro-eyebrow">WELCOME TO ALPHA NATION</p>
         <p className="alpha-intro-quote">Protect what matters today. Build confidence for tomorrow.</p>
       </div>
     </div>
