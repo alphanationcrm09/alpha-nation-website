@@ -104,7 +104,7 @@ export async function consumeRateLimit(request: NextRequest, kind: SubmissionKin
 export async function sendOwnerNotification(kind: "appointment" | "inquiry", summary: string) {
   const apiKey = runtimeEnv("RESEND_API_KEY");
   const from = runtimeEnv("RESEND_FROM_EMAIL");
-  const to = runtimeEnv("LEAD_NOTIFICATION_EMAIL") || "aalphanation@gmail.com";
+  const to = runtimeEnv("LEAD_NOTIFICATION_EMAIL") || "khanbahi202502@gmail.com";
   const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-nation-website.workers.dev";
   if (!apiKey || !from) return false;
   try {
