@@ -70,7 +70,7 @@ export default function PublicHome() {
         <div className="wrap">
           <div className="section-heading"><p className="eyebrow">COVERAGE & SERVICES</p><h2>Explore protection for different parts of life.</h2><p className="lead">Learn about the options, compare the details and ask about availability in your state. Product access and eligibility depend on the carrier and your circumstances.</p></div>
           <div className="an-solution-grid">
-            {solutions.map((item) => <article className={`an-solution-card ${item.featured ? "is-featured" : ""}`} key={item.title}><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href}>Learn more <span aria-hidden="true">↗</span></Link></article>)}
+            {solutions.map((item) => <article className={`an-solution-card ${item.number === "01" ? "is-featured" : ""}`} key={item.title}><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href}>Learn more <span aria-hidden="true">↗</span></Link></article>)}
           </div>
         </div>
       </section>
