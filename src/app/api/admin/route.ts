@@ -100,7 +100,7 @@ export async function POST(request: NextRequest) {
       const rawTerritory = Array.isArray(body.states) ? body.states.filter((value: unknown): value is string => typeof value === "string").map((value: string) => value.toUpperCase()) : [];
       const territory = Array.from(new Set<string>(rawTerritory));
       const workDays = body.saturday === true ? ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] : ["Monday","Tuesday","Wednesday","Thursday","Friday"];
-      if (full_name.length < 2 || !territory.length || rawTerritory.some((value) => !stateCodes.has(value))) return fail("Enter an agent name and only valid two-letter state codes.");
+      if (full_name.length < 2 || !territory.length || rawTerritory.some((value: string) => !stateCodes.has(value))) return fail("Enter an agent name and only valid two-letter state codes.");
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Enter a valid agent email address.");
       if (phone && !/^[0-9+() .-]{7,32}$/.test(phone)) return fail("Enter a valid agent phone number.");
       const { error } = await db.from("agents").insert({ full_name, email: email || null, phone: phone || null, states: territory, work_days: workDays, start_time: "08:00", end_time: "20:00", status: "pending_verification" });
