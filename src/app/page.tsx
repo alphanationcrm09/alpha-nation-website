@@ -1,8 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { AlphaLogo } from "@/components/AlphaLogo";
 import { Header } from "@/components/SiteShell";
 import PublicCarriers from "@/components/PublicCarriers";
 import PublicAgents from "@/components/PublicAgents";
+
+export const metadata: Metadata = {
+  title: "Alpha Nation | Final Expense, Life & Health Insurance",
+  description: "Explore Final Expense, Whole Life, Term Life, Health, Medicare, Auto and Home Insurance with Alpha Nation. Connect with carrier partners and appropriately licensed insurance professionals.",
+  keywords: ["Alpha Nation", "Final Expense Insurance", "Whole Life Insurance", "Term Life Insurance", "Life Insurance", "Health Insurance", "Medicare", "Insurance Brokerage"],
+  openGraph: {
+    title: "Alpha Nation | Insurance Brokerage",
+    description: "Explore insurance options and connect with an appropriately licensed professional through Alpha Nation.",
+    type: "website",
+  },
+};
 
 const products = [
   ["Final Expense Insurance","Coverage options designed to help families prepare for funeral and end-of-life expenses."],
