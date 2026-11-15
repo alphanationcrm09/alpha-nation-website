@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Home from "./home/page";
+import PublicHome from "@/components/PublicHome";
 
 export const metadata: Metadata = {
   title: "Alpha Nation | Final Expense, Life & Health Insurance",
@@ -13,5 +13,5 @@ export const metadata: Metadata = {
 };
 
 export default function MainLandingPage() {
-  return <Home />;
+  return <PublicHome />;
 }
