@@ -1,0 +1,6 @@
+import type {Metadata} from "next";
+import Link from "next/link";
+import {PageHero} from "@/components/SiteShell";
+import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
+export const metadata:Metadata={title:"Life Insurance Needs Calculator | Alpha Nation",description:"Estimate a potential life insurance coverage gap by comparing financial needs with available resources."};
+export default function Page(){return <><PageHero eyebrow="PLANNING TOOL" title="Estimate the coverage gap your family may face." description="Add up the financial responsibilities you want to plan for, then subtract the resources already available."/><section className="section an-calculator-section"><div className="wrap"><div className="an-calculator-intro"><p className="eyebrow">FINANCIAL NEEDS ESTIMATE</p><h2>Start with the numbers that matter.</h2><p>Consider mortgage balances, debts, income replacement, education and final expenses. Then subtract savings, investments and existing life insurance. Adjust the figures to reflect your own circumstances.</p></div><FinancialNeedsCalculator/><p className="calculator-followup">This educational estimate is not a quote or recommendation. <Link href="/quote">Request a conversation with Alpha Nation ↗</Link></p></div></section></>;}
