@@ -72,5 +72,3 @@ export default function InquiryForm() {
     {message && <p role="status">{message}</p>}
   </form>;
 }
-
-declare global { interface Window { turnstile?: { render: (container: HTMLElement, options: { sitekey: string; action: string; theme: string }) => string; reset: (widgetId?: string) => void; remove: (widgetId: string) => void } } }
