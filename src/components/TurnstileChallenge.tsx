@@ -6,7 +6,7 @@ import Script from "next/script";
 type Props = {
   action: "appointment" | "inquiry";
   theme?: "light" | "dark";
-  onToken: (token: string) => void;
+  onToken?: (token: string) => void;
 };
 
 export default function TurnstileChallenge({ action, theme = "dark", onToken }: Props) {
@@ -49,16 +49,16 @@ export default function TurnstileChallenge({ action, theme = "dark", onToken }: 
         sitekey: siteKey,
         action,
         theme,
-        callback: (token: string) => onToken(token),
-        "expired-callback": () => onToken(""),
-        "error-callback": () => onToken(""),
+        callback: (token: string) => onToken?.(token),
+        "expired-callback": () => onToken?.(""),
+        "error-callback": () => onToken?.(""),
       });
       setError("");
     } catch {
       setError("Cloudflare security verification could not be displayed. Refresh the page and try again.");
     }
     return () => {
-      onToken("");
+      onToken?.("");
       if (widgetId.current && window.turnstile) {
         window.turnstile.remove(widgetId.current);
         widgetId.current = null;
