@@ -81,7 +81,10 @@ export async function POST(request: NextRequest) {
     preferred_date, preferred_time, customer_timezone, source, contact_consent: true,
     marketing_consent: false, application_consent: false, status: "new",
   });
-  if (error) return NextResponse.json({ error: "We could not submit your request. Please try again." }, { status: 500 });
+  if (error) {
+    console.error("Appointment insert failed", { code: error.code, message: error.message, details: error.details, hint: error.hint });
+    return NextResponse.json({ error: "We could not submit your request. Please try again." }, { status: 500 });
+  }
   await sendOwnerNotification("appointment", `New appointment request for ${insurance_type}, ${state_code}, preferred date ${preferred_date}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
 }
