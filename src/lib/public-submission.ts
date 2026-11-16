@@ -9,8 +9,7 @@ export function isPublicSubmissionConfigured() {
   return Boolean(
     runtimeEnv("NEXT_PUBLIC_SUPABASE_URL")
     && (runtimeEnv("SUPABASE_SECRET_KEY") || runtimeEnv("SUPABASE_SERVICE_ROLE_KEY"))
-    && runtimeEnv("TURNSTILE_SECRET_KEY")
-    && runtimeEnv("TURNSTILE_ALLOWED_HOSTNAMES"),
+    && runtimeEnv("TURNSTILE_SECRET_KEY"),
   );
 }
 
@@ -32,20 +31,26 @@ export function getClientIpHash(request: NextRequest) {
 
 export async function verifyTurnstile(request: NextRequest, token: unknown, action: SubmissionKind) {
   const secret = runtimeEnv("TURNSTILE_SECRET_KEY");
-  const allowedHosts = (runtimeEnv("TURNSTILE_ALLOWED_HOSTNAMES") || "")
+  const configuredHosts = (runtimeEnv("TURNSTILE_ALLOWED_HOSTNAMES") || "")
     .split(",").map((host) => host.trim().toLowerCase()).filter(Boolean);
-  if (!secret || !allowedHosts.length || typeof token !== "string" || token.length < 10 || token.length > 2048) {
+  if (!secret || typeof token !== "string" || token.length < 10 || token.length > 2048) {
     return false;
   }
 
   const origin = request.headers.get("origin");
   if (!origin) return false;
+  let requestHost = "";
   try {
     const originUrl = new URL(origin);
     const requestUrl = new URL(request.url);
+    requestHost = requestUrl.hostname.toLowerCase();
     const originHost = originUrl.hostname.toLowerCase();
-    const requestHost = requestUrl.hostname.toLowerCase();
-    if (originUrl.origin !== requestUrl.origin || !allowedHosts.includes(originHost) || !allowedHosts.includes(requestHost)) return false;
+    if (originUrl.origin !== requestUrl.origin || originHost !== requestHost) return false;
+
+    // An explicit allowlist takes precedence. If it is absent, bind verification
+    // to the exact host receiving this request instead of failing closed because
+    // an optional Cloudflare Worker variable was not injected at runtime.
+    if (configuredHosts.length && !configuredHosts.includes(requestHost)) return false;
   } catch {
     return false;
   }
@@ -71,7 +76,8 @@ export async function verifyTurnstile(request: NextRequest, token: unknown, acti
     return result.success === true
       && result.action === action
       && typeof result.hostname === "string"
-      && allowedHosts.includes(result.hostname.toLowerCase());
+      && result.hostname.toLowerCase() === requestHost
+      && (!configuredHosts.length || configuredHosts.includes(result.hostname.toLowerCase()));
   } catch {
     return false;
   }
@@ -115,7 +121,7 @@ export async function sendOwnerNotification(kind: "appointment" | "inquiry", sum
       body: JSON.stringify({
         from, to: [to],
         subject: kind === "appointment" ? "New Alpha Nation appointment request" : "New Alpha Nation website inquiry",
-        text: `A new ${kind} has been submitted on the Alpha Nation website.\n\n${summary}\n\nOpen the secure admin panel to review customer details: ${site}/admin\n\nThis notification intentionally excludes personal customer details.`,
+        text: `A new ${kind} has been submitted on the Alpha Nation website.\\n\\n${summary}\\n\\nOpen the secure admin panel to review customer details: ${site}/admin\\n\\nThis notification intentionally excludes personal customer details.`,
       }),
       cache: "no-store",
       signal: AbortSignal.timeout(6000),
