@@ -5,13 +5,13 @@ type StateOption={state_code:string;state_name:string};
 const products=["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"];
 const localDateValue=()=>{const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());return now.toISOString().slice(0,10);};
 export function BookingForm(){
- const [states,setStates]=useState<StateOption[]>([]);const [state,setState]=useState("");const [date,setDate]=useState("");const [slot,setSlot]=useState("");const [source,setSource]=useState("Other");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
+ const [states,setStates]=useState<StateOption[]>([]);const [state,setState]=useState("");const [date,setDate]=useState("");const [slot,setSlot]=useState("");const [source,setSource]=useState("Other");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);const [turnstileToken,setTurnstileToken]=useState("");
  useEffect(()=>{fetch("/api/states",{cache:"no-store"}).then(r=>r.json()).then(j=>setStates(j.rows||[])).catch(()=>setStates([]));},[]);
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();const form=event.currentTarget;const fields=new FormData(form);
   if(!fields.get("consent"))return setMessage("Please provide appointment contact consent.");
   if(String(fields.get("website")||"").trim())return setMessage("We could not submit your request. Please try again.");
-  const turnstileToken=String(fields.get("cf-turnstile-response")||"");if(!turnstileToken)return setMessage("Please complete the security check.");
+  if(!turnstileToken)return setMessage("Please complete the security check.");
   setBusy(true);setMessage("Sending your appointment request…");
   try{
    const response=await fetch("/api/appointments",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({
@@ -24,10 +24,10 @@ export function BookingForm(){
     website:String(fields.get("website")||""),turnstileToken
    })});
    const result=await response.json().catch(()=>({error:"We could not submit your request. Please try again."}));
-   if(!response.ok){window.turnstile?.reset();setMessage(result.error||"We could not submit your request. Please try again.");return;}
-   form.reset();setState("");setDate("");setSlot("");setSource("Other");window.turnstile?.reset();
+   if(!response.ok){window.turnstile?.reset();setTurnstileToken("");setMessage(result.error||"We could not submit your request. Please try again.");return;}
+   form.reset();setState("");setDate("");setSlot("");setSource("Other");window.turnstile?.reset();setTurnstileToken("");
    setMessage("Request received. Alpha Nation will contact you to confirm the appointment. Your preferred time is not confirmed until our team contacts you.");
-  }catch{window.turnstile?.reset();setMessage("The request could not be sent. Check your connection and try again.");}
+  }catch{window.turnstile?.reset();setTurnstileToken("");setMessage("The request could not be sent. Check your connection and try again.");}
   finally{setBusy(false);}
  }
  return <form className="form-card" onSubmit={submit}>
@@ -57,7 +57,7 @@ export function BookingForm(){
   </div>
   <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
   <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I agree that Alpha Nation may contact me by phone or email about this appointment. This is not consent to receive marketing messages or submit an insurance application.</label></div>
-  <TurnstileChallenge action="appointment" theme="dark" />
+  <TurnstileChallenge action="appointment" theme="dark" onToken={setTurnstileToken} />
   <p className="form-notice">Your preferred date and time are a request, not a confirmed booking. Our team will contact you to confirm. Do not enter medical or health details here.</p>
   <button className="button" type="submit" disabled={busy}>{busy?"Submitting…":"Request appointment"}</button>
   {message&&<p role="status" className="form-notice">{message}</p>}
