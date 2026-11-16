@@ -1,13 +1,12 @@
 "use client";
 import {useEffect,useRef,useState} from "react";
-import Script from "next/script";
+import TurnstileChallenge from "@/components/TurnstileChallenge";
 type StateOption={state_code:string;state_name:string};
 const products=["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"];
 const localDateValue=()=>{const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());return now.toISOString().slice(0,10);};
 export function BookingForm(){
- const [states,setStates]=useState<StateOption[]>([]);const [state,setState]=useState("");const [turnstileSiteKey,setTurnstileSiteKey]=useState("");const [turnstileLoaded,setTurnstileLoaded]=useState(false);const turnstileContainer=useRef<HTMLDivElement|null>(null);const turnstileWidgetId=useRef<string|null>(null);const [date,setDate]=useState("");const [slot,setSlot]=useState("");const [source,setSource]=useState("Other");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
- useEffect(()=>{fetch("/api/states",{cache:"no-store"}).then(r=>r.json()).then(j=>setStates(j.rows||[])).catch(()=>setStates([]));fetch("/api/public-config",{cache:"no-store"}).then(r=>r.json()).then(j=>setTurnstileSiteKey(typeof j.turnstileSiteKey==="string"?j.turnstileSiteKey:"")).catch(()=>setTurnstileSiteKey(""));},[]);
- useEffect(()=>{if(!turnstileLoaded||!turnstileSiteKey||!turnstileContainer.current||!window.turnstile)return;turnstileContainer.current.replaceChildren();turnstileWidgetId.current=window.turnstile.render(turnstileContainer.current,{sitekey:turnstileSiteKey,action:"appointment",theme:"dark"});return()=>{if(turnstileWidgetId.current&&window.turnstile){window.turnstile.remove(turnstileWidgetId.current);turnstileWidgetId.current=null;}};},[turnstileLoaded,turnstileSiteKey]);
+ const [states,setStates]=useState<StateOption[]>([]);const [state,setState]=useState("");const [date,setDate]=useState("");const [slot,setSlot]=useState("");const [source,setSource]=useState("Other");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);
+ useEffect(()=>{fetch("/api/states",{cache:"no-store"}).then(r=>r.json()).then(j=>setStates(j.rows||[])).catch(()=>setStates([]));},[]);
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();const form=event.currentTarget;const fields=new FormData(form);
   if(!fields.get("consent"))return setMessage("Please provide appointment contact consent.");
@@ -25,7 +24,7 @@ export function BookingForm(){
     website:String(fields.get("website")||""),turnstileToken
    })});
    const result=await response.json().catch(()=>({error:"We could not submit your request. Please try again."}));
-   if(!response.ok){window.turnstile?.reset(turnstileWidgetId.current||undefined);setMessage(result.error||"We could not submit your request. Please try again.");return;}
+   if(!response.ok){window.turnstile?.reset();setMessage(result.error||"We could not submit your request. Please try again.");return;}
    form.reset();setState("");setDate("");setSlot("");setSource("Other");window.turnstile?.reset();
    setMessage("Request received. Alpha Nation will contact you to confirm the appointment. Your preferred time is not confirmed until our team contacts you.");
   }catch{window.turnstile?.reset();setMessage("The request could not be sent. Check your connection and try again.");}
@@ -58,7 +57,7 @@ export function BookingForm(){
   </div>
   <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
   <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I agree that Alpha Nation may contact me by phone or email about this appointment. This is not consent to receive marketing messages or submit an insurance application.</label></div>
-  {turnstileSiteKey?<><Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={()=>setTurnstileLoaded(true)}/><div className="turnstile-wrap"><div ref={turnstileContainer}/><noscript>JavaScript is required for the security check.</noscript></div></>:<p className="form-notice">Security verification is loading or is not configured. Please refresh this page shortly. If the issue continues, contact aalphanation@gmail.com.</p>}
+  <TurnstileChallenge action="appointment" theme="dark" />
   <p className="form-notice">Your preferred date and time are a request, not a confirmed booking. Our team will contact you to confirm. Do not enter medical or health details here.</p>
   <button className="button" type="submit" disabled={busy}>{busy?"Submitting…":"Request appointment"}</button>
   {message&&<p role="status" className="form-notice">{message}</p>}
