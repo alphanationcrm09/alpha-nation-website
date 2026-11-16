@@ -76,5 +76,3 @@ export default function QuoteJourney() {
     <p className="quote-legal">Submitting this form requests a follow-up only. It does not generate a price, guarantee eligibility, submit an insurance application, bind coverage, or create an appointment. Availability depends on state, carrier, product, licensing and underwriting.</p>
   </div>;
 }
-
-declare global {interface Window {turnstile?:{reset:()=>void}}}
