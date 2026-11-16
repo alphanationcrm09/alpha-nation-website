@@ -64,4 +64,3 @@ export function BookingForm(){
   {message&&<p role="status" className="form-notice">{message}</p>}
  </form>;
 }
-declare global{interface Window{turnstile?:{render:(container:HTMLElement,options:{sitekey:string;action:string;theme:string})=>string;reset:(widgetId?:string)=>void;remove:(widgetId:string)=>void}}}
