@@ -13,7 +13,7 @@ const licenseStatuses = new Set(["unverified", "pending", "verified", "expired",
 async function authorize() {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.getClaims();
-  const claims = data;
+  const claims = data?.claims;
   if (error || !claims?.sub) return null;
   const { data: role, error: roleError } = await supabase.from("staff_roles").select("role,active").eq("user_id", claims.sub).maybeSingle();
   if (roleError || !role || role.active !== true) return null;
