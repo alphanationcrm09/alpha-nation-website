@@ -1,10 +1,19 @@
 import { NextResponse } from "next/server";
 import { runtimeEnv } from "@/lib/runtime-env";
+import { getPrivilegedSubmissionClient } from "@/lib/public-submission";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function GET() {
+  const client = getPrivilegedSubmissionClient();
+  let supabaseConnection = false;
+  let supabaseConnectionError: string | null = null;
+  if (client) {
+    const { error } = await client.from("appointments").select("id", { head: true, count: "exact" }).limit(1);
+    supabaseConnection = !error;
+    supabaseConnectionError = error?.code || null;
+  }
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || runtimeEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY") || "";
   const configuredHostnames = Boolean(runtimeEnv("TURNSTILE_ALLOWED_HOSTNAMES"));
   const configStatus = {
@@ -15,6 +24,8 @@ export async function GET() {
     // explicit allowlist is provided, so this check remains operational.
     allowedHostnames: true,
     allowedHostnamesMode: configuredHostnames ? "explicit" : "request-host",
+    supabaseConnection,
+    supabaseConnectionError,
   };
 
   return NextResponse.json(
