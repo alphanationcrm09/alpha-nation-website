@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 export const dynamic = "force-dynamic";
 const validCode=/^[A-Z]{2}$/;
-async function authorize(){const db=await createSupabaseServerClient();const {data,error}=await db.auth.getClaims();const userId=data?.claims?.sub;if(error||!userId)return null;const {data:role}=await db.from("staff_roles").select("active").eq("user_id",userId).maybeSingle();const {data:assurance}=await db.auth.mfa.getAuthenticatorAssuranceLevel();return role?.active===true&&assurance?.currentLevel==="aal2"?db:null;}
+async function authorize(){const db=await createSupabaseServerClient();const {data,error}=await db.auth.getClaims();const userId=data?.sub;if(error||!userId)return null;const {data:role}=await db.from("staff_roles").select("active").eq("user_id",userId).maybeSingle();const {data:assurance}=await db.auth.mfa.getAuthenticatorAssuranceLevel();return role?.active===true&&assurance?.currentLevel==="aal2"?db:null;}
 function sameOrigin(r:NextRequest){const origin=r.headers.get("origin");try{return !!origin&&new URL(origin).origin===new URL(r.url).origin;}catch{return false;}}
 function fail(error:string,status=400){return NextResponse.json({error},{status,headers:{"Cache-Control":"no-store"}});}
 export async function GET(){const db=await authorize();if(!db)return fail("Admin access required.",401);const {data,error}=await db.from("service_states").select("*").order("state_name");if(error)return fail("Could not load states.",500);return NextResponse.json({rows:data||[]},{headers:{"Cache-Control":"no-store"}});}
