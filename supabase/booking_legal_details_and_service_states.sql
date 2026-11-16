@@ -25,3 +25,9 @@ drop policy if exists "Public can view active service states" on public.service_
 drop policy if exists "Staff manage service states" on public.service_states;
 create policy "Public can view active service states" on public.service_states for select to anon,authenticated using(status='active' or private.is_website_staff());
 create policy "Staff manage service states" on public.service_states for all to authenticated using(private.is_website_staff()) with check(private.is_website_staff());
+
+-- The public SELECT policy also evaluates this helper for staff-only rows.
+-- Grant execution so anonymous visitors can read active states; the function
+-- returns false for anonymous/non-staff sessions and keeps staff checks gated.
+grant usage on schema private to anon, authenticated;
+grant execute on function private.is_website_staff() to anon, authenticated;
