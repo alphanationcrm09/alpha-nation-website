@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function GET() {
-  const turnstileSiteKey = runtimeEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY") || "";
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || runtimeEnv("NEXT_PUBLIC_TURNSTILE_SITE_KEY") || "";
   return NextResponse.json(
     { turnstileSiteKey },
     { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } },
