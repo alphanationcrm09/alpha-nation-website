@@ -1,9 +1,4 @@
 import {NextResponse} from "next/server";
-import {createClient} from "@supabase/supabase-js";
-import {runtimeEnv} from "@/lib/runtime-env";
-
-export const dynamic = "force-dynamic";
-
 const fallbackStates = [
   ["AL","Alabama"],["AK","Alaska"],["AZ","Arizona"],["AR","Arkansas"],["CA","California"],
   ["CO","Colorado"],["CT","Connecticut"],["DE","Delaware"],["DC","District of Columbia"],
@@ -21,26 +16,7 @@ const fallbackStates = [
 const responseHeaders = {"Cache-Control":"no-store"};
 
 export async function GET() {
-  const url = runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
-  const key = runtimeEnv("NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY");
-
-  if (url && key) {
-    try {
-      const db = createClient(url, key, {auth:{persistSession:false,autoRefreshToken:false}});
-      const {data,error} = await db
-        .from("service_states")
-        .select("state_code,state_name")
-        .eq("status","active")
-        .order("state_name");
-
-      if (!error && data && data.length > 0) {
-        return NextResponse.json({rows:data}, {headers:responseHeaders});
-      }
-    } catch {
-      // Use the built-in list if the database is temporarily unavailable.
-    }
-  }
-
-  // Keep the appointment form usable if the service_states table or query is unavailable.
+  // The public appointment intake accepts all 50 states plus DC.
+  // Licensing and agent availability are checked by the team before confirmation.
   return NextResponse.json({rows:fallbackStates}, {headers:responseHeaders});
 }
