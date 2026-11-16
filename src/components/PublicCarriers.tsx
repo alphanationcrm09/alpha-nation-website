@@ -13,7 +13,7 @@ export default function PublicCarriers() {
       const { data, error } = await supabase
         .from("carriers")
         .select("name")
-        .eq("status", "Active")
+        .eq("status", "active")
         .order("name");
       if (active) {
         setNames(error ? [] : (data || []).map((carrier) => carrier.name));
