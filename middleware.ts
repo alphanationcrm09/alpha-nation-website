@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
   });
 
   const { data, error } = await supabase.auth.getClaims();
-  const claims = data;
+  const claims = data?.claims;
   const isLogin = request.nextUrl.pathname === loginPath;
   const isSecurity = request.nextUrl.pathname === "/admin/security";
 
