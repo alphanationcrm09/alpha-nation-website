@@ -12,7 +12,7 @@ function sameOrigin(request: NextRequest) {
 async function authorizedStaff() {
   const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase.auth.getClaims();
-  const claims = data;
+  const claims = data?.claims;
   if (error || !claims?.sub) return null;
   const { data: role } = await supabase.from("staff_roles").select("active").eq("user_id", claims.sub).maybeSingle();
   if (role?.active !== true) return null;
