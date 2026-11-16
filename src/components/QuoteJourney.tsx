@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Script from "next/script";
+import TurnstileChallenge from "@/components/TurnstileChallenge";
 
 const states = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
 const products = ["Life Insurance","Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Medicare","ACA Health Insurance"];
@@ -16,7 +16,6 @@ export default function QuoteJourney() {
   const [coverage,setCoverage]=useState("Not sure yet");
   const [busy,setBusy]=useState(false);
   const [message,setMessage]=useState("");
-  const turnstileKey=process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
   async function submit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -68,8 +67,8 @@ export default function QuoteJourney() {
         </div>
         <div className="quote-consent"><label><input type="checkbox" name="consent" required/> I agree Alpha Nation may contact me about this specific request. This is not consent to unrelated marketing or automated marketing calls or texts.</label></div>
         <div className="form-honeypot" aria-hidden="true"><label>Leave empty<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
-        {turnstileKey?<><Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive"/><div className="turnstile-wrap"><div className="cf-turnstile" data-sitekey={turnstileKey} data-action="inquiry" data-theme="light"/></div></>:<p className="form-notice">Online requests are unavailable until website security verification is configured. Please email aalphanation@gmail.com.</p>}
-        <div className="quote-actions"><button type="button" className="an-text-button" onClick={()=>{setStep(1);setMessage("");}}>← Back</button><button className="button" disabled={busy||!turnstileKey}>{busy?"Sending…":"Send my request"}</button></div>
+        <TurnstileChallenge action="inquiry" theme="light" />
+        <div className="quote-actions"><button type="button" className="an-text-button" onClick={()=>{setStep(1);setMessage("");}}>← Back</button><button className="button" disabled={busy}>{busy?"Sending…":"Send my request"}</button></div>
       </section>}
       {message&&<p className="quote-status" role="status">{message}</p>}
     </form>
