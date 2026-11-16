@@ -25,8 +25,8 @@ export default function PublicHome() {
             <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
             <p className="an-hero-lead">Clear information, useful planning tools and personal guidance to help you explore life insurance options with confidence.</p>
             <div className="an-hero-actions">
-              <Link className="button" href="/quote">Explore coverage options <span aria-hidden="true">↗</span></Link>
-              <Link className="an-text-button" href="/calculator">Calculate your needs</Link>
+              <Link className="button" href="/request-appointment">Request an appointment <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="/quote">Explore coverage options</Link>
             </div>
             <div className="an-trust-line"><span>People-first guidance</span><i /><span>Multiple carrier options</span><i /><span>Support at every stage</span></div>
           </div>
@@ -123,7 +123,7 @@ export default function PublicHome() {
       <section className="section an-faq-teaser"><div className="wrap an-faq-teaser-inner"><div><p className="eyebrow">QUESTIONS BEFORE YOU START?</p><h2>Understand the details that matter.</h2><p>Get clear answers about coverage, underwriting, beneficiaries and what happens after you apply.</p></div><Link className="button" href="/faq">Browse insurance FAQs ↗</Link></div></section>
 
       <section className="an-help-section" id="help">
-        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/quote">Request information</Link></div></div>
+        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/request-appointment">Request an appointment</Link></div></div>
       </section>
     </>
   );
