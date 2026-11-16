@@ -18,7 +18,7 @@ Fill in `.env.local` and `.dev.vars` before testing forms. Never commit either f
 
 ## 2. Required Cloudflare values
 
-Set public build variables in **Workers Builds → Build variables and secrets**. Set the same public values as Worker runtime variables where required. `NEXT_PUBLIC_` values must be present at build time because Next.js embeds them into the browser bundle.
+Set public build variables in **Workers Builds → Build variables and secrets**. Set the same public values as Worker runtime variables where required. `NEXT_PUBLIC_` values used directly in client components must be present at build time. The appointment form now retrieves the Turnstile site key from `/api/public-config` at runtime, so its Worker runtime variable is authoritative and a stale/missing build-time value will not hide the widget.
 
 **Build variables:**
 
