@@ -6,9 +6,10 @@ import Script from "next/script";
 type Props = {
   action: "appointment" | "inquiry";
   theme?: "light" | "dark";
+  onToken: (token: string) => void;
 };
 
-export default function TurnstileChallenge({ action, theme = "dark" }: Props) {
+export default function TurnstileChallenge({ action, theme = "dark", onToken }: Props) {
   const [siteKey, setSiteKey] = useState("");
   const [scriptReady, setScriptReady] = useState(false);
   const [error, setError] = useState("");
@@ -37,25 +38,33 @@ export default function TurnstileChallenge({ action, theme = "dark" }: Props) {
   }, []);
 
   useEffect(() => {
-    if (!scriptReady || !siteKey || !container.current || !window.turnstile) return;
+    if (!scriptReady || !siteKey || !container.current) return;
+    if (!window.turnstile) {
+      setError("Cloudflare security verification did not initialize. Refresh the page and try again.");
+      return;
+    }
     try {
       container.current.replaceChildren();
       widgetId.current = window.turnstile.render(container.current, {
         sitekey: siteKey,
         action,
         theme,
+        callback: (token: string) => onToken(token),
+        "expired-callback": () => onToken(""),
+        "error-callback": () => onToken(""),
       });
       setError("");
     } catch {
       setError("Cloudflare security verification could not be displayed. Refresh the page and try again.");
     }
     return () => {
+      onToken("");
       if (widgetId.current && window.turnstile) {
         window.turnstile.remove(widgetId.current);
         widgetId.current = null;
       }
     };
-  }, [scriptReady, siteKey, action, theme]);
+  }, [scriptReady, siteKey, action, theme, onToken]);
 
   return (
     <div className="turnstile-wrap">
