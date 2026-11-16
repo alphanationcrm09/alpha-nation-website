@@ -9,6 +9,9 @@ declare global {
           sitekey: string;
           action: string;
           theme: string;
+          callback?: (token: string) => void;
+          "expired-callback"?: () => void;
+          "error-callback"?: () => void;
         },
       ) => string;
       reset: (widgetId?: string) => void;
