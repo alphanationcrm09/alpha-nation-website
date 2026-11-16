@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "alpha-nation-website",
+  "name": "alpha-nation-site",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
@@ -13,7 +13,7 @@
     "binding": "ASSETS"
   },
   "services": [
-    { "binding": "WORKER_SELF_REFERENCE", "service": "alpha-nation-website" }
+    { "binding": "WORKER_SELF_REFERENCE", "service": "alpha-nation-site" }
   ],
   "vars": { "NEXTJS_ENV": "production" }
 }
