@@ -89,10 +89,11 @@ export function validEmail(value: string) {
   return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: NonNullable<ReturnType<typeof getPrivilegedSubmissionClient>>) {
+export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
   const ipHash = getClientIpHash(request);
   if (!ipHash) return false;
-  const { data, error } = await client.rpc("consume_website_submission_limit", {
+  const rpc = client.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
+  const { data, error } = await rpc("consume_website_submission_limit", {
     p_ip_hash: ipHash,
     p_submission_type: kind,
     p_max: 5,
