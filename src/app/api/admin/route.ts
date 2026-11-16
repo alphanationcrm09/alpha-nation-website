@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
       ];
       const { data: existing, error } = await db.from("agents").select("full_name");
       if (error) return fail("Could not check existing agent profiles.", 500);
-      const names = new Set((existing || []).map((row) => row.full_name));
+      const names = new Set((existing || []).map((row: { full_name: string }) => row.full_name));
       const missing = known.filter((agent) => !names.has(agent.name)).map((agent) => ({
         full_name: agent.name, states: agent.states.split(",").map((value: string) => value.trim()),
         work_days: agent.saturday ? ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"] : ["Monday","Tuesday","Wednesday","Thursday","Friday"],

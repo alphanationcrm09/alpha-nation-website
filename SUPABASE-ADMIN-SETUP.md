@@ -28,7 +28,7 @@ The website intentionally has no public sign-up page. Create the owner account d
 
 1. Open the Supabase dashboard for project `fyndiedplgyiowqvkfsk`.
 2. Open Authentication → Users → Add user.
-3. Create the owner account using `aalphanation@gmail.com` and a strong password known only to the owner. Confirm the email if the dashboard offers that option.
+3. Create the owner account using the same email as the CRM Owner account: `khanbahi202502@gmail.com`. The CRM and website use separate Supabase projects, so the website requires its own Auth user and password; the CRM password is not automatically shared. Confirm the email if the dashboard offers that option.
 4. Open SQL Editor and run `supabase/setup_owner.sql`.
 5. Sign in at `/admin/login`. The app redirects to `/admin/security` until TOTP MFA is enrolled and verified.
 
@@ -36,8 +36,11 @@ Staff users must first be created in Supabase Authentication, then granted a `st
 
 ## Important operating notes
 
-- The website database is separate from the existing Alpha Nation CRM.
+- The website database and authentication are separate from the existing Alpha Nation CRM. The website owner account uses the CRM Owner email identity, but sign-in credentials and MFA enrollment are configured separately in the website project.
 - Public visitors can submit appointment requests and inquiries. They cannot read customer records.
+- Appointment requests collect legal first and last name, phone, email, residential address, state, ZIP, insurance type, requested coverage amount, beneficiary name and relationship, plus preferred appointment date/time.
+- To email owner alerts, configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL` (a verified sender) and `LEAD_NOTIFICATION_EMAIL` as Cloudflare Worker runtime secrets/variables. Email alerts contain no customer PII; complete details are available after signing in to the admin panel.
+- Admin → Service states controls which states are available in the public appointment form.
 - Appointment preferred dates/times are stored as local requests and are not automatically confirmed or checked against agent calendars. Staff must call to confirm.
 - Agent records and state licenses are initially unverified. Verify NPN and license status with the relevant state regulator before activating an agent for customer routing.
 - The carrier directory is editable in the admin panel. A carrier listed does not mean Alpha Nation is appointed with it in every state or that every product is available.

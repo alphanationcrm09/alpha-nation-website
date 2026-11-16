@@ -61,7 +61,7 @@ export async function POST(request: NextRequest) {
       if (!/^[0-9a-f-]{36}$/i.test(factorId)) return NextResponse.json({ error: "Invalid authenticator factor." }, { status: 400 });
       const { data: factors } = await supabase.auth.mfa.listFactors();
       const factor = (factors?.all || []).find((item) => item.id === factorId);
-      if (!factor || factor.status !== "unverified") return NextResponse.json({ error: "Only an unfinished authenticator setup can be removed here." }, { status: 400 });
+      if (!factor || String(factor.status) !== "unverified") return NextResponse.json({ error: "Only an unfinished authenticator setup can be removed here." }, { status: 400 });
       const { error } = await supabase.auth.mfa.unenroll({ factorId });
       if (error) return NextResponse.json({ error: "Could not remove the unfinished setup." }, { status: 400 });
       return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });

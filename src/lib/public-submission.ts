@@ -89,14 +89,39 @@ export function validEmail(value: string) {
   return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: NonNullable<ReturnType<typeof getPrivilegedSubmissionClient>>) {
+export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
   const ipHash = getClientIpHash(request);
   if (!ipHash) return false;
-  const { data, error } = await client.rpc("consume_website_submission_limit", {
+  const rpc = client.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
+  const { data, error } = await rpc("consume_website_submission_limit", {
     p_ip_hash: ipHash,
     p_submission_type: kind,
     p_max: 5,
     p_window_seconds: 3600,
   });
   return !error && data === true;
+}
+
+export async function sendOwnerNotification(kind: "appointment" | "inquiry", summary: string) {
+  const apiKey = runtimeEnv("RESEND_API_KEY");
+  const from = runtimeEnv("RESEND_FROM_EMAIL");
+  const to = runtimeEnv("LEAD_NOTIFICATION_EMAIL") || "khanbahi202502@gmail.com";
+  const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-nation-website.workers.dev";
+  if (!apiKey || !from) return false;
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { "content-type": "application/json", authorization: `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        from, to: [to],
+        subject: kind === "appointment" ? "New Alpha Nation appointment request" : "New Alpha Nation website inquiry",
+        text: `A new ${kind} has been submitted on the Alpha Nation website.\n\n${summary}\n\nOpen the secure admin panel to review customer details: ${site}/admin\n\nThis notification intentionally excludes personal customer details.`,
+      }),
+      cache: "no-store",
+      signal: AbortSignal.timeout(6000),
+    });
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
