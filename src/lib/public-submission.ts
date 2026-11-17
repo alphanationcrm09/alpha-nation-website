@@ -46,15 +46,25 @@ export async function verifyTurnstileDetailed(
   }
 
   const origin = request.headers.get("origin");
-  if (!origin) return { ok: false, code: "TURNSTILE_ORIGIN_MISSING" };
-
   let requestHost = "";
   try {
-    const originUrl = new URL(origin);
-    const requestUrl = new URL(request.url);
-    requestHost = requestUrl.hostname.toLowerCase();
-    if (originUrl.origin !== requestUrl.origin || originUrl.hostname.toLowerCase() !== requestHost) {
-      return { ok: false, code: "TURNSTILE_ORIGIN_MISMATCH" };
+    // On Cloudflare, use the incoming Host header as the canonical public host.
+    // request.url can be normalized by the adapter and is not a reliable source
+    // for comparing the browser's Origin scheme and port.
+    const hostHeader = request.headers.get("host");
+    requestHost = (hostHeader
+      ? new URL(`https://${hostHeader}`).hostname
+      : new URL(request.url).hostname).toLowerCase();
+    if (!requestHost) return { ok: false, code: "TURNSTILE_ORIGIN_INVALID" };
+
+    // A browser POST includes Origin. Compare hostnames only: HTTPS termination
+    // and default-port normalization can make full-origin strings differ even
+    // when the request is same-origin.
+    if (origin) {
+      const originUrl = new URL(origin);
+      if (originUrl.hostname.toLowerCase() !== requestHost) {
+        return { ok: false, code: "TURNSTILE_ORIGIN_MISMATCH" };
+      }
     }
     if (configuredHosts.length && !configuredHosts.includes(requestHost)) {
       return { ok: false, code: "TURNSTILE_REQUEST_HOST_NOT_ALLOWED" };
