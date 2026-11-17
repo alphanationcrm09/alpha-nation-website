@@ -24,7 +24,7 @@ export function BookingForm(){
     website:String(fields.get("website")||""),turnstileToken
    })});
    const result=await response.json().catch(()=>({error:"We could not submit your request. Please try again."}));
-   if(!response.ok){window.turnstile?.reset();setTurnstileToken("");setMessage(result.error||"We could not submit your request. Please try again.");return;}
+   if(!response.ok){window.turnstile?.reset();setTurnstileToken("");const detail=result.diagnosticCode?` (Diagnostic code: ${result.diagnosticCode})`:"";setMessage((result.error||"We could not submit your request. Please try again.")+detail);return;}
    form.reset();setState("");setDate("");setSlot("");setSource("Other");window.turnstile?.reset();setTurnstileToken("");
    setMessage("Request received. Alpha Nation will contact you to confirm the appointment. Your preferred time is not confirmed until our team contacts you.");
   }catch{window.turnstile?.reset();setTurnstileToken("");setMessage("The request could not be sent. Check your connection and try again.");}
