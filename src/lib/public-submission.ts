@@ -129,7 +129,7 @@ export function validPhone(value: string) {
 }
 
 export function validEmail(value: string) {
-  return value.length <= 254 && /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
