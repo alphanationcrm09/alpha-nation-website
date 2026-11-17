@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
   });
   if (error) {
     console.error("Appointment insert failed", { code: error.code, message: error.message, details: error.details, hint: error.hint });
-    return NextResponse.json({ error: "We could not submit your request. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: "We could not submit your request. Please try again.", diagnosticCode: error.code || "UNKNOWN" }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
   await sendOwnerNotification("appointment", `New appointment request for ${insurance_type}, ${state_code}, preferred date ${preferred_date}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
