@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstile, sendOwnerNotification,
+  validEmail, validPhone, verifyTurnstileDetailed, sendOwnerNotification,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -21,7 +21,14 @@ export async function POST(request: NextRequest) {
 
   if (cleanText(body.website, 200)) return NextResponse.json({ error: "Request rejected." }, { status: 400 });
   if (body.contactConsent !== true) return NextResponse.json({ error: "Contact consent is required." }, { status: 400 });
-  if (!await verifyTurnstile(request, body.turnstileToken, "appointment")) return NextResponse.json({ error: "Security verification failed. Please retry the challenge." }, { status: 403 });
+  const verification = await verifyTurnstileDetailed(request, body.turnstileToken, "appointment");
+  if (!verification.ok) {
+    console.error("Appointment Turnstile verification failed", { code: verification.code });
+    return NextResponse.json(
+      { error: "Security verification failed. Please retry the challenge.", diagnosticCode: verification.code },
+      { status: 403, headers: { "Cache-Control": "no-store" } },
+    );
+  }
 
   const legal_first_name = cleanText(body.legalFirstName, 60);
   const legal_last_name = cleanText(body.legalLastName, 60);
