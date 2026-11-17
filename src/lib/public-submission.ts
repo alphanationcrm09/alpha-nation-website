@@ -29,30 +29,38 @@ export function getClientIpHash(request: NextRequest) {
   return createHash("sha256").update(rawIp).digest("hex");
 }
 
-export async function verifyTurnstile(request: NextRequest, token: unknown, action: SubmissionKind) {
+export type TurnstileVerification = { ok: true } | { ok: false; code: string };
+
+export async function verifyTurnstileDetailed(
+  request: NextRequest,
+  token: unknown,
+  action: SubmissionKind,
+): Promise<TurnstileVerification> {
   const secret = runtimeEnv("TURNSTILE_SECRET_KEY");
   const configuredHosts = (runtimeEnv("TURNSTILE_ALLOWED_HOSTNAMES") || "")
     .split(",").map((host) => host.trim().toLowerCase()).filter(Boolean);
-  if (!secret || typeof token !== "string" || token.length < 10 || token.length > 2048) {
-    return false;
+
+  if (!secret) return { ok: false, code: "TURNSTILE_SECRET_MISSING" };
+  if (typeof token !== "string" || token.length < 10 || token.length > 2048) {
+    return { ok: false, code: "TURNSTILE_TOKEN_MISSING_OR_INVALID" };
   }
 
   const origin = request.headers.get("origin");
-  if (!origin) return false;
+  if (!origin) return { ok: false, code: "TURNSTILE_ORIGIN_MISSING" };
+
   let requestHost = "";
   try {
     const originUrl = new URL(origin);
     const requestUrl = new URL(request.url);
     requestHost = requestUrl.hostname.toLowerCase();
-    const originHost = originUrl.hostname.toLowerCase();
-    if (originUrl.origin !== requestUrl.origin || originHost !== requestHost) return false;
-
-    // An explicit allowlist takes precedence. If it is absent, bind verification
-    // to the exact host receiving this request instead of failing closed because
-    // an optional Cloudflare Worker variable was not injected at runtime.
-    if (configuredHosts.length && !configuredHosts.includes(requestHost)) return false;
+    if (originUrl.origin !== requestUrl.origin || originUrl.hostname.toLowerCase() !== requestHost) {
+      return { ok: false, code: "TURNSTILE_ORIGIN_MISMATCH" };
+    }
+    if (configuredHosts.length && !configuredHosts.includes(requestHost)) {
+      return { ok: false, code: "TURNSTILE_REQUEST_HOST_NOT_ALLOWED" };
+    }
   } catch {
-    return false;
+    return { ok: false, code: "TURNSTILE_ORIGIN_INVALID" };
   }
 
   const form = new URLSearchParams({ secret, response: token });
@@ -67,20 +75,39 @@ export async function verifyTurnstile(request: NextRequest, token: unknown, acti
       cache: "no-store",
       signal: AbortSignal.timeout(5000),
     });
-    if (!response.ok) return false;
+    if (!response.ok) return { ok: false, code: "TURNSTILE_SITEVERIFY_HTTP_ERROR" };
+
     const result = await response.json() as {
       success?: boolean;
       hostname?: string;
       action?: string;
+      "error-codes"?: string[];
     };
-    return result.success === true
-      && result.action === action
-      && typeof result.hostname === "string"
-      && result.hostname.toLowerCase() === requestHost
-      && (!configuredHosts.length || configuredHosts.includes(result.hostname.toLowerCase()));
+
+    if (result.success !== true) {
+      const errors = Array.isArray(result["error-codes"]) ? result["error-codes"] : [];
+      if (errors.includes("invalid-input-secret")) return { ok: false, code: "TURNSTILE_SECRET_INVALID" };
+      if (errors.includes("timeout-or-duplicate")) return { ok: false, code: "TURNSTILE_TOKEN_EXPIRED_OR_DUPLICATE" };
+      if (errors.includes("invalid-input-response")) return { ok: false, code: "TURNSTILE_TOKEN_INVALID" };
+      if (errors.includes("missing-input-response")) return { ok: false, code: "TURNSTILE_TOKEN_MISSING" };
+      return { ok: false, code: "TURNSTILE_SITEVERIFY_REJECTED" };
+    }
+
+    if (result.action !== action) return { ok: false, code: "TURNSTILE_ACTION_MISMATCH" };
+    if (typeof result.hostname !== "string" || result.hostname.toLowerCase() !== requestHost) {
+      return { ok: false, code: "TURNSTILE_HOSTNAME_MISMATCH" };
+    }
+    if (configuredHosts.length && !configuredHosts.includes(result.hostname.toLowerCase())) {
+      return { ok: false, code: "TURNSTILE_VERIFIED_HOST_NOT_ALLOWED" };
+    }
+    return { ok: true };
   } catch {
-    return false;
+    return { ok: false, code: "TURNSTILE_SITEVERIFY_NETWORK_ERROR" };
   }
+}
+
+export async function verifyTurnstile(request: NextRequest, token: unknown, action: SubmissionKind) {
+  return (await verifyTurnstileDetailed(request, token, action)).ok;
 }
 
 export function cleanText(value: unknown, max: number) {
