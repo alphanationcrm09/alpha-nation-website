@@ -10,7 +10,7 @@ export function BookingForm(){
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();const form=event.currentTarget;const fields=new FormData(form);
   if(!fields.get("consent"))return setMessage("Please provide appointment contact consent.");
-  if(String(fields.get("website")||"").trim())return setMessage("We could not submit your request. Please try again.");
+  if(String(fields.get("faxNumber")||"").trim())return setMessage("We could not submit your request. Please try again. (Diagnostic code: CLIENT_HONEYPOT)");
   if(!turnstileToken)return setMessage("Please complete the security check.");
   setBusy(true);setMessage("Sending your appointment request…");
   try{
@@ -21,7 +21,7 @@ export function BookingForm(){
     insuranceType:String(fields.get("interest")||"Final Expense"),coverageAmount:Number(fields.get("coverage")),
     beneficiaryName:String(fields.get("beneficiary")||"").trim(),beneficiaryRelationship:String(fields.get("relationship")||"").trim(),
     preferredDate:date,preferredTime:slot,source,contactConsent:true,timeZone:Intl.DateTimeFormat().resolvedOptions().timeZone,
-    website:String(fields.get("website")||""),turnstileToken
+    website:String(fields.get("faxNumber")||""),turnstileToken
    })});
    const result=await response.json().catch(()=>({error:"We could not submit your request. Please try again."}));
    if(!response.ok){window.turnstile?.reset();setTurnstileToken("");const detail=result.diagnosticCode?` (Diagnostic code: ${result.diagnosticCode})`:"";setMessage((result.error||"We could not submit your request. Please try again.")+detail);return;}
@@ -55,7 +55,7 @@ export function BookingForm(){
    <label>Preferred appointment time<select required value={slot} onChange={e=>setSlot(e.target.value)}><option value="">Choose a time</option>{Array.from({length:25},(_,i)=>{const hour=8+Math.floor(i/2),minute=i%2?30:0,label=`${hour%12||12}:${minute?"30":"00"} ${hour<12?"AM":"PM"}`;return <option key={label}>{label}</option>;})}</select></label>
    <label>How did you hear about us?<select name="source" value={source} onChange={e=>setSource(e.target.value)}>{["Google Search","Facebook","Instagram","Referral","Advertisement","Phone Call","Other"].map(s=><option key={s}>{s}</option>)}</select></label>
   </div>
-  <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
+  <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="faxNumber" type="text" tabIndex={-1} autoComplete="new-password" /></label></div>
   <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I agree that Alpha Nation may contact me by phone or email about this appointment. This is not consent to receive marketing messages or submit an insurance application.</label></div>
   <TurnstileChallenge action="appointment" theme="dark" onToken={setTurnstileToken} />
   <p className="form-notice">We accept appointment requests from all 50 US states and Washington, DC. Requests are subject to state licensing, service eligibility, and agent availability. Your preferred date and time are not confirmed until our team contacts you. Do not enter medical or health details here.</p>
