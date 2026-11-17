@@ -135,8 +135,10 @@ export function validEmail(value: string) {
 export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
   const ipHash = getClientIpHash(request);
   if (!ipHash) return false;
-  const rpc = client.rpc as unknown as (name: string, args: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }>;
-  const { data, error } = await rpc("consume_website_submission_limit", {
+
+  // Keep rpc() bound to the Supabase client. Extracting it into a standalone
+  // function loses its client context and can cause "reading 'rest'" errors.
+  const { data, error } = await client.rpc("consume_website_submission_limit", {
     p_ip_hash: ipHash,
     p_submission_type: kind,
     p_max: 5,
