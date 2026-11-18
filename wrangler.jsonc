@@ -25,12 +25,14 @@
   ],
   "vars": {
     "NEXTJS_ENV": "production",
+    "NEXT_PUBLIC_SITE_URL": "https://alpha-nation-site.aalphanation.workers.dev",
     "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
   },
   "previews": {
     "vars": {
       "NEXTJS_ENV": "production",
+      "NEXT_PUBLIC_SITE_URL": "https://alpha-nation-site.aalphanation.workers.dev",
       "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
       "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
     }
