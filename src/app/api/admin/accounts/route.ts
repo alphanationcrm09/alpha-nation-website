@@ -23,6 +23,11 @@ async function authorize(request: NextRequest, ownerOnly = false) {
   if (assurance?.currentLevel !== "aal2") return null;
   return { supabase, userId, role };
 }
+function generateTemporaryPassword() {
+  const bytes = new Uint8Array(24);
+  crypto.getRandomValues(bytes);
+  return "AN!" + Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+}
 function callbackUrl(request: NextRequest, destination: string) {
   const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL;
   const requestOrigin = request.nextUrl.origin;
@@ -91,6 +96,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, message: "Staff invitation sent." }, { headers: { "Cache-Control": "no-store" } });
     }
 
+    if (action === "customer.password.temporary") {
+      const userId = typeof body.userId === "string" ? body.userId : "";
+      if (!/^[0-9a-f-]{36}$/i.test(userId)) return fail("Choose a valid customer account.");
+      const { data: profile, error: profileError } = await admin.from("customer_profiles").select("user_id").eq("user_id", userId).maybeSingle();
+      if (profileError || !profile) return fail("Customer account was not found.", 404);
+      const { data: userResult, error: userError } = await admin.auth.admin.getUserById(userId);
+      const customer = userResult?.user;
+      if (userError || !customer?.email) return fail("The customer's login account could not be found.", 404);
+      const temporaryPassword = generateTemporaryPassword();
+      const { error } = await admin.auth.admin.updateUserById(userId, {
+        password: temporaryPassword,
+        app_metadata: { ...customer.app_metadata, account_type: "customer", must_change_password: true },
+      });
+      if (error) return fail("A temporary password could not be generated. " + error.message, 400);
+      return NextResponse.json({ ok: true, temporaryPassword }, { headers: { "Cache-Control": "no-store" } });
+    }
+
     if (action === "customer.resend") {
       const userId = typeof body.userId === "string" ? body.userId : "";
       if (!/^[0-9a-f-]{36}$/i.test(userId)) return fail("Choose a valid customer account.");
@@ -112,6 +134,34 @@ export async function POST(request: NextRequest) {
         ok: true,
         message: "A fresh secure access link was requested for this customer. Ask them to check their inbox and spam folder.",
       }, { headers: { "Cache-Control": "no-store" } });
+    }
+
+    if (action === "customer.create_temporary") {
+      const phone = typeof body.phone === "string" ? body.phone.trim().slice(0, 32) : "";
+      if (phone && !/^[0-9+() .-]{7,32}$/.test(phone)) return fail("Enter a valid phone number.");
+      const temporaryPassword = generateTemporaryPassword();
+      const { data, error } = await admin.auth.admin.createUser({
+        email,
+        password: temporaryPassword,
+        email_confirm: true,
+        user_metadata: { full_name: fullName, account_type: "customer" },
+      });
+      if (error || !data.user) return fail(error?.message || "Customer account could not be created.", 400);
+      const { error: metadataError } = await admin.auth.admin.updateUserById(data.user.id, {
+        app_metadata: { ...data.user.app_metadata, account_type: "customer", must_change_password: true },
+      });
+      if (metadataError) {
+        await admin.auth.admin.deleteUser(data.user.id);
+        return fail("Account creation was rolled back because the temporary-password requirement could not be saved.", 500);
+      }
+      const { error: profileError } = await admin.from("customer_profiles").insert({
+        user_id: data.user.id, full_name: fullName, phone: phone || null,
+      });
+      if (profileError) {
+        await admin.auth.admin.deleteUser(data.user.id);
+        return fail("Account creation was rolled back because the customer profile could not be saved.", 500);
+      }
+      return NextResponse.json({ ok: true, temporaryPassword }, { headers: { "Cache-Control": "no-store" } });
     }
 
     if (action === "customer.invite") {
