@@ -45,14 +45,15 @@ export async function GET() {
   try {
     const supabase = await createSupabaseServerClient();
     const { data, error } = await supabase.auth.getClaims();
-    const userId = data?.claims?.sub;
-    if (error || typeof userId !== "string") return fail("Sign in to view your customer account.", 401);
+    const claims = data?.claims;
+    const userId = claims?.sub;
+    if (error || !claims || typeof userId !== "string") return fail("Sign in to view your customer account.", 401);
     const [{ data: profile, error: profileError }, { data: policies, error: policyError }] = await Promise.all([
       supabase.from("customer_profiles").select("full_name,phone").eq("user_id", userId).maybeSingle(),
       supabase.from("customer_policies").select("policy_number,carrier_name,product_name,coverage_amount,policy_status,effective_date,beneficiary_name,beneficiary_relationship").eq("customer_id", userId).order("created_at", { ascending: false }),
     ]);
     if (profileError || policyError || !profile) return fail("Customer account could not be loaded.", 403);
-    return NextResponse.json({ email: data.claims.email || "", profile, policies: policies || [] }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ email: typeof claims.email === "string" ? claims.email : "", profile, policies: policies || [] }, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return fail("Customer account is temporarily unavailable.", 503);
   }
