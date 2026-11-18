@@ -34,6 +34,26 @@ The website intentionally has no public sign-up page. Create the owner account d
 
 Staff users must first be created in Supabase Authentication, then granted a `staff` or `admin` role in `public.staff_roles`. Do not grant the owner role to ordinary staff.
 
+## Staff and customer account management
+
+After the Owner account has completed MFA, the Admin panel includes two Owner-only sections:
+
+- **Staff accounts:** invite staff or admins by email, change staff/admin roles, and deactivate or reactivate access. Owner access cannot be granted from this screen.
+- **Customers and policies:** invite customers by email, create a private customer profile, and attach policy details. Customers sign in at `/customer/login` and see only policy rows linked to their own Auth user ID.
+
+Invitation links return to `/auth/callback` and then to the password setup page. In Supabase Dashboard → Authentication → URL Configuration → Redirect URLs, add:
+
+`https://alpha-ins.aalphanation.workers.dev/auth/callback`
+
+Add the matching callback URL for any future custom domain before sending invitations from that domain. Supabase email delivery and the project's SMTP limits still apply. Staff access requires TOTP MFA; customer access does not.
+
+Apply the customer account SQL files if setting up another environment:
+
+1. `supabase/customer_accounts_and_policy_portal.sql`
+2. `supabase/grant_customer_account_service_access.sql`
+
+These create the customer profile and policy tables with RLS. Customer policy data is not imported from appointment requests; staff must enter verified policy details before customers will see them.
+
 ## Important operating notes
 
 - The website database and authentication are separate from the existing Alpha Nation CRM. The website owner account uses the CRM Owner email identity, but sign-in credentials and MFA enrollment are configured separately in the website project.
