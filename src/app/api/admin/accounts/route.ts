@@ -101,17 +101,17 @@ export async function POST(request: NextRequest) {
       const customer = userResult?.user;
       if (userError || !customer?.email) return fail("The customer's login account could not be found.", 404);
       const redirectTo = callbackUrl(request, "/set-password?next=%2Fcustomer");
-      if (customer.email_confirmed_at) {
-        const { error } = await admin.auth.resetPasswordForEmail(customer.email, { redirectTo });
-        if (error) return fail("Password reset email could not be sent. " + error.message, 400);
-        return NextResponse.json({ ok: true, message: "This customer already activated their account. A password reset link was sent." }, { headers: { "Cache-Control": "no-store" } });
-      }
-      const { error } = await admin.auth.admin.inviteUserByEmail(customer.email, {
-        redirectTo,
-        data: { full_name: profile.full_name, account_type: "customer" },
-      });
-      if (error) return fail("A fresh invitation could not be sent. " + error.message, 400);
-      return NextResponse.json({ ok: true, message: "A fresh customer invitation was sent." }, { headers: { "Cache-Control": "no-store" } });
+      // Use Supabase's password-recovery email for both pending and activated
+      // customer accounts. This avoids attempting to invite an email that
+      // already has an Auth user, which Supabase rejects as a duplicate.
+      // The callback establishes the session and sends the customer to the
+      // existing password setup page; customer_profiles and policies remain untouched.
+      const { error } = await admin.auth.resetPasswordForEmail(customer.email, { redirectTo });
+      if (error) return fail("Customer access email could not be sent. " + error.message, 400);
+      return NextResponse.json({
+        ok: true,
+        message: "A fresh secure access link was requested for this customer. Ask them to check their inbox and spam folder.",
+      }, { headers: { "Cache-Control": "no-store" } });
     }
 
     if (action === "customer.invite") {
