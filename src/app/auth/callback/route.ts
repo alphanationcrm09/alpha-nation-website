@@ -3,7 +3,7 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
-  const requested = request.nextUrl.searchParams.get("next") || "/customer";
+  const requested = request.nextUrl.searchParams.get("next") || "/set-password?next=%2Fcustomer";
   const candidate = new URL(requested, request.url);
   const safeNext = candidate.origin === new URL(request.url).origin ? candidate.pathname + candidate.search + candidate.hash : "/customer";
   const failurePath = safeNext.includes("/admin") ? "/admin/login?error=invite" : "/customer/login?error=invite";
