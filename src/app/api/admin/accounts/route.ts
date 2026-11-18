@@ -24,7 +24,10 @@ async function authorize(request: NextRequest, ownerOnly = false) {
   return { supabase, userId, role };
 }
 function callbackUrl(request: NextRequest, destination: string) {
-  const url = new URL("/auth/callback", request.url);
+  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL;
+  const requestOrigin = request.nextUrl.origin;
+  const origin = configuredOrigin ? new URL(configuredOrigin).origin : requestOrigin;
+  const url = new URL("/auth/callback", origin);
   url.searchParams.set("next", destination);
   return url.toString();
 }
