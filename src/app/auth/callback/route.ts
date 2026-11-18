@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const candidate = new URL(requested, request.url);
   const safeNext = candidate.origin === new URL(request.url).origin ? candidate.pathname + candidate.search + candidate.hash : "/customer";
   const failurePath = safeNext.includes("/admin") ? "/admin/login?error=invite" : "/customer/login?error=invite";
-  if (!code) return NextResponse.redirect(new URL(failurePath, request.url));
+  if (!code) return NextResponse.redirect(new URL(safeNext.startsWith("/set-password") ? safeNext : failurePath, request.url));
   try {
     const supabase = await createSupabaseServerClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
