@@ -88,6 +88,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ ok: true, message: "Staff invitation sent." }, { headers: { "Cache-Control": "no-store" } });
     }
 
+    if (action === "customer.resend") {
+      const userId = typeof body.userId === "string" ? body.userId : "";
+      if (!/^[0-9a-f-]{36}$/i.test(userId)) return fail("Choose a valid customer account.");
+      const { data: profile, error: profileError } = await admin
+        .from("customer_profiles").select("user_id,full_name").eq("user_id", userId).maybeSingle();
+      if (profileError || !profile) return fail("Customer account was not found.", 404);
+      const { data: userResult, error: userError } = await admin.auth.admin.getUserById(userId);
+      const customer = userResult?.user;
+      if (userError || !customer?.email) return fail("The customer's login account could not be found.", 404);
+      const redirectTo = callbackUrl(request, "/set-password?next=%2Fcustomer");
+      if (customer.email_confirmed_at) {
+        const { error } = await admin.auth.resetPasswordForEmail(customer.email, { redirectTo });
+        if (error) return fail("Password reset email could not be sent. " + error.message, 400);
+        return NextResponse.json({ ok: true, message: "This customer already activated their account. A password reset link was sent." }, { headers: { "Cache-Control": "no-store" } });
+      }
+      const { error } = await admin.auth.admin.inviteUserByEmail(customer.email, {
+        redirectTo,
+        data: { full_name: profile.full_name, account_type: "customer" },
+      });
+      if (error) return fail("A fresh invitation could not be sent. " + error.message, 400);
+      return NextResponse.json({ ok: true, message: "A fresh customer invitation was sent." }, { headers: { "Cache-Control": "no-store" } });
+    }
+
     if (action === "customer.invite") {
       const phone = typeof body.phone === "string" ? body.phone.trim().slice(0, 32) : "";
       if (phone && !/^[0-9+() .-]{7,32}$/.test(phone)) return fail("Enter a valid phone number.");
