@@ -31,7 +31,7 @@ function callbackUrl(request: NextRequest, destination: string) {
 
 export async function GET(request: NextRequest) {
   try {
-    const auth = await authorize(request);
+    const auth = await authorize(request, true);
     if (!auth) return fail("Owner access and multi-factor verification are required.", 403);
     const kind = request.nextUrl.searchParams.get("kind");
     const admin = createSupabaseAdminClient();
