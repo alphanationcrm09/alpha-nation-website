@@ -69,7 +69,7 @@ export async function POST(request: NextRequest) {
     const action = typeof body?.action === "string" ? body.action : "";
     const email = typeof body?.email === "string" ? body.email.trim().toLowerCase().slice(0, 254) : "";
     const fullName = typeof body?.fullName === "string" ? body.fullName.trim().slice(0, 120) : "";
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || fullName.length < 2) return fail("Enter a valid name and email address.");
+    if ((action === "staff.invite" || action === "customer.invite") && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || fullName.length < 2)) return fail("Enter a valid name and email address.");
     const admin = createSupabaseAdminClient();
 
     if (action === "staff.invite") {
