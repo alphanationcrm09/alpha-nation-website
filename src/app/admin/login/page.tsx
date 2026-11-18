@@ -7,6 +7,7 @@ import { AlphaLogo } from "@/components/AlphaLogo";
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -40,7 +41,14 @@ export default function AdminLogin() {
     <p>Sign in with an account approved by the Alpha Nation owner.</p>
     <form onSubmit={login}>
       <label>Email address<input type="email" autoComplete="username" required value={email} onChange={(event) => setEmail(event.target.value)} /></label>
-      <label>Password<input type="password" autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} /></label>
+      <label>Password
+        <span style={{ display: "block", position: "relative" }}>
+          <input type={showPassword ? "text" : "password"} autoComplete="current-password" required value={password} onChange={(event) => setPassword(event.target.value)} style={{ paddingRight: "76px" }} />
+          <button type="button" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? "Hide password" : "Show password"} style={{ position: "absolute", right: "10px", top: "50%", transform: "translateY(-50%)", border: 0, background: "transparent", color: "inherit", cursor: "pointer", padding: "6px" }}>
+            {showPassword ? "Hide" : "Show"}
+          </button>
+        </span>
+      </label>
       <button className="button" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
       {message && <p role="status">{message}</p>}
     </form>
