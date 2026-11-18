@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/SiteShell";
 import Link from "next/link";
 
-export const metadata: Metadata = { title: "Licensed professional coordination" };
+export const metadata: Metadata = { title: "Licensed Insurance Professional Coordination", description: "Learn how Alpha Nation reviews your state and coverage request before coordinating with an appropriately licensed insurance professional." };
 
 export default function AgentsPage() {
   return <>
