@@ -4,23 +4,24 @@ import WelcomeIntro from "@/components/WelcomeIntro";
 import "./globals.css";
 import "./brand.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-nation-site.aalphanation.workers.dev";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-ins.aalphanation.workers.dev";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: "Alpha Nation | Insurance Information", template: "%s | Alpha Nation" },
-  description: "Explore insurance information and request a conversation about coverage options.",
+  title: { default: "Life Insurance Information & Coverage Guidance", template: "%s | Alpha Nation" },
+  description: "Explore life insurance, final expense, term life and whole life coverage information. Learn what to compare and request a conversation about options available in your state.",
   applicationName: "Alpha Nation",
   openGraph: {
     type: "website",
     siteName: "Alpha Nation",
-    title: "Alpha Nation | Insurance Information",
-    description: "Explore insurance information and request a conversation about coverage options.",
+    title: "Life Insurance Information & Coverage Guidance | Alpha Nation",
+    description: "Explore life insurance, final expense, term life and whole life coverage information. Learn what to compare and request a conversation about options available in your state.",
+    url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Alpha Nation | Insurance Information",
-    description: "Explore insurance information and request a conversation about coverage options.",
+    title: "Life Insurance Information & Coverage Guidance | Alpha Nation",
+    description: "Explore life insurance, final expense, term life and whole life coverage information. Learn what to compare and request a conversation about options available in your state.",
   },
 };
 
