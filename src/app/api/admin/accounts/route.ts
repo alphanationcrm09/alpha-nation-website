@@ -29,9 +29,7 @@ function generateTemporaryPassword() {
   return "AN!" + Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
 }
 function callbackUrl(request: NextRequest, destination: string) {
-  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL;
-  const requestOrigin = request.nextUrl.origin;
-  const origin = configuredOrigin ? new URL(configuredOrigin).origin : requestOrigin;
+  const origin = request.nextUrl.origin;
   const url = new URL("/auth/callback", origin);
   url.searchParams.set("next", destination);
   return url.toString();
@@ -77,7 +75,7 @@ export async function POST(request: NextRequest) {
     const action = typeof body?.action === "string" ? body.action : "";
     const email = typeof body?.email === "string" ? body.email.trim().toLowerCase().slice(0, 254) : "";
     const fullName = typeof body?.fullName === "string" ? body.fullName.trim().slice(0, 120) : "";
-    if ((action === "staff.invite" || action === "customer.invite") && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || fullName.length < 2)) return fail("Enter a valid name and email address.");
+    if ((action === "staff.invite" || action === "customer.invite" || action === "customer.create_temporary") && (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || fullName.length < 2)) return fail("Enter a valid name and email address.");
     const admin = createSupabaseAdminClient();
 
     if (action === "staff.invite") {
