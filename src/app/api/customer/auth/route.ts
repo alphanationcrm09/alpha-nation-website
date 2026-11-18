@@ -26,11 +26,21 @@ export async function POST(request: NextRequest) {
     if (body?.action === "password.request") {
       const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Enter a valid email address.");
+      const resetUrl = new URL("/set-password", request.nextUrl.origin);
+      resetUrl.searchParams.set("next", "/customer");
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: callbackUrl(request, "/set-password?next=%2Fcustomer"),
+        redirectTo: resetUrl.toString(),
       });
       if (error) return fail("The reset email could not be requested. Please try again later.", 400);
       return NextResponse.json({ ok: true, message: "If an account exists for this email, a password-reset link has been sent. Check your inbox and spam folder." }, { headers: { "Cache-Control": "no-store" } });
+    }
+    if (body?.action === "password.session") {
+      const accessToken = typeof body.access_token === "string" ? body.access_token : "";
+      const refreshToken = typeof body.refresh_token === "string" ? body.refresh_token : "";
+      if (!accessToken || !refreshToken) return fail("The password-reset link is missing its secure session. Request a new link.", 401);
+      const { data, error } = await supabase.auth.setSession({ access_token: accessToken, refresh_token: refreshToken });
+      if (error || !data.user) return fail("The password-reset link is invalid or expired. Request a new link.", 401);
+      return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
     }
     if (body?.action === "password.update") {
       const password = typeof body.password === "string" ? body.password : "";
