@@ -7,8 +7,7 @@ function fail(error: string, status = 400) {
   return NextResponse.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
 }
 function callbackUrl(request: NextRequest, destination: string) {
-  const configuredOrigin = process.env.NEXT_PUBLIC_SITE_URL;
-  const origin = configuredOrigin ? new URL(configuredOrigin).origin : request.nextUrl.origin;
+  const origin = request.nextUrl.origin;
   const url = new URL("/auth/callback", origin);
   url.searchParams.set("next", destination);
   return url.toString();
