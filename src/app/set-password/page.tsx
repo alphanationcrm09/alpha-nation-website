@@ -9,6 +9,28 @@ export default function SetPasswordPage() {
     const requested = new URLSearchParams(window.location.search).get("next") || "/customer";
     const candidate = new URL(requested, window.location.origin);
     setDestination(candidate.origin === window.location.origin ? candidate.pathname + candidate.search + candidate.hash : "/customer");
+    const hash = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+    const accessToken = hash.get("access_token");
+    const refreshToken = hash.get("refresh_token");
+    const authError = hash.get("error_description") || hash.get("error");
+    if (accessToken && refreshToken) {
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      setBusy(true);
+      setMessage("Verifying your secure password-reset link…");
+      fetch("/api/customer/auth", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "password.session", access_token: accessToken, refresh_token: refreshToken }),
+      }).then(async response => {
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error || "The reset link could not be verified.");
+        setMessage("Link verified. Choose your new password below.");
+      }).catch(error => {
+        setMessage(error instanceof Error ? error.message : "The reset link could not be verified. Request a new link.");
+      }).finally(() => setBusy(false));
+    } else if (authError) {
+      setMessage("The password-reset link could not be verified or has expired. Request a new link.");
+    }
   }, []);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
