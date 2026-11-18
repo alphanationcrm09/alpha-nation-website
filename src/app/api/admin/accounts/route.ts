@@ -50,7 +50,7 @@ export async function GET(request: NextRequest) {
     if (kind === "customers") {
       const [{ data: profiles, error }, { data: policies, error: policyError }] = await Promise.all([
         auth.supabase.from("customer_profiles").select("user_id,full_name,phone,created_at").order("created_at", { ascending: false }).limit(500),
-        auth.supabase.from("customer_policies").select("id,customer_id,policy_number,carrier_name,product_name,coverage_amount,policy_status,effective_date,beneficiary_name,beneficiary_relationship").order("created_at", { ascending: false }).limit(1000),
+        auth.supabase.from("customer_policies").select("id,customer_id,policy_number,carrier_name,product_name,insurance_category,coverage_amount,policy_status,effective_date,beneficiary_name,beneficiary_relationship").order("created_at", { ascending: false }).limit(1000),
       ]);
       if (error || policyError) return fail("Customer accounts could not be loaded.", 500);
       const { data: users } = await admin.auth.admin.listUsers({ page: 1, perPage: 1000 });
@@ -135,13 +135,15 @@ export async function POST(request: NextRequest) {
       const policyNumber = typeof body.policyNumber === "string" ? body.policyNumber.trim().slice(0, 80) : "";
       const carrier = typeof body.carrier === "string" ? body.carrier.trim().slice(0, 120) : "";
       const product = typeof body.product === "string" ? body.product.trim().slice(0, 120) : "";
+      const allowedCategories = ["Final Expense","Whole Life","Term Life","Universal Life","Homeowners Insurance","Renters Insurance","Auto Insurance","ACA Health Insurance","Medicare Advantage","Medicare Supplement","Medicare Part D","Other"];
+      const category = typeof body.category === "string" && allowedCategories.includes(body.category) ? body.category : "";
       const coverage = body.coverage === "" || body.coverage == null ? null : Number(body.coverage);
       const status = ["active","pending","lapsed","cancelled","paid_up"].includes(body.status) ? body.status : "active";
       const effectiveDate = typeof body.effectiveDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(body.effectiveDate) ? body.effectiveDate : null;
-      if (!/^[0-9a-f-]{36}$/i.test(customerId) || policyNumber.length < 2 || carrier.length < 2 || product.length < 2 || (coverage !== null && (!Number.isFinite(coverage) || coverage < 0))) return fail("Complete the policy number, customer, carrier and product. Coverage must be zero or greater.");
+      if (!/^[0-9a-f-]{36}$/i.test(customerId) || policyNumber.length < 2 || carrier.length < 2 || product.length < 2 || !category || (coverage !== null && (!Number.isFinite(coverage) || coverage < 0))) return fail("Complete the policy number, customer, carrier and product. Coverage must be zero or greater.");
       const { error } = await auth.supabase.from("customer_policies").insert({
         customer_id: customerId, policy_number: policyNumber, carrier_name: carrier, product_name: product,
-        coverage_amount: coverage, policy_status: status, effective_date: effectiveDate,
+        insurance_category: category, coverage_amount: coverage, policy_status: status, effective_date: effectiveDate,
         beneficiary_name: typeof body.beneficiaryName === "string" ? body.beneficiaryName.trim().slice(0,120) || null : null,
         beneficiary_relationship: typeof body.beneficiaryRelationship === "string" ? body.beneficiaryRelationship.trim().slice(0,80) || null : null,
       });
