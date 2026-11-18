@@ -105,6 +105,7 @@ export async function POST(request: NextRequest) {
       const temporaryPassword = generateTemporaryPassword();
       const { error } = await admin.auth.admin.updateUserById(userId, {
         password: temporaryPassword,
+        email_confirm: true,
         app_metadata: { ...customer.app_metadata, account_type: "customer", must_change_password: true },
       });
       if (error) return fail("A temporary password could not be generated. " + error.message, 400);
