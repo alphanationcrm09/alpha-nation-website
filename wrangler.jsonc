@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "alpha-nation-site",
+  "name": "alpha-ins",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-11-15",
   "compatibility_flags": [
@@ -20,19 +20,19 @@
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
-      "service": "alpha-nation-site"
+      "service": "alpha-ins"
     }
   ],
   "vars": {
     "NEXTJS_ENV": "production",
-    "NEXT_PUBLIC_SITE_URL": "https://alpha-nation-site.aalphanation.workers.dev",
+    "NEXT_PUBLIC_SITE_URL": "https://alpha-ins.aalphanation.workers.dev",
     "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
   },
   "previews": {
     "vars": {
       "NEXTJS_ENV": "production",
-      "NEXT_PUBLIC_SITE_URL": "https://alpha-nation-site.aalphanation.workers.dev",
+      "NEXT_PUBLIC_SITE_URL": "https://alpha-ins.aalphanation.workers.dev",
       "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
       "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
     }
