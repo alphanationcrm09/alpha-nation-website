@@ -1,13 +1,31 @@
 import type { MetadataRoute } from "next";
 
-const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-nation-site.aalphanation.workers.dev").replace(/\/$/, "");
+const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-ins.aalphanation.workers.dev").replace(/\/$/, "");
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["", "/quote", "/life-insurance", "/term-life", "/whole-life", "/final-expense", "/calculator", "/how-it-works", "/beneficiary-services", "/faq", "/contact", "/carriers", "/agents", "/pricing", "/privacy", "/terms"];
-  return paths.map((path) => ({
+  const pages = [
+    { path: "", priority: 1 },
+    { path: "/quote", priority: 0.9 },
+    { path: "/request-appointment", priority: 0.85 },
+    { path: "/life-insurance", priority: 0.8 },
+    { path: "/final-expense", priority: 0.8 },
+    { path: "/term-life", priority: 0.8 },
+    { path: "/whole-life", priority: 0.8 },
+    { path: "/calculator", priority: 0.7 },
+    { path: "/how-it-works", priority: 0.7 },
+    { path: "/beneficiary-services", priority: 0.65 },
+    { path: "/faq", priority: 0.7 },
+    { path: "/carriers", priority: 0.6 },
+    { path: "/agents", priority: 0.55 },
+    { path: "/pricing", priority: 0.65 },
+    { path: "/contact", priority: 0.6 },
+    { path: "/privacy", priority: 0.3 },
+    { path: "/terms", priority: 0.3 },
+  ];
+
+  return pages.map(({ path, priority }) => ({
     url: `${SITE_URL}${path}`,
-    lastModified: new Date(),
     changeFrequency: path === "" ? "weekly" : "monthly",
-    priority: path === "" ? 1 : path === "/quote" ? 0.9 : 0.7,
+    priority,
   }));
 }
