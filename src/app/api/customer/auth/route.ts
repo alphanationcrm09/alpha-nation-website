@@ -26,10 +26,8 @@ export async function POST(request: NextRequest) {
     if (body?.action === "password.request") {
       const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Enter a valid email address.");
-      const resetUrl = new URL("/set-password", request.nextUrl.origin);
-      resetUrl.searchParams.set("next", "/customer");
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: resetUrl.toString(),
+        redirectTo: callbackUrl(request, "/set-password?next=%2Fcustomer"),
       });
       if (error) return fail("The reset email could not be requested. Please try again later.", 400);
       return NextResponse.json({ ok: true, message: "If an account exists for this email, a password-reset link has been sent. Check your inbox and spam folder." }, { headers: { "Cache-Control": "no-store" } });
