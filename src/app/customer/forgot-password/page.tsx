@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlphaLogo } from "@/components/AlphaLogo";
 
@@ -7,6 +7,12 @@ export default function CustomerForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("error") === "invalid") {
+      setMessage("The previous reset link could not be verified or has expired. Enter your email below to request a fresh link.");
+    }
+  }, []);
 
   async function requestReset(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
