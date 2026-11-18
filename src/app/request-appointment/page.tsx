@@ -3,7 +3,7 @@ import { PageHero } from "@/components/SiteShell";
 import { BookingForm } from "@/components/BookingForm";
 
 export const metadata: Metadata = {
-  title: "Request an Appointment | Alpha Nation",
+  title: "Request an Appointment",
   description: "Request a conversation with Alpha Nation about life insurance and other coverage options. Our team will contact you to confirm a time.",
 };
 
