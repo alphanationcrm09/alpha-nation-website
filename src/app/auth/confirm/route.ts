@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
   const safeNext = candidate.origin === request.nextUrl.origin
     ? candidate.pathname + candidate.search + candidate.hash
     : "/set-password?next=%2Fcustomer";
-  const failurePath = requestedType === "invite" ? "/customer/login?error=invite" : "/customer/login?error=recovery";
+  const failurePath = requestedType === "invite" ? "/customer/login?error=invite" : "/customer/forgot-password?error=invalid";
 
   if (!tokenHash || !allowedTypes.includes(requestedType as EmailOtpType)) {
     return NextResponse.redirect(new URL(failurePath, request.url));
