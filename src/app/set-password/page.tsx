@@ -7,7 +7,8 @@ export default function SetPasswordPage() {
   const [destination, setDestination] = useState("/customer");
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("next") || "/customer";
-    setDestination(requested.startsWith("/") && !requested.startsWith("//") ? requested : "/customer");
+    const candidate = new URL(requested, window.location.origin);
+    setDestination(candidate.origin === window.location.origin ? candidate.pathname + candidate.search + candidate.hash : "/customer");
   }, []);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
