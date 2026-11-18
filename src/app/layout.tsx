@@ -4,10 +4,10 @@ import WelcomeIntro from "@/components/WelcomeIntro";
 import "./globals.css";
 import "./brand.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-nation-site.aalphanation.workers.dev";
 
 export const metadata: Metadata = {
-  ...(siteUrl ? { metadataBase: new URL(siteUrl) } : {}),
+  metadataBase: new URL(siteUrl),
   title: { default: "Alpha Nation | Insurance Information", template: "%s | Alpha Nation" },
   description: "Explore insurance information and request a conversation about coverage options.",
   applicationName: "Alpha Nation",
