@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
     const admin = createSupabaseAdminClient();
     if (kind === "staff") {
       const [{ data: roles, error }, { data: users, error: usersError }] = await Promise.all([
-        auth.supabase.from("staff_roles").select("user_id,role,active,created_at").order("created_at", { ascending: false }),
+        admin.from("staff_roles").select("user_id,role,active,created_at").order("created_at", { ascending: false }),
         admin.auth.admin.listUsers({ page: 1, perPage: 1000 }),
       ]);
       if (error || usersError) return fail("Staff accounts could not be loaded.", 500);
