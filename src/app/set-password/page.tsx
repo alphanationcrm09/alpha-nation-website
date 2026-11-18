@@ -1,13 +1,14 @@
 "use client";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { AlphaLogo } from "@/components/AlphaLogo";
 
 export default function SetPasswordPage() {
-  const search = useSearchParams();
-  const requested = search.get("next") || "/customer";
-  const destination = requested.startsWith("/") && !requested.startsWith("//") ? requested : "/customer";
+  const [destination, setDestination] = useState("/customer");
+  useEffect(() => {
+    const requested = new URLSearchParams(window.location.search).get("next") || "/customer";
+    setDestination(requested.startsWith("/") && !requested.startsWith("//") ? requested : "/customer");
+  }, []);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
