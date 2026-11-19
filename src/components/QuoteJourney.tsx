@@ -50,7 +50,7 @@ export default function QuoteJourney() {
     <form onSubmit={submit}>
       {step===1?<section className="quote-step">
         <p className="eyebrow">LET'S START WITH THE BASICS</p><h2>What kind of protection are you exploring?</h2><p className="quote-step-copy">Choose the option closest to what you have in mind. A licensed professional will confirm which products are available in your state.</p>
-        <label className="quote-field-label">Coverage type</label><div className="quote-product-grid">{products.map((item)=> <button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} onClick={()=>setProduct(item)}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}</div>
+        <label className="quote-field-label">Coverage type</label><div className="quote-product-grid">{products.map((item)=> <button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} aria-pressed={product===item} onClick={()=>setProduct(item)}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}</div>
         <div className="quote-form-grid">
           <label>Where do you live?<select required value={state} onChange={e=>setState(e.target.value)}><option value="">Select your state</option>{states.map(s=><option key={s}>{s}</option>)}</select></label>
           <label>What is your age range?<select required value={ageBand} onChange={e=>setAgeBand(e.target.value)}><option value="">Select age range</option>{ageBands.map(a=><option key={a}>{a}</option>)}</select></label>
