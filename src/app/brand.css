@@ -161,3 +161,18 @@ body{background:var(--an-paper);color:var(--an-ink);font-family:var(--an-body);f
  .an-hero-photo{min-height:300px}
  .an-trust-line{gap:8px}
 }
+
+
+/* Accessibility refinement: preserve the calm, premium palette while keeping
+   small text and navigation comfortably readable on light surfaces. */
+.alpha-wordmark{color:#193b35}
+.site-header nav>a:not(.button){color:#36564c}
+.an-trust-line{color:#465d52}
+.an-calc-kicker{color:#07594f}
+.an-calc-field small,.an-calc-input>span{color:#58665d}
+.an-small-note{color:#58665d!important}
+.directory-note{color:#58665d}
+.an-process-grid b{color:#895b2b}
+.footer-grid p,.footer-grid span,.footer-grid a:not(.logo-link){color:#4d5f55}
+.legal-note{color:#59685f}
+.alpha-intro-kicker{color:#895b2b}
