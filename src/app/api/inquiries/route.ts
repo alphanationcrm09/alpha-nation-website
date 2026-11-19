@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstile, sendOwnerNotification, isActiveServiceState,
+  validEmail, validPhone, verifyTurnstile, sendOwnerNotification, isActiveServiceState, createSubmissionFingerprint,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -42,10 +42,17 @@ export async function POST(request: NextRequest) {
 
   if (!await consumeRateLimit(request, "inquiry", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
+  const submission_fingerprint = createSubmissionFingerprint("inquiry", {
+    full_name, phone, email: email || "", state_code: state_code || "", zip_code: zip_code || "", inquiry_type, message: message || "",
+  });
   const { error } = await client.from("inquiries").insert({
     full_name, phone, email, state_code, zip_code, inquiry_type, message,
     source: "Website", contact_consent: true, status: "new",
+    submission_fingerprint,
   });
+  if (error?.code === "23505" && submission_fingerprint) {
+    return NextResponse.json({ ok: true, duplicate: true }, { headers: { "Cache-Control": "no-store" } });
+  }
   if (error) return NextResponse.json({ error: "We could not send your message. Please try again." }, { status: 500 });
   await sendOwnerNotification("inquiry", `New ${inquiry_type} inquiry received from ${state_code || "an unspecified state"}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
