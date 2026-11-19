@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, createHmac } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 import type { NextRequest } from "next/server";
 import { runtimeEnv } from "@/lib/runtime-env";
@@ -127,6 +127,14 @@ export function cleanText(value: unknown, max: number) {
 export function validPhone(value: string) {
   const digits = value.replace(/\D/g, "");
   return /^[0-9+() .-]{7,32}$/.test(value) && digits.length >= 7 && digits.length <= 15;
+}
+
+export function createSubmissionFingerprint(kind: SubmissionKind, values: Record<string, string>) {
+  const secret = runtimeEnv("SUPABASE_SECRET_KEY") || runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
+  if (!secret) return null;
+  const day = new Date().toISOString().slice(0, 10);
+  const canonical = JSON.stringify({ kind, day, values });
+  return createHmac("sha256", secret).update(canonical).digest("hex");
 }
 
 export async function isActiveServiceState(client: any, stateCode: string) {
