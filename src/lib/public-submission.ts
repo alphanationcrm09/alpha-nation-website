@@ -170,8 +170,14 @@ export async function sendOwnerNotification(kind: "appointment" | "inquiry", sum
   const apiKey = runtimeEnv("RESEND_API_KEY");
   const from = runtimeEnv("RESEND_FROM_EMAIL");
   const to = runtimeEnv("LEAD_NOTIFICATION_EMAIL") || "khanbahi202502@gmail.com";
-  const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-nation-website.workers.dev";
-  if (!apiKey || !from) return false;
+  const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-ins.aalphanation.workers.dev";
+  if (!apiKey || !from) {
+    console.warn("Owner email notification is not configured", {
+      apiKeyConfigured: Boolean(apiKey),
+      senderConfigured: Boolean(from),
+    });
+    return false;
+  }
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -184,8 +190,15 @@ export async function sendOwnerNotification(kind: "appointment" | "inquiry", sum
       cache: "no-store",
       signal: AbortSignal.timeout(6000),
     });
-    return response.ok;
-  } catch {
+    if (!response.ok) {
+      console.error("Owner email notification delivery failed", { status: response.status });
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Owner email notification request failed", {
+      name: error instanceof Error ? error.name : "UnknownError",
+    });
     return false;
   }
 }
