@@ -10,7 +10,7 @@ export default function PrivacyPage() {
       <p><b>Effective date:</b> November 15, 2026</p>
       <p>Alpha Nation ("we", "us" or "our") operates this website. For privacy questions or requests, contact <a href="mailto:aalphanation@gmail.com">aalphanation@gmail.com</a>.</p>
       <h2>Information we collect</h2>
-      <p>When you request an appointment or send an inquiry, we collect the information you choose to provide, which may include your name, telephone number, email address, city, state, ZIP code, the type of service you are asking about, your preferred appointment date and time, your time zone, and the contents of your message. We also record your contact-consent choice and basic technical information needed to operate and protect the website.</p>
+      <p>When you use a website form, we collect the information you choose to provide. Depending on the form, this may include your name, telephone number, email address, residential street address, city, state, ZIP code, the insurance or service type you are asking about, an age range, a coverage goal or requested coverage amount, beneficiary name and relationship, preferred appointment date and time, time zone, how you heard about us, and the contents of your message. We also record your contact-consent choice and limited technical information needed to operate the website and protect forms against abuse.</p>
       <p>Do not submit medical records, health conditions, Social Security numbers, payment-card information, bank details, or other sensitive personal information through these forms.</p>
       <h2>How we use information</h2>
       <ul>
