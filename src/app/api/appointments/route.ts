@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstileDetailed, sendOwnerNotification, isActiveServiceState,
+  validEmail, validPhone, verifyTurnstileDetailed, sendOwnerNotification, isActiveServiceState, createSubmissionFingerprint,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -82,14 +82,22 @@ export async function POST(request: NextRequest) {
 
   if (!await consumeRateLimit(request, "appointment", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
+  const submission_fingerprint = createSubmissionFingerprint("appointment", {
+    full_name, residential_address, beneficiary_name, beneficiary_relationship, coverage_amount: String(coverage_amount),
+    phone, email: email || "", state_code, zip_code, city, insurance_type, preferred_date, preferred_time, customer_timezone,
+  });
   const { error } = await client.from("appointments").insert({
     full_name, legal_first_name, legal_last_name, residential_address, beneficiary_name,
     beneficiary_relationship, coverage_amount, phone, email, state_code, zip_code, city, insurance_type,
     preferred_date, preferred_time, customer_timezone, source, contact_consent: true,
     marketing_consent: false, application_consent: false, status: "new",
+    submission_fingerprint,
   });
+  if (error?.code === "23505" && submission_fingerprint) {
+    return NextResponse.json({ ok: true, duplicate: true }, { headers: { "Cache-Control": "no-store" } });
+  }
   if (error) {
-    console.error("Appointment insert failed", { code: error.code, message: error.message, details: error.details, hint: error.hint });
+    console.error("Appointment insert failed", { code: error.code });
     return NextResponse.json({ error: "We could not submit your request. Please try again.", diagnosticCode: error.code || "UNKNOWN" }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
   await sendOwnerNotification("appointment", `New appointment request for ${insurance_type}, ${state_code}, preferred date ${preferred_date}.`);
