@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: { default: "Life Insurance Information & Coverage Guidance", template: "%s | Alpha Nation" },
   description: "Explore life insurance, final expense, term life and whole life coverage information. Learn what to compare and request a conversation about options available in your state.",
   applicationName: "Alpha Nation",
+  verification: {
+    google: "VlZ0cURpkvsp8T12i2gTBLsuKxnGw4vmjxhLCVZ0gdA",
+  },
   openGraph: {
     type: "website",
     siteName: "Alpha Nation",
