@@ -125,7 +125,18 @@ export function cleanText(value: unknown, max: number) {
 }
 
 export function validPhone(value: string) {
-  return /^[0-9+() .-]{7,32}$/.test(value);
+  const digits = value.replace(/\D/g, "");
+  return /^[0-9+() .-]{7,32}$/.test(value) && digits.length >= 7 && digits.length <= 15;
+}
+
+export async function isActiveServiceState(client: any, stateCode: string) {
+  const { data, error } = await client
+    .from("service_states")
+    .select("state_code")
+    .eq("state_code", stateCode)
+    .eq("status", "active")
+    .maybeSingle();
+  return !error && Boolean(data);
 }
 
 export function validEmail(value: string) {
