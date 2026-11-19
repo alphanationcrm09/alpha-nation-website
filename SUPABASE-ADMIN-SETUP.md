@@ -16,9 +16,10 @@ The publishable key is intended for browser use. Never put a Supabase secret/ser
 In SQL Editor for this website project, run these files in order:
 
 1. `supabase/secure_public_forms.sql`
-2. `supabase/require_admin_mfa.sql`
-3. `supabase/prevent_duplicate_agent_state_license_records.sql`
-4. `supabase/enforce_current_agent_license_before_activation.sql`
+2. `supabase/public_submission_idempotency.sql`
+3. `supabase/require_admin_mfa.sql`
+4. `supabase/prevent_duplicate_agent_state_license_records.sql`
+5. `supabase/enforce_current_agent_license_before_activation.sql`
 
 These restrict public form writes, add the server-only rate-limit store, require AAL2 for admin database access, and enforce current license records before agent activation.
 
