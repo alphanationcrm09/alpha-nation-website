@@ -6,7 +6,7 @@ const products=["Final Expense","Term Life Insurance","Whole Life Insurance","Mo
 const localDateValue=()=>{const now=new Date();now.setMinutes(now.getMinutes()-now.getTimezoneOffset());return now.toISOString().slice(0,10);};
 export function BookingForm(){
  const [states,setStates]=useState<StateOption[]>([]);const [state,setState]=useState("");const [date,setDate]=useState("");const [slot,setSlot]=useState("");const [source,setSource]=useState("Other");const [message,setMessage]=useState("");const [busy,setBusy]=useState(false);const [turnstileToken,setTurnstileToken]=useState("");
- useEffect(()=>{fetch("/api/states",{cache:"no-store"}).then(r=>r.json()).then(j=>setStates(j.rows||[])).catch(()=>setStates([]));},[]);
+ useEffect(()=>{fetch("/api/states",{cache:"no-store"}).then(async r=>{if(!r.ok)throw new Error("State list unavailable.");return r.json();}).then(j=>setStates(Array.isArray(j.rows)?j.rows:[])).catch(()=>{setStates([]);setMessage("State availability is temporarily unavailable. Please try again later.");});},[]);
  async function submit(event:React.FormEvent<HTMLFormElement>){
   event.preventDefault();const form=event.currentTarget;const fields=new FormData(form);
   if(!fields.get("consent"))return setMessage("Please provide appointment contact consent.");
@@ -42,7 +42,7 @@ export function BookingForm(){
   <div className="form-grid">
    <label className="form-grid-wide">Street address<input name="address" autoComplete="street-address" required maxLength={240} placeholder="House number and street"/></label>
    <label>City<input name="city" autoComplete="address-level2" required maxLength={100}/></label>
-   <label>State<select required value={state} onChange={e=>setState(e.target.value)}><option value="">Select state</option>{states.map(s=><option key={s.state_code} value={s.state_code}>{s.state_name}</option>)}</select></label>
+   <label>State<select required value={state} disabled={states.length===0} onChange={e=>setState(e.target.value)}><option value="">{states.length?"Select state":"States unavailable"}</option>{states.map(s=><option key={s.state_code} value={s.state_code}>{s.state_name}</option>)}</select></label>
    <label>ZIP code<input name="zip" inputMode="numeric" autoComplete="postal-code" required maxLength={10} pattern="[0-9]{5}(-[0-9]{4})?"/></label>
   </div>
   <h2>Coverage and beneficiary</h2>
@@ -58,7 +58,7 @@ export function BookingForm(){
   <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="faxNumber" type="text" tabIndex={-1} autoComplete="new-password" /></label></div>
   <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I agree that Alpha Nation may contact me by phone or email about this appointment. This is not consent to receive marketing messages or submit an insurance application.</label></div>
   <TurnstileChallenge action="appointment" theme="dark" onToken={setTurnstileToken} />
-  <p className="form-notice">We accept appointment requests from all 50 US states and Washington, DC. Requests are subject to state licensing, service eligibility, and agent availability. Your preferred date and time are not confirmed until our team contacts you. Do not enter medical or health details here.</p>
+  <p className="form-notice">Appointment requests are accepted only in states currently marked active. Requests are subject to licensing, service eligibility, and agent availability. Your preferred date and time are not confirmed until our team contacts you. Do not enter medical or health details here.</p>
   <button className="button" type="submit" disabled={busy}>{busy?"Submitting…":"Request appointment"}</button>
   {message&&<p role="status" className="form-notice">{message}</p>}
  </form>;
