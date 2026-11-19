@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TurnstileChallenge from "@/components/TurnstileChallenge";
 
-const codes = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+type StateOption = { state_code: string; state_name: string };
 const inquiryTypes = ["Final Expense","Life Insurance","Medicare","ACA Health Insurance","Auto Insurance","Home Insurance","Credit Repair","Debt Relief","General question"];
 
 export default function InquiryForm() {
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
+  const [states, setStates] = useState<StateOption[]>([]);
+
+  useEffect(() => {
+    fetch("/api/states", { cache: "no-store" })
+      .then(async (response) => {
+        if (!response.ok) throw new Error("State list unavailable.");
+        const result = await response.json();
+        setStates(Array.isArray(result.rows) ? result.rows : []);
+      })
+      .catch(() => setStates([]));
+  }, []);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -60,7 +71,7 @@ export default function InquiryForm() {
       <label>Full name<input name="name" required minLength={2} maxLength={120} autoComplete="name" /></label>
       <label>Phone number<input name="phone" required minLength={7} maxLength={32} pattern="[0-9+() .-]{7,32}" type="tel" autoComplete="tel" /></label>
       <label>Email (optional)<input name="email" type="email" maxLength={254} autoComplete="email" /></label>
-      <label>State<select name="state"><option value="">Select state</option>{codes.map((code) => <option key={code}>{code}</option>)}</select></label>
+      <label>State (optional)<select name="state"><option value="">Select state</option>{states.map((item) => <option key={item.state_code} value={item.state_code}>{item.state_name}</option>)}</select></label>
       <label>ZIP code (optional)<input name="zip" inputMode="numeric" maxLength={10} pattern="[0-9]{5}(-[0-9]{4})?" /></label>
       <label>What is your question about?<select name="type">{inquiryTypes.map((type) => <option key={type}>{type}</option>)}</select></label>
     </div>
