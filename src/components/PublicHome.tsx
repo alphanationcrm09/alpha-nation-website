@@ -25,8 +25,8 @@ export default function PublicHome() {
             <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
             <p className="an-hero-lead">Clear information, useful planning tools and personal guidance to help you explore life insurance options with confidence.</p>
             <div className="an-hero-actions">
-              <Link className="button" href="/request-appointment">Request an appointment <span aria-hidden="true">↗</span></Link>
-              <Link className="an-text-button" href="/quote">Explore coverage options</Link>
+              <Link className="button" href="/quote">Explore coverage options <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="/request-appointment">Request an appointment</Link>
             </div>
             <div className="an-trust-line"><span>People-first guidance</span><i /><span>Multiple carrier options</span><i /><span>Support at every stage</span></div>
           </div>

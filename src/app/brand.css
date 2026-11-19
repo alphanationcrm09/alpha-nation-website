@@ -176,3 +176,10 @@ body{background:var(--an-paper);color:var(--an-ink);font-family:var(--an-body);f
 .footer-grid p,.footer-grid span,.footer-grid a:not(.logo-link){color:#4d5f55}
 .legal-note{color:#59685f}
 .alpha-intro-kicker{color:#895b2b}
+
+
+/* Conversion and keyboard-accessibility refinements */
+.site-header .nav-cta{padding:11px 18px;font-size:12px;white-space:nowrap;flex-shrink:0}
+.site-header .nav-cta:hover{color:#fff}
+:where(a,button,input,select,textarea,summary,[tabindex]):focus-visible{outline:3px solid #0b7568;outline-offset:3px}
+@media(max-width:720px){.site-header .nav-cta{padding:10px 14px;font-size:11px}}

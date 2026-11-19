@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SiteChrome, SiteFooter } from "@/components/SiteChrome";
-import WelcomeIntro from "@/components/WelcomeIntro";
 import "./globals.css";
 import "./brand.css";
 
@@ -29,5 +28,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><WelcomeIntro /><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
+  return <html lang="en"><body><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
 }
