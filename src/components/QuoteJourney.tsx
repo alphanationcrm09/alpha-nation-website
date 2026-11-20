@@ -4,16 +4,29 @@ import { useEffect, useState } from "react";
 import TurnstileChallenge from "@/components/TurnstileChallenge";
 
 type StateOption = { state_code: string; state_name: string };
+type CoverageOption = { id: string; amount: number; label: string };
+const fallbackCoverageOptions: CoverageOption[] = [
+  { id: "default-5000", amount: 5000, label: "$5,000" },
+  { id: "default-10000", amount: 10000, label: "$10,000" },
+  { id: "default-15000", amount: 15000, label: "$15,000" },
+  { id: "default-20000", amount: 20000, label: "$20,000" },
+  { id: "default-25000", amount: 25000, label: "$25,000" },
+  { id: "default-30000", amount: 30000, label: "$30,000" },
+  { id: "default-40000", amount: 40000, label: "$40,000" },
+  { id: "default-50000", amount: 50000, label: "$50,000" },
+];
 const products = ["Life Insurance","Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Medicare","ACA Health Insurance"];
 const ageBands = ["Under 30","30–39","40–49","50–59","60–69","70–79","80 or older"];
-const coverageGoals = ["Under $25,000","$25,000–$49,999","$50,000–$99,999","$100,000–$249,999","$250,000–$499,999","$500,000 or more","Not sure yet"];
 
 export default function QuoteJourney() {
   const [step,setStep]=useState(1);
   const [product,setProduct]=useState("Life Insurance");
   const [state,setState]=useState("");
   const [ageBand,setAgeBand]=useState("");
-  const [coverage,setCoverage]=useState("Not sure yet");
+  const [coverage,setCoverage]=useState("unsure");
+  const [customCoverage,setCustomCoverage]=useState("");
+  const [coverageOptions,setCoverageOptions]=useState<CoverageOption[]>(fallbackCoverageOptions);
+  const requiresCoverageAmount = product !== "Medicare" && product !== "ACA Health Insurance";
   const [busy,setBusy]=useState(false);
   const [message,setMessage]=useState("");
   const [states,setStates]=useState<StateOption[]>([]);
@@ -28,7 +41,24 @@ export default function QuoteJourney() {
       })
       .catch(()=>setStates([]))
       .finally(()=>setStatesLoading(false));
+    fetch("/api/coverage-options",{cache:"no-store"})
+      .then(async response=>{
+        if(!response.ok) throw new Error("Coverage options unavailable.");
+        const result=await response.json();
+        if(Array.isArray(result.rows)) setCoverageOptions(result.rows);
+      })
+      .catch(()=>setCoverageOptions(fallbackCoverageOptions));
   },[]);
+
+  function selectedCoverageLabel() {
+    if (!requiresCoverageAmount) return "Not applicable";
+    if (coverage === "unsure") return "Not sure yet";
+    if (coverage === "custom") {
+      const value = Number(customCoverage);
+      return Number.isInteger(value) && value >= 2000 && value <= 1000000 ? "$" + value.toLocaleString("en-US") : "";
+    }
+    return coverageOptions.find(option => String(option.amount) === coverage)?.label || "";
+  }
 
   async function submit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -42,17 +72,19 @@ export default function QuoteJourney() {
     const phone=String(data.get("phone")||"").trim();
     const email=String(data.get("email")||"").trim();
     const zip=String(data.get("zip")||"").trim();
+    const coverageLabel=selectedCoverageLabel();
     if(name.length<2||phone.length<7||!state||!ageBand||!product) return setMessage("Complete the required details before continuing.");
+    if(requiresCoverageAmount&&!coverageLabel) return setMessage("Enter a valid coverage amount between $2,000 and $1,000,000.");
     setBusy(true);setMessage("Sending your request…");
     try {
       const response=await fetch("/api/inquiries",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({
         fullName:name,phone,email,stateCode:state,zipCode:zip,inquiryType:product==="Final Expense"?"Final Expense":product==="Medicare"?"Medicare":product==="ACA Health Insurance"?"ACA Health Insurance":"Life Insurance",
-        message:"Website quote request. Age range: "+ageBand+". Coverage goal: "+coverage+". Requested product: "+product+". Please contact me to discuss available options.",
+        message:"Website quote request. Age range: "+ageBand+". Coverage goal: "+coverageLabel+". Requested product: "+product+". Please contact me to discuss available options.",
         contactConsent:true,website:String(data.get("website")||""),turnstileToken:token
       })});
       const result=await response.json().catch(()=>({error:"We could not send your request."}));
       if(!response.ok){window.turnstile?.reset();setMessage(result.error||"We could not send your request. Please try again.");return;}
-      form.reset();setStep(1);setProduct("Life Insurance");setState("");setAgeBand("");setCoverage("Not sure yet");window.turnstile?.reset();
+      form.reset();setStep(1);setProduct("Life Insurance");setState("");setAgeBand("");setCoverage("unsure");setCustomCoverage("");window.turnstile?.reset();
       setMessage("Your request has been received. Alpha Nation will contact you to discuss options. This is not an insurance quote or an application.");
     } catch {window.turnstile?.reset();setMessage("The request could not be sent. Check your connection and try again.");}
     finally {setBusy(false);}
@@ -67,9 +99,10 @@ export default function QuoteJourney() {
         <div className="quote-form-grid">
           <label>Where do you live?<select required value={state} disabled={statesLoading||states.length===0} onChange={e=>setState(e.target.value)}><option value="">{statesLoading?"Loading states…":states.length?"Select your state":"State list unavailable"}</option>{states.map(item=><option key={item.state_code} value={item.state_code}>{item.state_name}</option>)}</select></label>
           <label>What is your age range?<select required value={ageBand} onChange={e=>setAgeBand(e.target.value)}><option value="">Select age range</option>{ageBands.map(a=><option key={a}>{a}</option>)}</select></label>
-          <label className="quote-wide">Do you have a coverage amount in mind?<select value={coverage} onChange={e=>setCoverage(e.target.value)}>{coverageGoals.map(c=><option key={c}>{c}</option>)}</select></label>
+          {requiresCoverageAmount&&<label className="quote-wide">What coverage amount are you considering?<select value={coverage} onChange={e=>setCoverage(e.target.value)}>{coverageOptions.map(option=><option key={option.id} value={String(option.amount)}>{option.label}</option>)}<option value="custom">Enter a custom amount</option><option value="unsure">Not sure yet</option></select></label>}
+          {requiresCoverageAmount&&coverage==="custom"&&<label className="quote-wide">Custom coverage amount (USD)<input type="number" min="2000" max="1000000" step="1" required value={customCoverage} onChange={e=>setCustomCoverage(e.target.value)} placeholder="For example, 7500"/></label>}
         </div>
-        <button type="button" className="button quote-next" onClick={()=>{if(!state||!ageBand){setMessage("Select your state and age range to continue.");return;}setMessage("");setStep(2);}}>Continue <span aria-hidden="true">→</span></button>
+        <button type="button" className="button quote-next" onClick={()=>{if(!state||!ageBand){setMessage("Select your state and age range to continue.");return;}if(requiresCoverageAmount&&coverage==="custom"&&!selectedCoverageLabel()){setMessage("Enter a valid coverage amount between $2,000 and $1,000,000.");return;}setMessage("");setStep(2);}}>Continue <span aria-hidden="true">→</span></button>
       </section>:<section className="quote-step">
         <p className="eyebrow">ONE LAST STEP</p><h2>Where should we reach you?</h2><p className="quote-step-copy">Share your contact details so our team can follow up about your request. Do not enter medical details or Social Security numbers here.</p>
         <div className="quote-form-grid">
