@@ -1,5 +1,5 @@
 import { createHash, createHmac } from "node:crypto";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { NextRequest } from "next/server";
 import { runtimeEnv } from "@/lib/runtime-env";
 
