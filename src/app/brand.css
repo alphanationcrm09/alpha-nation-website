@@ -349,3 +349,8 @@ body{background:var(--an-white);color:var(--an-ink)}
 .an-process-grid b{color:#182945}
 .alpha-intro-content .alpha-wordmark b{color:#e5c987}
 @media(max-width:850px){.nav-row{align-items:center;flex-direction:row;padding:0}}
+
+/* Keep all gold text off light surfaces; reserve gold text for navy panels. */
+.an-tool-index,.an-solution-card>span,.an-process-grid b,.process-page-grid article>b,.beneficiary-help-grid article>span,.product-check-list li span,.product-faq-list summary:after,.faq-page summary:after,.quote-progress>span,.an-calc-kicker{color:#182945}
+.an-calc-result .an-calc-kicker,.an-calc-result .an-calc-reset{color:#e5c987}
+.alpha-intro-overlay :where(a,button,[tabindex]):focus-visible,.an-intro-band :where(a,button,[tabindex]):focus-visible,.an-help-section :where(a,button,[tabindex]):focus-visible,.an-calc-result :where(a,button,[tabindex]):focus-visible,.product-cta :where(a,button,[tabindex]):focus-visible,.product-note :where(a,button,[tabindex]):focus-visible{outline-color:#e5c987}
