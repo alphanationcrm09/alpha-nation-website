@@ -29,6 +29,6 @@ export default function MobileQuoteBar() {
     return () => observer.disconnect();
   }, [pathname]);
 
-  if (!visible) return null;
+  if (!visible || pathname.startsWith("/customer") || pathname.startsWith("/set-password")) return null;
   return <Link className="mobile-quote-bar" href="/quote" aria-label="Get a free life insurance quote">Get a Free Quote</Link>;
 }
