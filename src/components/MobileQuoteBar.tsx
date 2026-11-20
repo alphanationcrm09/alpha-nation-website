@@ -9,6 +9,7 @@ export default function MobileQuoteBar() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    setVisible(false);
     const targets = Array.from(document.querySelectorAll<HTMLElement>(".quote-journey, .form-card"));
     if (!targets.length) {
       setVisible(true);
