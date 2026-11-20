@@ -17,7 +17,7 @@ export function getPrivilegedSubmissionClient() {
   const url = runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
   const serviceKey = runtimeEnv("SUPABASE_SECRET_KEY") || runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !serviceKey) return null;
-  return createClient<any>(url, serviceKey, {
+  return createClient(url, serviceKey, {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   });
 }
@@ -137,7 +137,7 @@ export function createSubmissionFingerprint(kind: SubmissionKind, values: Record
   return createHmac("sha256", secret).update(canonical).digest("hex");
 }
 
-export async function isActiveServiceState(client: any, stateCode: string) {
+export async function isActiveServiceState(client: SupabaseClient, stateCode: string) {
   const { data, error } = await client
     .from("service_states")
     .select("state_code")
@@ -151,7 +151,7 @@ export function validEmail(value: string) {
   return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
+export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: SupabaseClient) {
   const ipHash = getClientIpHash(request);
   if (!ipHash) return false;
 
