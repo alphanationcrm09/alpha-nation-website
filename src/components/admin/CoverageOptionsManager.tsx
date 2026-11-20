@@ -99,7 +99,7 @@ export default function CoverageOptionsManager() {
     <h2>Customer coverage amounts</h2>
     <p>These exact amounts appear on the customer Explore Options form. Changes are saved to the database and appear on the public form automatically. The form also keeps Custom amount and Not sure yet choices.</p>
     <form className="admin-inline-form" onSubmit={add}>
-      <label>Coverage amount (USD)<input required type="number" min="2000" max="1000000" step="1000" value={amount} onChange={event => setAmount(event.target.value)} placeholder="5000" /></label>
+      <label>Coverage amount (USD)<input required type="number" min="2000" max="1000000" step="1" value={amount} onChange={event => setAmount(event.target.value)} placeholder="5000" /></label>
       <label>Customer-facing label (optional)<input maxLength={80} value={label} onChange={event => setLabel(event.target.value)} placeholder="Auto: $5,000" /></label>
       <button className="button" disabled={busy}>Add amount</button>
     </form>
@@ -109,7 +109,7 @@ export default function CoverageOptionsManager() {
       <table className="admin-table">
         <thead><tr><th>Amount</th><th>Display label</th><th>Status</th><th>Order</th><th>Actions</th></tr></thead>
         <tbody>{rows.map((row, index) => <tr key={row.id}>
-          <td><input aria-label={"Amount for " + row.label} type="number" min="2000" max="1000000" step="1000" defaultValue={row.amount} onBlur={event => { const next = Number(event.target.value); if (next !== row.amount && Number.isInteger(next)) void update(row, { amount: next, label: "$" + next.toLocaleString("en-US") }); }} /></td>
+          <td><input aria-label={"Amount for " + row.label} type="number" min="2000" max="1000000" step="1" defaultValue={row.amount} onBlur={event => { const next = Number(event.target.value); if (next !== row.amount && Number.isInteger(next)) void update(row, { amount: next, label: "$" + next.toLocaleString("en-US") }); }} /></td>
           <td><input aria-label={"Label for " + row.label} maxLength={80} defaultValue={row.label} onBlur={event => { if (event.target.value.trim() && event.target.value.trim() !== row.label) void update(row, { label: event.target.value.trim() }); }} /></td>
           <td>{row.active ? "Active" : "Hidden"}</td>
           <td><button type="button" className="text-button" disabled={busy || index === 0} onClick={() => void move(index, -1)}>↑</button>{" "}<button type="button" className="text-button" disabled={busy || index === rows.length - 1} onClick={() => void move(index, 1)}>↓</button></td>
