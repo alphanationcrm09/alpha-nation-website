@@ -12,7 +12,17 @@ git checkout feat/alpha-nation-v2-deploy-ready
 git pull origin feat/alpha-nation-v2-deploy-ready
 ```
 
-## 2. Install and validate
+## 2. One-command PowerShell deployment
+
+After checking out and pulling the reviewed branch, run:
+
+```powershell
+.\\deploy-cloudflare.ps1
+```
+
+The script checks the branch and configured Worker name, installs locked dependencies, runs lint and the OpenNext Cloudflare build, checks Wrangler authentication, then requires you to type `DEPLOY alpha-ins` before it starts the production deployment. It has not been run in this session.
+
+## 3. Manual install and validation
 
 Use Node.js 22.16.0 or newer and npm 10.9.2 or newer.
 
@@ -26,7 +36,7 @@ npm run cf:build
 
 The Cloudflare build command runs the Next.js production build and OpenNext Cloudflare adapter build. Resolve any failing command before deployment.
 
-## 3. Deploy to the configured Cloudflare Worker
+## 4. Manual deploy to the configured Cloudflare Worker
 
 Only after reviewing the local build output and confirming the intended Cloudflare account:
 
@@ -35,7 +45,7 @@ npx wrangler whoami
 npm run deploy
 ```
 
-The configured Worker name is alpha-ins. The command deploys using the existing wrangler.jsonc and OpenNext configuration.
+The configured production Worker name in wrangler.jsonc is alpha-ins. The PR preview Worker named alpha-nation-site is separate. Do not change the production target based on the preview name. Confirm the account with Wrangler before deployment.
 
 ## Production checks after deployment
 
