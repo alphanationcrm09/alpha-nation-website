@@ -36,7 +36,6 @@ export async function POST(request: NextRequest) {
   const residential_address = cleanText(body.residentialAddress, 240);
   const beneficiary_name = cleanText(body.beneficiaryName, 120);
   const beneficiary_relationship = cleanText(body.beneficiaryRelationship, 60);
-  const coverage_amount = Number(body.coverageAmount);
   const phone = cleanText(body.phone, 32);
   const email = cleanText(body.email, 254) || null;
   const state_code = cleanText(body.stateCode, 2).toUpperCase();
@@ -49,10 +48,14 @@ export async function POST(request: NextRequest) {
   const customer_timezone = cleanText(body.timeZone, 80);
 
   const validProducts = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"]);
+  const productsRequiringCoverage = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection"]);
+  const requiresCoverage = productsRequiringCoverage.has(insurance_type);
+  const coverage_amount = requiresCoverage ? Number(body.coverageAmount) : null;
+  const validCoverage = !requiresCoverage || (Number.isInteger(coverage_amount) && coverage_amount !== null && coverage_amount >= 2000 && coverage_amount <= 50000);
   const stateIsActive = await isActiveServiceState(client, state_code);
   if (legal_first_name.length < 1 || legal_last_name.length < 1 || full_name.length < 3
     || residential_address.length < 5 || beneficiary_name.length < 2 || beneficiary_relationship.length < 2
-    || !Number.isInteger(coverage_amount) || coverage_amount < 2000 || coverage_amount > 50000
+    || !validCoverage
     || !validPhone(phone) || (email && !validEmail(email))
     || !stateIsActive || !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code)
     || city.length < 2 || !validProducts.has(insurance_type)
@@ -83,7 +86,7 @@ export async function POST(request: NextRequest) {
   if (!await consumeRateLimit(request, "appointment", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
   const submission_fingerprint = createSubmissionFingerprint("appointment", {
-    full_name, residential_address, beneficiary_name, beneficiary_relationship, coverage_amount: String(coverage_amount),
+    full_name, residential_address, beneficiary_name, beneficiary_relationship, coverage_amount: coverage_amount === null ? "" : String(coverage_amount),
     phone, email: email || "", state_code, zip_code, city, insurance_type, preferred_date, preferred_time, customer_timezone,
   });
   const { error } = await client.from("appointments").insert({
