@@ -18,11 +18,11 @@ export default function MobileQuoteBar() {
     const inView = new Set<Element>();
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.12) inView.add(entry.target);
+        if (entry.isIntersecting && entry.intersectionRatio > 0) inView.add(entry.target);
         else inView.delete(entry.target);
       }
       setVisible(inView.size === 0);
-    }, { threshold: [0, 0.12, 0.35] });
+    }, { threshold: 0 });
 
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
