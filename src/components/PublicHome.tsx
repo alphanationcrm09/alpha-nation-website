@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PublicCarriers from "@/components/PublicCarriers";
+import QuoteJourney from "@/components/QuoteJourney";
 import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
 const solutions = [
@@ -25,15 +26,12 @@ export default function PublicHome() {
             <h1>Protect what matters.<br /><em>Plan for what’s next.</em></h1>
             <p className="an-hero-lead">Clear information, useful planning tools and personal guidance to help you explore life insurance options with confidence.</p>
             <div className="an-hero-actions">
-              <Link className="button" href="/quote">Explore coverage options <span aria-hidden="true">↗</span></Link>
-              <Link className="an-text-button" href="/request-appointment">Request an appointment</Link>
+              <Link className="button" href="/quote">Get My Free Quote <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="/request-appointment">Book a Call</Link>
             </div>
-            <div className="an-trust-line"><span>People-first guidance</span><i /><span>Multiple carrier options</span><i /><span>Support at every stage</span></div>
+            <div className="an-trust-line"><span>People-first guidance</span><i /><span>State-specific availability</span><i /><span>No obligation to apply</span></div>
           </div>
-          <div className="an-hero-visual">
-            <div className="an-hero-photo" role="img" aria-label="A multigenerational family spending time together" />
-            <div className="an-hero-caption"><span className="an-caption-monogram">AN</span><span><b>For every generation</b><small>Guidance built around real life</small></span></div>
-          </div>
+          <div className="an-hero-visual an-hero-quote-visual"><QuoteJourney /></div>
         </div>
       </section>
 
@@ -123,7 +121,7 @@ export default function PublicHome() {
       <section className="section an-faq-teaser"><div className="wrap an-faq-teaser-inner"><div><p className="eyebrow">QUESTIONS BEFORE YOU START?</p><h2>Understand the details that matter.</h2><p>Get clear answers about coverage, underwriting, beneficiaries and what happens after you apply.</p></div><Link className="button" href="/faq">Browse insurance FAQs ↗</Link></div></section>
 
       <section className="an-help-section" id="help">
-        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/request-appointment">Request an appointment</Link></div></div>
+        <div className="wrap an-help-inner"><div><p className="eyebrow">HERE WHEN YOU NEED US</p><h2>Have a question? Start a conversation.</h2><p>For coverage questions, beneficiary support or help finding the right next step, contact Alpha Nation.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/contact">Contact our team</Link><Link className="an-text-button" href="/request-appointment">Book a Call</Link></div></div>
       </section>
     </>
   );
