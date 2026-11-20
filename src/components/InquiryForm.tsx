@@ -77,7 +77,7 @@ export default function InquiryForm() {
     </div>
     <label className="message-label">Message<textarea name="message" rows={4} maxLength={3000} placeholder="How can our team help?" /></label>
     <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
-    <div className="consent-panel"><label className="consent-check"><input type="checkbox" name="consent" required /> I agree that Alpha Nation may contact me about this inquiry. This is not marketing or insurance application consent.</label></div>
+    <div className="consent-panel"><label className="consent-check"><input type="checkbox" name="consent" required /> I ask Alpha Nation to contact me by phone or email about this specific inquiry using the details I provided. This is not consent to unrelated marketing or automated marketing calls or text messages.</label></div>
     <TurnstileChallenge action="inquiry" theme="dark" />
     <button className="button" disabled={busy}>{busy ? "Sending…" : "Send inquiry"}</button>
     {message && <p role="status">{message}</p>}
