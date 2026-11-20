@@ -1,5 +1,17 @@
 # Alpha Nation Website — Security and Launch Audit
 
+## Latest verification addendum — 21 November 2026
+
+The current review branch is `feat/alpha-nation-v2-deploy-ready`.
+
+- GitHub Actions completed successfully at commit `63f1b7a26df930e0134dadac5ffa642baf5b236f`.
+- The workflow completed dependency installation, ESLint, the Next.js production build and the OpenNext Cloudflare build (`npm run cf:build`).
+- This verifies the source build pipeline. It does not replace local Windows/PowerShell verification, browser testing or production acceptance tests.
+- The Cloudflare PR preview build for commit `63f1b7a` was still reported as in progress at the time of this update. No production Worker deployment was performed.
+- The repository's existing `wrangler.jsonc` production Worker name remains `alpha-ins`. The PR preview Worker named `alpha-nation-site` is separate. Confirm the intended Cloudflare account with `npx wrangler whoami` before deployment.
+
+The legal/compliance and account-configuration checks below remain separate from source-code build validation.
+
 Audit date: 15 November 2026  
 Scope: source package and the separate Supabase project `Alpha Nation Website` (`fyndiedplgyiowqvkfsk`). The existing Alpha Nation CRM was not accessed or modified.
 
