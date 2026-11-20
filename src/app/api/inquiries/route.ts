@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
-  cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
+  cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured, readJsonObject,
   validEmail, validPhone, verifyTurnstile, sendOwnerNotification, isActiveServiceState, createSubmissionFingerprint,
 } from "@/lib/public-submission";
 
@@ -8,13 +8,11 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-  if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")
-    || Number(request.headers.get("content-length") || 0) > 12000) {
+  if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")) {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
-  let body: Record<string, unknown>;
-  try { body = await request.json(); } catch { return NextResponse.json({ error: "Invalid request." }, { status: 400 }); }
-  if (!body || typeof body !== "object" || Array.isArray(body)) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
+  const body = await readJsonObject(request, 12000);
+  if (!body) return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   if (!isPublicSubmissionConfigured()) return NextResponse.json({ error: "Online requests are temporarily unavailable." }, { status: 503 });
   const client = getPrivilegedSubmissionClient();
   if (!client) return NextResponse.json({ error: "Online requests are temporarily unavailable." }, { status: 503 });
