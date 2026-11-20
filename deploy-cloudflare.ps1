@@ -43,7 +43,7 @@ Write-Host "This is the production deployment step." -ForegroundColor Yellow
 $Confirmation = Read-Host "Type DEPLOY $ExpectedWorker to continue"
 if ($Confirmation -cne "DEPLOY $ExpectedWorker") {
     Write-Host "Deployment cancelled. No production deployment was started." -ForegroundColor Yellow
-    exit 0
+    return
 }
 
 npm run deploy
