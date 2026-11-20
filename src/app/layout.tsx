@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteChrome, SiteFooter } from "@/components/SiteChrome";
 import "./globals.css";
 import "./brand.css";
+import WelcomeIntro from "@/components/WelcomeIntro";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-ins.aalphanation.workers.dev";
 
@@ -28,5 +29,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
+  return <html lang="en"><body><WelcomeIntro /><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
 }
