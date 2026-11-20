@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function MobileQuoteBar() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export default function MobileQuoteBar() {
 
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   if (!visible) return null;
   return <Link className="mobile-quote-bar" href="/quote" aria-label="Get a free life insurance quote">Get a Free Quote</Link>;
