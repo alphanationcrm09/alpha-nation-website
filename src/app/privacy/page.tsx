@@ -20,7 +20,7 @@ export default function PrivacyPage() {
         <li>To protect the forms and website against spam, fraud, misuse, and security incidents.</li>
         <li>To maintain business records and meet legal obligations.</li>
       </ul>
-      <p>Submitting a request is not consent to unrelated marketing. We do not treat the appointment contact checkbox as consent to automated marketing calls or text messages.</p>
+      <p>The contact checkbox asks Alpha Nation to contact you by phone or email about the specific inquiry or appointment you submitted. It is not consent to unrelated marketing, automated marketing calls or text messages, or an insurance application. Any additional consent required by applicable law must be obtained separately.</p>
       <h2>Service providers and sharing</h2>
       <p>We use service providers to operate the website and process requests, including Cloudflare for website hosting and bot protection and Supabase for database and authentication services. These providers process information as needed to provide their services. If you choose to continue after speaking with Alpha Nation, we may share the information needed with the licensed professional or agency handling your request. We will provide any additional notice or obtain any consent required by applicable law before making that referral. We do not currently use advertising pixels or cross-context behavioural advertising. We may also disclose information where required by law or needed to protect rights and security.</p>
       <h2>Cookies and similar technologies</h2>
@@ -33,7 +33,6 @@ export default function PrivacyPage() {
       <p>This website is intended for adults seeking information about insurance and related services. Do not submit information about a child through these forms.</p>
       <h2>Changes and contact</h2>
       <p>We may update this notice when our practices or legal requirements change. The current version will be posted on this page. Contact <a href="mailto:aalphanation@gmail.com">aalphanation@gmail.com</a> with privacy questions.</p>
-      <p className="form-notice">Before production launch, the website operator should confirm the legal business name, mailing address, service-provider terms, retention schedule, and applicable state privacy/insurance/telemarketing disclosures with qualified counsel.</p>
     </div></section>
   </>;
 }
