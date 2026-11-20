@@ -45,7 +45,7 @@ export default function QuoteJourney() {
       .then(async response=>{
         if(!response.ok) throw new Error("Coverage options unavailable.");
         const result=await response.json();
-        if(Array.isArray(result.rows)&&result.rows.length) setCoverageOptions(result.rows);
+        if(Array.isArray(result.rows)) setCoverageOptions(result.rows);
       })
       .catch(()=>setCoverageOptions(fallbackCoverageOptions));
   },[]);
