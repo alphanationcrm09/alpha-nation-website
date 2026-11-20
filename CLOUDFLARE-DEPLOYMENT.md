@@ -85,7 +85,7 @@ npm run deploy
 
 **Workers Builds deploy command:** `npx opennextjs-cloudflare deploy`.
 
-The Worker name is `alpha-nation-site`. Check the deployed Worker logs and test the generated `workers.dev` hostname. Preserve configured environment values when deploying from Wrangler; do not overwrite secrets.
+The Worker name is `alpha-ins`, matching `name` in `wrangler.jsonc`. Do not deploy this project to `alpha-nation-site`; that is a different Worker. Check the `alpha-ins` Worker logs and test `https://alpha-ins.aalphanation.workers.dev`. Preserve configured environment values when deploying from Wrangler; do not overwrite secrets.
 
 ## 6. Post-deploy acceptance tests
 
