@@ -1,5 +1,5 @@
-import { createHash } from "node:crypto";
-import { createClient } from "@supabase/supabase-js";
+import { createHash, createHmac } from "node:crypto";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { NextRequest } from "next/server";
 import { runtimeEnv } from "@/lib/runtime-env";
 
@@ -17,7 +17,7 @@ export function getPrivilegedSubmissionClient() {
   const url = runtimeEnv("NEXT_PUBLIC_SUPABASE_URL");
   const serviceKey = runtimeEnv("SUPABASE_SECRET_KEY") || runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !serviceKey) return null;
-  return createClient<any>(url, serviceKey, {
+  return createClient(url, serviceKey, {
     auth: { autoRefreshToken: false, persistSession: false, detectSessionInUrl: false },
   });
 }
@@ -125,14 +125,33 @@ export function cleanText(value: unknown, max: number) {
 }
 
 export function validPhone(value: string) {
-  return /^[0-9+() .-]{7,32}$/.test(value);
+  const digits = value.replace(/\D/g, "");
+  return /^[0-9+() .-]{7,32}$/.test(value) && digits.length >= 7 && digits.length <= 15;
+}
+
+export function createSubmissionFingerprint(kind: SubmissionKind, values: Record<string, string>) {
+  const secret = runtimeEnv("SUPABASE_SECRET_KEY") || runtimeEnv("SUPABASE_SERVICE_ROLE_KEY");
+  if (!secret) return null;
+  const day = new Date().toISOString().slice(0, 10);
+  const canonical = JSON.stringify({ kind, day, values });
+  return createHmac("sha256", secret).update(canonical).digest("hex");
+}
+
+export async function isActiveServiceState(client: SupabaseClient, stateCode: string) {
+  const { data, error } = await client
+    .from("service_states")
+    .select("state_code")
+    .eq("state_code", stateCode)
+    .eq("status", "active")
+    .maybeSingle();
+  return !error && Boolean(data);
 }
 
 export function validEmail(value: string) {
   return value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
-export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: any) {
+export async function consumeRateLimit(request: NextRequest, kind: SubmissionKind, client: SupabaseClient) {
   const ipHash = getClientIpHash(request);
   if (!ipHash) return false;
 
@@ -151,8 +170,14 @@ export async function sendOwnerNotification(kind: "appointment" | "inquiry", sum
   const apiKey = runtimeEnv("RESEND_API_KEY");
   const from = runtimeEnv("RESEND_FROM_EMAIL");
   const to = runtimeEnv("LEAD_NOTIFICATION_EMAIL") || "khanbahi202502@gmail.com";
-  const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-nation-website.workers.dev";
-  if (!apiKey || !from) return false;
+  const site = runtimeEnv("NEXT_PUBLIC_SITE_URL") || "https://alpha-ins.aalphanation.workers.dev";
+  if (!apiKey || !from) {
+    console.warn("Owner email notification is not configured", {
+      apiKeyConfigured: Boolean(apiKey),
+      senderConfigured: Boolean(from),
+    });
+    return false;
+  }
   try {
     const response = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -165,8 +190,15 @@ export async function sendOwnerNotification(kind: "appointment" | "inquiry", sum
       cache: "no-store",
       signal: AbortSignal.timeout(6000),
     });
-    return response.ok;
-  } catch {
+    if (!response.ok) {
+      console.error("Owner email notification delivery failed", { status: response.status });
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error("Owner email notification request failed", {
+      name: error instanceof Error ? error.name : "UnknownError",
+    });
     return false;
   }
 }

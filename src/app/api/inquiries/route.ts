@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstile, sendOwnerNotification,
+  validEmail, validPhone, verifyTurnstile, sendOwnerNotification, isActiveServiceState, createSubmissionFingerprint,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -31,10 +31,10 @@ export async function POST(request: NextRequest) {
   const inquiry_type = cleanText(body.inquiryType, 80);
   const message = cleanText(body.message, 3000) || null;
 
-  const validStates = new Set(["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]);
   const validTypes = new Set(["Final Expense","Life Insurance","Medicare","ACA Health Insurance","Auto Insurance","Home Insurance","Credit Repair","Debt Relief","General question"]);
+  const stateIsActive = !state_code || await isActiveServiceState(client, state_code);
   if (full_name.length < 2 || !validPhone(phone) || (email && !validEmail(email))
-    || (state_code && !validStates.has(state_code))
+    || !stateIsActive
     || (zip_code && !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code))
     || !validTypes.has(inquiry_type)) {
     return NextResponse.json({ error: "Please check the form fields and try again." }, { status: 400 });
@@ -42,10 +42,17 @@ export async function POST(request: NextRequest) {
 
   if (!await consumeRateLimit(request, "inquiry", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
+  const submission_fingerprint = createSubmissionFingerprint("inquiry", {
+    full_name, phone, email: email || "", state_code: state_code || "", zip_code: zip_code || "", inquiry_type, message: message || "",
+  });
   const { error } = await client.from("inquiries").insert({
     full_name, phone, email, state_code, zip_code, inquiry_type, message,
     source: "Website", contact_consent: true, status: "new",
+    submission_fingerprint,
   });
+  if (error?.code === "23505" && submission_fingerprint) {
+    return NextResponse.json({ ok: true, duplicate: true }, { headers: { "Cache-Control": "no-store" } });
+  }
   if (error) return NextResponse.json({ error: "We could not send your message. Please try again." }, { status: 500 });
   await sendOwnerNotification("inquiry", `New ${inquiry_type} inquiry received from ${state_code || "an unspecified state"}.`);
   return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });

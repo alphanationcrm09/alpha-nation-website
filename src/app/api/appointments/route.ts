@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   cleanText, consumeRateLimit, getPrivilegedSubmissionClient, isPublicSubmissionConfigured,
-  validEmail, validPhone, verifyTurnstileDetailed, sendOwnerNotification,
+  validEmail, validPhone, verifyTurnstileDetailed, sendOwnerNotification, isActiveServiceState, createSubmissionFingerprint,
 } from "@/lib/public-submission";
 
 export const runtime = "nodejs";
@@ -48,13 +48,13 @@ export async function POST(request: NextRequest) {
   const source = cleanText(body.source, 40) || "Website";
   const customer_timezone = cleanText(body.timeZone, 80);
 
-  const validStates = new Set(["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"]);
   const validProducts = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"]);
+  const stateIsActive = await isActiveServiceState(client, state_code);
   if (legal_first_name.length < 1 || legal_last_name.length < 1 || full_name.length < 3
     || residential_address.length < 5 || beneficiary_name.length < 2 || beneficiary_relationship.length < 2
     || !Number.isInteger(coverage_amount) || coverage_amount < 2000 || coverage_amount > 50000
     || !validPhone(phone) || (email && !validEmail(email))
-    || !validStates.has(state_code) || !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code)
+    || !stateIsActive || !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code)
     || city.length < 2 || !validProducts.has(insurance_type)
     || !/^\d{4}-\d{2}-\d{2}$/.test(preferred_date)
     || !/^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/.test(preferred_time)
@@ -82,14 +82,22 @@ export async function POST(request: NextRequest) {
 
   if (!await consumeRateLimit(request, "appointment", client)) return NextResponse.json({ error: "Too many requests. Please try again later." }, { status: 429 });
 
+  const submission_fingerprint = createSubmissionFingerprint("appointment", {
+    full_name, residential_address, beneficiary_name, beneficiary_relationship, coverage_amount: String(coverage_amount),
+    phone, email: email || "", state_code, zip_code, city, insurance_type, preferred_date, preferred_time, customer_timezone,
+  });
   const { error } = await client.from("appointments").insert({
     full_name, legal_first_name, legal_last_name, residential_address, beneficiary_name,
     beneficiary_relationship, coverage_amount, phone, email, state_code, zip_code, city, insurance_type,
     preferred_date, preferred_time, customer_timezone, source, contact_consent: true,
     marketing_consent: false, application_consent: false, status: "new",
+    submission_fingerprint,
   });
+  if (error?.code === "23505" && submission_fingerprint) {
+    return NextResponse.json({ ok: true, duplicate: true }, { headers: { "Cache-Control": "no-store" } });
+  }
   if (error) {
-    console.error("Appointment insert failed", { code: error.code, message: error.message, details: error.details, hint: error.hint });
+    console.error("Appointment insert failed", { code: error.code });
     return NextResponse.json({ error: "We could not submit your request. Please try again.", diagnosticCode: error.code || "UNKNOWN" }, { status: 500, headers: { "Cache-Control": "no-store" } });
   }
   await sendOwnerNotification("appointment", `New appointment request for ${insurance_type}, ${state_code}, preferred date ${preferred_date}.`);

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TurnstileChallenge from "@/components/TurnstileChallenge";
 
-const states = ["AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"];
+type StateOption = { state_code: string; state_name: string };
 const products = ["Life Insurance","Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Medicare","ACA Health Insurance"];
 const ageBands = ["Under 30","30–39","40–49","50–59","60–69","70–79","80 or older"];
 const coverageGoals = ["Under $25,000","$25,000–$49,999","$50,000–$99,999","$100,000–$249,999","$250,000–$499,999","$500,000 or more","Not sure yet"];
@@ -16,6 +16,19 @@ export default function QuoteJourney() {
   const [coverage,setCoverage]=useState("Not sure yet");
   const [busy,setBusy]=useState(false);
   const [message,setMessage]=useState("");
+  const [states,setStates]=useState<StateOption[]>([]);
+  const [statesLoading,setStatesLoading]=useState(true);
+
+  useEffect(()=>{
+    fetch("/api/states",{cache:"no-store"})
+      .then(async response=>{
+        if(!response.ok) throw new Error("State list unavailable.");
+        const result=await response.json();
+        setStates(Array.isArray(result.rows)?result.rows:[]);
+      })
+      .catch(()=>setStates([]))
+      .finally(()=>setStatesLoading(false));
+  },[]);
 
   async function submit(event:React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -52,7 +65,7 @@ export default function QuoteJourney() {
         <p className="eyebrow">LET'S START WITH THE BASICS</p><h2>What kind of protection are you exploring?</h2><p className="quote-step-copy">Choose the option closest to what you have in mind. A licensed professional will confirm which products are available in your state.</p>
         <label className="quote-field-label">Coverage type</label><div className="quote-product-grid">{products.map((item)=> <button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} aria-pressed={product===item} onClick={()=>setProduct(item)}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}</div>
         <div className="quote-form-grid">
-          <label>Where do you live?<select required value={state} onChange={e=>setState(e.target.value)}><option value="">Select your state</option>{states.map(s=><option key={s}>{s}</option>)}</select></label>
+          <label>Where do you live?<select required value={state} disabled={statesLoading||states.length===0} onChange={e=>setState(e.target.value)}><option value="">{statesLoading?"Loading states…":states.length?"Select your state":"State list unavailable"}</option>{states.map(item=><option key={item.state_code} value={item.state_code}>{item.state_name}</option>)}</select></label>
           <label>What is your age range?<select required value={ageBand} onChange={e=>setAgeBand(e.target.value)}><option value="">Select age range</option>{ageBands.map(a=><option key={a}>{a}</option>)}</select></label>
           <label className="quote-wide">Do you have a coverage amount in mind?<select value={coverage} onChange={e=>setCoverage(e.target.value)}>{coverageGoals.map(c=><option key={c}>{c}</option>)}</select></label>
         </div>

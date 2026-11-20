@@ -19,5 +19,7 @@ jobs:
           node-version: "22.16.0"
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Run ESLint
+        run: npm run lint
       - name: Run production build
         run: npm run cf:build

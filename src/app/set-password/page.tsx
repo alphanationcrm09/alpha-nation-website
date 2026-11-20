@@ -5,6 +5,11 @@ import { AlphaLogo } from "@/components/AlphaLogo";
 
 export default function SetPasswordPage() {
   const [destination, setDestination] = useState("/customer");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+
   useEffect(() => {
     const requested = new URLSearchParams(window.location.search).get("next") || "/customer";
     const candidate = new URL(requested, window.location.origin);
@@ -32,10 +37,6 @@ export default function SetPasswordPage() {
       setMessage("The password-reset link could not be verified or has expired. Request a new link.");
     }
   }, []);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
 
   async function save(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
