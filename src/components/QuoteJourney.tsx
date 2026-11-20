@@ -111,7 +111,7 @@ export default function QuoteJourney() {
           <label>Email address <span>(optional)</span><input name="email" type="email" maxLength={254} autoComplete="email" placeholder="you@example.com"/></label>
           <label>ZIP code <span>(optional)</span><input name="zip" inputMode="numeric" maxLength={10} pattern="[0-9]{5}(-[0-9]{4})?" placeholder="ZIP code"/></label>
         </div>
-        <div className="quote-consent"><label><input type="checkbox" name="consent" required/> I agree Alpha Nation may contact me about this specific request. This is not consent to unrelated marketing or automated marketing calls or texts.</label></div>
+        <div className="quote-consent"><label><input type="checkbox" name="consent" required/> I ask Alpha Nation to contact me by phone or email about this specific request using the details I provided. I understand this is not consent to unrelated marketing or automated marketing calls or text messages.</label></div>
         <div className="form-honeypot" aria-hidden="true"><label>Leave empty<input name="website" tabIndex={-1} autoComplete="off"/></label></div>
         <TurnstileChallenge action="inquiry" theme="light" />
         <div className="quote-actions"><button type="button" className="an-text-button" onClick={()=>{setStep(1);setMessage("");}}>← Back</button><button className="button" disabled={busy}>{busy?"Sending…":"Send my request"}</button></div>
