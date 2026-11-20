@@ -17,7 +17,7 @@ git pull origin feat/alpha-nation-v2-deploy-ready
 After checking out and pulling the reviewed branch, run:
 
 ```powershell
-.\\deploy-cloudflare.ps1
+.\deploy-cloudflare.ps1
 ```
 
 The script checks the branch and configured Worker name, installs locked dependencies, runs lint and the OpenNext Cloudflare build, checks Wrangler authentication, then requires you to type `DEPLOY alpha-ins` before it starts the production deployment. It has not been run in this session.
