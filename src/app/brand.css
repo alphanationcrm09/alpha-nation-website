@@ -340,3 +340,12 @@ body{background:var(--an-white);color:var(--an-ink)}
 @media(max-width:1100px){.desktop-nav{display:none}.mobile-menu{display:block}.site-header .nav-book-cta{display:none}.nav-actions{gap:9px}}
 @media(max-width:720px){.wrap{width:calc(100% - 34px)}.nav-row{min-height:68px;gap:9px}.alpha-brand{font-size:14px;gap:6px}.alpha-mark{width:35px;height:30px}.site-header .nav-cta{min-height:40px;padding:9px 12px;font-size:11px}.mobile-menu summary{min-height:40px;padding:8px 10px}.an-hero{padding:42px 0 48px}.an-hero-grid{grid-template-columns:1fr;gap:26px}.an-hero h1{font-size:clamp(2.3rem,9vw,2.6rem);line-height:1.06;letter-spacing:-.6px}.an-hero-lead{font-size:14px}.an-hero-quote-visual{max-width:none}.an-hero-quote-visual .quote-step{padding:24px 19px}.section{padding:68px 0}.an-intro-band{padding:52px 0}.an-faq-teaser-inner{align-items:flex-start;flex-direction:column}.mobile-quote-bar{position:fixed;z-index:35;left:14px;right:14px;bottom:max(12px,env(safe-area-inset-bottom));display:flex;align-items:center;justify-content:center;min-height:52px;padding:12px 18px;border:1px solid #b78b3e;border-radius:999px;background:#c49a45;color:#17243a;box-shadow:0 8px 28px rgba(16,29,53,.22);font-size:14px;font-weight:800;text-align:center}.mobile-quote-bar:hover{background:#d5b46f;color:#17243a}}
 @media(max-width:370px){.alpha-brand{font-size:12px}.alpha-mark{width:31px}.site-header .nav-cta{padding:8px 9px;font-size:10px}.nav-actions{gap:6px}}
+
+/* Final contrast and tablet header corrections. */
+.alpha-brand b,.alpha-wordmark b{color:#182945}
+.site-header .desktop-nav a:hover{color:#182945}
+.eyebrow{color:#182945}
+.an-hero h1 em{color:#182945}
+.an-process-grid b{color:#182945}
+.alpha-intro-content .alpha-wordmark b{color:#e5c987}
+@media(max-width:850px){.nav-row{align-items:center;flex-direction:row;padding:0}}
