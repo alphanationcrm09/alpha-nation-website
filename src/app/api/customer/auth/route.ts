@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { readJsonObject } from "@/lib/public-submission";
 
 export const dynamic = "force-dynamic";
 function fail(error: string, status = 400) {
@@ -20,8 +21,10 @@ function sameOrigin(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return fail("Request origin rejected.", 403);
+  if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")) return fail("Invalid request.", 400);
+  const body = await readJsonObject(request, 8192);
+  if (!body) return fail("Invalid request.", 400);
   try {
-    const body = await request.json();
     const supabase = await createSupabaseServerClient();
     if (body?.action === "password.request") {
       const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";

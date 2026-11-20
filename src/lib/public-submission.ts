@@ -5,6 +5,38 @@ import { runtimeEnv } from "@/lib/runtime-env";
 
 export type SubmissionKind = "appointment" | "inquiry";
 
+export async function readJsonObject(request: NextRequest, maxBytes: number): Promise<Record<string, unknown> | null> {
+  const reader = request.body?.getReader();
+  if (!reader) return null;
+  const chunks: Uint8Array[] = [];
+  let totalBytes = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel();
+        return null;
+      }
+      chunks.push(value);
+    }
+    const bytes = new Uint8Array(totalBytes);
+    let offset = 0;
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    const parsed: unknown = JSON.parse(new TextDecoder().decode(bytes));
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return null;
+    return parsed as Record<string, unknown>;
+  } catch {
+    return null;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 export function isPublicSubmissionConfigured() {
   return Boolean(
     runtimeEnv("NEXT_PUBLIC_SUPABASE_URL")

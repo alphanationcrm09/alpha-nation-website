@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextRequest, NextResponse } from "next/server";
+import { readJsonObject } from "@/lib/public-submission";
 
 export const dynamic = "force-dynamic";
 
@@ -11,10 +12,11 @@ function sameOrigin(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   if (!sameOrigin(request)) return NextResponse.json({ error: "Request origin rejected." }, { status: 403 });
-  if (Number(request.headers.get("content-length") || 0) > 4096) return NextResponse.json({ error: "Invalid login request." }, { status: 413 });
-
-  let body: { email?: unknown; password?: unknown };
-  try { body = await request.json(); } catch { return NextResponse.json({ error: "Invalid login request." }, { status: 400 }); }
+  if (!request.headers.get("content-type")?.toLowerCase().includes("application/json")) {
+    return NextResponse.json({ error: "Invalid login request." }, { status: 400 });
+  }
+  const body = await readJsonObject(request, 4096);
+  if (!body) return NextResponse.json({ error: "Invalid login request." }, { status: 400 });
 
   const email = typeof body.email === "string" ? body.email.trim().slice(0, 254) : "";
   const password = typeof body.password === "string" ? body.password : "";
