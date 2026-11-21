@@ -30,13 +30,14 @@ export default function PublicHome() {
               <span><b aria-hidden="true">↗</b> Quick Quotes</span>
               <span><b aria-hidden="true">✦</b> Expert Support</span>
             </div>
+            <p className="an-nationwide-trust">Trusted by Americans Nationwide</p>
           </div>
           <div className="an-hero-visual an-hero-quote-visual">
             <div className="an-hero-form-heading"><h2>Get Your Free Quote</h2><p>Find the right life insurance options for you.</p></div>
             <QuoteJourney />
-            <div className="an-form-carriers" aria-label="Insurance carrier logos">
-              <strong>Carrier options from leading insurers</strong>
-              <CarrierTrustLogos />
+            <div className="an-form-carriers" aria-label="Featured insurance carriers">
+              <strong>Featured carrier partners</strong>
+              <CarrierTrustLogos limit={4} />
             </div>
           </div>
         </div>
