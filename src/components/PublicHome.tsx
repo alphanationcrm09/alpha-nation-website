@@ -19,6 +19,12 @@ const planningTools = [
 export default function PublicHome() {
   return (
     <>
+      <section className="an-carrier-trust-band" aria-label="Carrier information">
+        <div className="wrap an-carrier-trust-inner">
+          <strong><span aria-hidden="true">✓</span> Trusted by Americans Nationwide</strong>
+          <CarrierTrustLogos />
+        </div>
+      </section>
       <section className="an-hero an-hero-reference">
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
@@ -35,12 +41,6 @@ export default function PublicHome() {
             <div className="an-hero-form-heading"><h2>Get Your Free Quote</h2><p>Find the right life insurance options for you.</p></div>
             <QuoteJourney />
           </div>
-        </div>
-      </section>
-      <section className="an-carrier-trust-band" aria-label="Carrier information">
-        <div className="wrap an-carrier-trust-inner">
-          <strong><span aria-hidden="true">✓</span> Trusted by Americans Nationwide</strong>
-          <CarrierTrustLogos />
         </div>
       </section>
 
