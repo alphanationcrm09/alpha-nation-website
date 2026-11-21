@@ -1132,6 +1132,6 @@
 .section:not(.an-calculator-section) a:focus-visible,
 .section:not(.an-calculator-section) button:focus-visible,
 .product-cta a:focus-visible {
-  outline: 3px solid #b99a62;
+  outline: 3px solid #9b7b43;
   outline-offset: 3px;
 }
