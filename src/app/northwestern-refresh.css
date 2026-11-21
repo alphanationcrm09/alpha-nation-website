@@ -1122,3 +1122,16 @@
     transition: none;
   }
 }
+
+/* Clear keyboard focus for public navigation and quote controls. */
+.site-header a:focus-visible,
+.site-header summary:focus-visible,
+.site-footer a:focus-visible,
+.an-hero-reference a:focus-visible,
+.an-hero-reference button:focus-visible,
+.section:not(.an-calculator-section) a:focus-visible,
+.section:not(.an-calculator-section) button:focus-visible,
+.product-cta a:focus-visible {
+  outline: 3px solid #b99a62;
+  outline-offset: 3px;
+}
