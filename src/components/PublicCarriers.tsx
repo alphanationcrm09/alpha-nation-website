@@ -48,12 +48,10 @@ const carrierDomains: Record<string, string> = {
   "transamerica": "transamerica.com",
 };
 
-const topCarriers = [
-  { name: "Aetna", domain: "aetna.com" },
-  { name: "Cigna", domain: "cigna.com" },
-  { name: "Foresters Financial", domain: "foresters.com" },
-  { name: "Transamerica", domain: "transamerica.com" },
-];
+const topCarriers = fallbackCarrierNames.map((name) => ({
+  name,
+  domain: carrierDomains[name.trim().toLowerCase()],
+}));
 
 function initials(name: string) {
   return name.replace(/[^a-zA-Z0-9 ]/g, " ").trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
