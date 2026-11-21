@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Stop"
 
-$ExpectedBranch = "feat/alpha-nation-v2-deploy-ready"
+$ExpectedBranch = "main"
 $ExpectedWorker = "alpha-ins"
 
 Set-Location $PSScriptRoot
