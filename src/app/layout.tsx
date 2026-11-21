@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteChrome, SiteFooter } from "@/components/SiteChrome";
 import "./globals.css";
 import "./brand.css";
+import "./northwestern-refresh.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-ins.aalphanation.workers.dev";
 
