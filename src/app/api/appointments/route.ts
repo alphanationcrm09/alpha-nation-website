@@ -48,13 +48,11 @@ export async function POST(request: NextRequest) {
   const validProducts = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Auto Insurance","Health Insurance","Medicare","ACA Health Insurance","Home Insurance","Credit Repair","Debt Relief"]);
   const productsRequiringCoverage = new Set(["Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection"]);
   const requiresCoverage = productsRequiringCoverage.has(insurance_type);
-  const requiresBeneficiary = productsRequiringCoverage.has(insurance_type);
   const coverage_amount = requiresCoverage ? Number(body.coverageAmount) : null;
   const validCoverage = !requiresCoverage || (Number.isInteger(coverage_amount) && coverage_amount !== null && coverage_amount >= 2000 && coverage_amount <= 50000);
   const stateIsActive = await isActiveServiceState(client, state_code);
   if (legal_first_name.length < 1 || legal_last_name.length < 1 || full_name.length < 3
     || residential_address.length < 5
-    || (requiresBeneficiary && ((beneficiary_name?.length || 0) < 2 || (beneficiary_relationship?.length || 0) < 2))
     || !validCoverage
     || !validPhone(phone) || (email && !validEmail(email))
     || !stateIsActive || !/^[0-9]{5}(-[0-9]{4})?$/.test(zip_code)
