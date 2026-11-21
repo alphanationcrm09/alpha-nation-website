@@ -77,7 +77,7 @@ function CarrierLogo({ name, domain }: { name: string; domain?: string }) {
 export function CarrierTrustLogos() {
   return (
     <div className="an-carrier-wordmarks" aria-label="Featured insurance carriers">
-      {topCarriers.map((carrier) => (
+      {topCarriers.filter((carrier) => ["Aetna", "Cigna", "Foresters Financial", "Transamerica"].includes(carrier.name)).map((carrier) => (
         <span className="an-featured-carrier" key={carrier.name}>
           <CarrierLogo name={carrier.name} domain={carrier.domain} />
           <b>{carrier.name}</b>
