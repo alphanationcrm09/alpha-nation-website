@@ -2,12 +2,12 @@ import type { Metadata } from "next";
 import PublicHome from "@/components/PublicHome";
 
 export const metadata: Metadata = {
-  title: "Telemarketing, Customer Support & Sales Outsourcing",
-  description: "Alpha Nation provides telemarketing, customer support, lead generation, appointment setting and sales outsourcing through trained teams in Pakistan.",
-  keywords: ["Alpha Nation", "BPO Pakistan", "Telemarketing", "Customer Support", "Sales Outsourcing", "Lead Generation", "Appointment Setting"],
+  title: "Insurance Guidance, Life & Final Expense Coverage",
+  description: "Explore life insurance, final expense, term life and whole life coverage information. Understand your options and request guidance about availability in your state.",
+  keywords: ["Alpha Nation", "Final Expense Insurance", "Life Insurance", "Whole Life Insurance", "Term Life Insurance", "Insurance Guidance"],
   openGraph: {
-    title: "Alpha Nation | Telemarketing & Business Process Outsourcing",
-    description: "Campaign-focused telemarketing, customer support and sales operations delivered by trained teams in Pakistan.",
+    title: "Insurance Guidance, Life & Final Expense Coverage | Alpha Nation",
+    description: "Explore final expense, term life and whole life insurance information. Compare coverage considerations and request guidance about options available in your state.",
     type: "website",
   },
 };
