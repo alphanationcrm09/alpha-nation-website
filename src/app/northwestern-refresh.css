@@ -1135,3 +1135,12 @@
   outline: 3px solid #9b7b43;
   outline-offset: 3px;
 }
+
+
+/* Keep the wordmark consistent in the existing welcome/intro treatment. */
+.alpha-intro-content .alpha-wordmark {
+  color: #102b4a;
+}
+.alpha-intro-content .alpha-wordmark b {
+  color: #1687d8;
+}
