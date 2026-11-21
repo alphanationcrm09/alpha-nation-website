@@ -50,7 +50,7 @@ const topCarriers = [
 ];
 
 function initials(name: string) {
-  return name.replace(/[^a-zA-Z0-9 ]/g, " ").trim().split(/\\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
+  return name.replace(/[^a-zA-Z0-9 ]/g, " ").trim().split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase();
 }
 
 function CarrierLogo({ name, domain }: { name: string; domain?: string }) {
