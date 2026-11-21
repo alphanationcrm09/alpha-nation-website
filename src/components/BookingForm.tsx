@@ -60,7 +60,7 @@ export function BookingForm(){
    <label>How did you hear about us?<select name="source" value={source} onChange={e=>setSource(e.target.value)}>{["Google Search","Facebook","Instagram","Referral","Advertisement","Phone Call","Other"].map(s=><option key={s}>{s}</option>)}</select></label>
   </div>
   <div className="form-honeypot" aria-hidden="true"><label>Leave this field empty<input name="faxNumber" type="text" tabIndex={-1} autoComplete="new-password" /></label></div>
-  <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I agree that Alpha Nation may contact me by phone or email about this appointment. This is not consent to receive marketing messages or submit an insurance application.</label></div>
+  <div className="consent-panel"><p><b>Appointment contact consent</b></p><label className="consent-check"><input name="consent" type="checkbox" required/> I ask Alpha Nation to contact me by phone or email about this appointment request using the details I provided. This is not consent to unrelated marketing or automated marketing calls or text messages.</label></div>
   <TurnstileChallenge action="appointment" theme="dark" onToken={setTurnstileToken} />
   <p className="form-notice">Appointment requests are accepted only in states currently marked active. Requests are subject to licensing, service eligibility, and agent availability. Your preferred date and time are not confirmed until our team contacts you. Do not enter medical or health details here.</p>
   <button className="button" type="submit" disabled={busy}>{busy?"Submitting…":"Request appointment"}</button>
