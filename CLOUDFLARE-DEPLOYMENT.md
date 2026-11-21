@@ -54,13 +54,13 @@ Never use a `NEXT_PUBLIC_` prefix for any secret. Email alerts require a verifie
 
 ## 3. Supabase setup
 
-1. Run all four SQL files listed in `SUPABASE-ADMIN-SETUP.md` in the website Supabase project's SQL Editor.
+1. Run all five security SQL files listed in `SUPABASE-ADMIN-SETUP.md` in the website Supabase project's SQL Editor.
 2. In Supabase Authentication, create the owner user and run `supabase/setup_owner.sql`.
 3. Keep public sign-ups disabled.
 4. Sign in at `/admin/login`, enroll TOTP at `/admin/security`, and test signing out and signing in again. Admin access remains blocked until AAL2 is verified.
 5. Confirm the Supabase secret key is entered only as a Cloudflare Worker runtime secret. Prefer the modern `sb_secret_` key.
 
-The migrations remove direct anonymous INSERT permission on appointment and inquiry tables and require AAL2 for staff database access. All public submissions must pass through the server routes, Turnstile verification and database-backed IP rate limiting.
+These SQL files remove direct anonymous INSERT permission on appointment and inquiry tables and require AAL2 for staff database access. All public submissions must pass through the server routes, Turnstile verification and database-backed IP rate limiting.
 
 ## 4. Cloudflare Turnstile
 

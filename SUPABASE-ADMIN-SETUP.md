@@ -11,7 +11,7 @@ Project ref: `fyndiedplgyiowqvkfsk`
 
 The publishable key is intended for browser use. Never put a Supabase secret/service-role key in this repository or in a `NEXT_PUBLIC_` variable.
 
-## Apply the security migrations first
+## Apply the security SQL files first
 
 In SQL Editor for this website project, run these files in order:
 
@@ -59,7 +59,7 @@ These create the customer profile and policy tables with RLS. Customer policy da
 
 - The website database and authentication are separate from the existing Alpha Nation CRM. The website owner account uses the CRM Owner email identity, but sign-in credentials and MFA enrollment are configured separately in the website project.
 - Public visitors can submit appointment requests and inquiries. They cannot read customer records.
-- Appointment requests collect legal first and last name, phone, email, residential address, state, ZIP, insurance type, requested coverage amount, beneficiary name and relationship, plus preferred appointment date/time.
+- Appointment requests collect legal first and last name, phone, optional email, residential address, city, state, ZIP, insurance type, requested coverage amount when relevant, preferred appointment date/time, time zone, referral source, and contact consent. The current appointment form does not ask for beneficiary details; the team discusses those later if the customer chooses to explore an application.
 - To email owner alerts, configure `RESEND_API_KEY`, `RESEND_FROM_EMAIL` (a verified sender) and `LEAD_NOTIFICATION_EMAIL` as Cloudflare Worker runtime secrets/variables. Email alerts contain no customer PII; complete details are available after signing in to the admin panel.
 - Admin → Service states controls which states are available in the public appointment form.
 - Appointment preferred dates/times are stored as local requests and are not automatically confirmed or checked against agent calendars. Staff must call to confirm.

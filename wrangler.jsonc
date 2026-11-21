@@ -28,7 +28,8 @@
     "NEXT_PUBLIC_SITE_URL": "https://alpha-ins.aalphanation.workers.dev",
     "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
     "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_TK2l53Bvk9PHiJ1qcFnN5A_S6UesLH4",
-    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
+    "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA",
+    "TURNSTILE_ALLOWED_HOSTNAMES": "alpha-ins.aalphanation.workers.dev"
   },
   "previews": {
     "vars": {
@@ -36,7 +37,8 @@
       "NEXT_PUBLIC_SITE_URL": "https://alpha-ins.aalphanation.workers.dev",
       "NEXT_PUBLIC_SUPABASE_URL": "https://fyndiedplgyiowqvkfsk.supabase.co",
       "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY": "sb_publishable_TK2l53Bvk9PHiJ1qcFnN5A_S6UesLH4",
-      "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA"
+      "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAAGDdocppk4-pTNuA",
+      "TURNSTILE_ALLOWED_HOSTNAMES": "alpha-ins.aalphanation.workers.dev"
     }
   }
 }
