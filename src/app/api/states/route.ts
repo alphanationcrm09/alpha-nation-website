@@ -1,6 +1,4 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
-
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -212,20 +210,7 @@ const allUsStates = [
 ];
 
 export async function GET() {
-  if (!supabase) {
-    return NextResponse.json({ rows: allUsStates }, { headers: responseHeaders });
-  }
-
-  const { data, error } = await supabase
-    .from("service_states")
-    .select("state_code,state_name")
-    .eq("status", "active")
-    .order("state_name");
-
-  if (error || !data?.length) {
-    console.error("Public service-state lookup failed", { code: error?.code });
-    return NextResponse.json({ rows: allUsStates }, { headers: responseHeaders });
-  }
-
-  return NextResponse.json({ rows: data }, { headers: responseHeaders });
+  // The state field collects a customer's residence; carrier and licensing
+  // availability is confirmed separately for each inquiry.
+  return NextResponse.json({ rows: allUsStates }, { headers: responseHeaders });
 }
