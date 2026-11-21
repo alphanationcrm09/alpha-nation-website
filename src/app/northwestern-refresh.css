@@ -285,7 +285,7 @@
 }
 .an-hero-reference .quote-step .eyebrow {
   margin-bottom: 8px;
-  color: #9b7b43;
+  color: #80612e;
   font-size: 10px;
   letter-spacing: 1.6px;
 }
@@ -303,7 +303,7 @@
 .an-hero-reference .quote-field-label,
 .an-hero-reference .quote-form-grid label {
   color: #263b54;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.45;
 }
@@ -330,8 +330,8 @@
   font-weight: 700;
 }
 .an-hero-reference .quote-choice b {
-  color: #68798d;
-  font-size: 11px;
+  color: #5f7186;
+  font-size: 12px;
 }
 .an-hero-reference .quote-choice.selected {
   border-color: #b99a62;
@@ -343,7 +343,7 @@
 }
 .an-hero-reference .quote-form-grid label {
   gap: 6px;
-  font-size: 13px;
+  font-size: 14px;
 }
 .an-hero-reference .quote-form-grid input,
 .an-hero-reference .quote-form-grid select {
@@ -391,7 +391,7 @@
 .an-hero-reference .quote-legal {
   margin: 13px 0 0;
   color: #5c6d80;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.65;
 }
 .an-hero-reference .quote-status {
@@ -406,7 +406,7 @@
   border-bottom: 1px solid #e2e6eb;
 }
 .page-hero:not(:has(+ .an-calculator-section)) .eyebrow {
-  color: #987a48;
+  color: #80612e;
   font-size: 11px;
   letter-spacing: 2px;
 }
@@ -431,7 +431,7 @@
   background: #ffffff;
 }
 .section:not(.an-calculator-section) .eyebrow {
-  color: #987a48;
+  color: #80612e;
 }
 .section:not(.an-calculator-section) .section-heading h2,
 .an-tools-section .section-heading h2,
@@ -489,7 +489,7 @@
 }
 .an-tool-index,
 .an-solution-card > span {
-  color: #9b7b43;
+  color: #80612e;
 }
 .an-tool-card h3,
 .an-solution-card h3 {
@@ -499,7 +499,7 @@
 .an-tool-card p,
 .an-solution-card p {
   color: #5e6e80;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.75;
 }
 .an-tool-card a,
@@ -511,7 +511,7 @@
 .an-tool-card a:hover,
 .an-solution-card a:hover,
 .an-inline-link:hover {
-  color: #987a48;
+  color: #80612e;
 }
 .an-beneficiary-grid {
   gap: clamp(32px, 6vw, 76px);
@@ -567,7 +567,7 @@
 }
 .carrier-directory .info-card p {
   color: #657487;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.6;
 }
 .directory-note {
@@ -583,7 +583,7 @@
   border-top: 2px solid #b99a62;
 }
 .an-process-grid article > b {
-  color: #987a48;
+  color: #80612e;
   font-size: 12px;
   letter-spacing: 1px;
 }
@@ -593,7 +593,7 @@
 }
 .an-process-grid article p {
   color: #5e6e80;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.8;
 }
 .an-faq-teaser-inner {
@@ -690,7 +690,7 @@
   line-height: 1.75;
 }
 .product-check-list li span {
-  color: #987a48;
+  color: #80612e;
 }
 .product-note {
   padding: 30px;
@@ -705,7 +705,7 @@
 }
 .product-note li {
   color: #5b6c7f;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.75;
 }
 .product-faq-list details,
@@ -780,7 +780,7 @@
   font-size: 14px;
 }
 .quote-page-section .quote-choice b {
-  color: #68798d;
+  color: #5f7186;
   font-size: 12px;
 }
 .quote-page-section .quote-choice.selected {
@@ -897,7 +897,7 @@
 .site-footer .legal-note {
   border-top: 1px solid rgba(217,229,242,.18);
   color: #aebdcd;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.8;
 }
 .site-footer .legal-note p {
@@ -983,7 +983,7 @@
     font-size: 13px;
   }
   .an-hero-reference .quote-form-grid label {
-    font-size: 12px;
+    font-size: 13px;
   }
   .an-hero-reference .quote-form-grid input,
   .an-hero-reference .quote-form-grid select {
@@ -1064,7 +1064,7 @@
     height: 25px;
   }
   .an-hero-reference .an-hero-trust .an-featured-carrier b {
-    font-size: 10px;
+    font-size: 11px;
   }
   .an-hero-form-heading {
     padding: 18px 15px 8px;
