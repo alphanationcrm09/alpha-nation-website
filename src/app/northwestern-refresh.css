@@ -280,7 +280,7 @@
   border-radius: 99px;
 }
 .an-hero-reference .quote-progress i {
-  background: #b99a62;
+  background: #9b7b43;
   border-radius: 99px;
 }
 .an-hero-reference .quote-step .eyebrow {
@@ -334,7 +334,7 @@
   font-size: 12px;
 }
 .an-hero-reference .quote-choice.selected {
-  border-color: #b99a62;
+  border-color: #9b7b43;
   background: #fbf8f1;
   box-shadow: inset 0 0 0 1px rgba(185,154,98,.18);
 }
@@ -357,7 +357,7 @@
   font-size: 15px;
 }
 .an-hero-reference .quote-form-grid input::placeholder {
-  color: #7b8999;
+  color: #5f7186;
 }
 .an-hero-reference .quote-form-grid input:focus,
 .an-hero-reference .quote-form-grid select:focus {
@@ -484,7 +484,7 @@
 .an-tool-card:hover,
 .an-solution-card:hover {
   transform: translateY(-2px);
-  border-color: #b99a62;
+  border-color: #9b7b43;
   box-shadow: 0 14px 30px rgba(12, 34, 58, .08);
 }
 .an-tool-index,
@@ -527,7 +527,7 @@
   line-height: 1.85;
 }
 .an-small-note {
-  color: #6d7b8b !important;
+  color: #53647a !important;
   font-size: 12px !important;
 }
 .an-about-grid {
@@ -571,7 +571,7 @@
   line-height: 1.6;
 }
 .directory-note {
-  color: #647487;
+  color: #53647a;
   font-size: 12px;
   line-height: 1.7;
 }
@@ -580,7 +580,7 @@
 }
 .an-process-grid article {
   padding: 22px 20px 0 0;
-  border-top: 2px solid #b99a62;
+  border-top: 2px solid #9b7b43;
 }
 .an-process-grid article > b {
   color: #80612e;
@@ -784,7 +784,7 @@
   font-size: 12px;
 }
 .quote-page-section .quote-choice.selected {
-  border-color: #b99a62;
+  border-color: #9b7b43;
   background: #fbf8f1;
 }
 .quote-page-section .quote-form-grid {
@@ -845,7 +845,7 @@
   font-size: 16px;
 }
 .form-grid input::placeholder {
-  color: #7b8999;
+  color: #5f7186;
 }
 .form-grid input:focus,
 .form-grid select:focus,
