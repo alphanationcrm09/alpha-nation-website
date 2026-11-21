@@ -1,5 +1,4 @@
 import Link from "next/link";
-import PublicCarriers, { CarrierTrustLogos } from "@/components/PublicCarriers";
 import QuoteJourney from "@/components/QuoteJourney";
 import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
@@ -29,10 +28,6 @@ export default function PublicHome() {
               <span><b aria-hidden="true">✓</b> Trusted Coverage</span>
               <span><b aria-hidden="true">↗</b> Quick Quotes</span>
               <span><b aria-hidden="true">✦</b> Expert Support</span>
-            </div>
-            <div className="an-hero-trust">
-              <strong><span aria-hidden="true">✓</span>Trusted by Americans Nationwide</strong>
-              <CarrierTrustLogos />
             </div>
           </div>
           <div className="an-hero-visual an-hero-quote-visual">
@@ -94,14 +89,6 @@ export default function PublicHome() {
         <div className="wrap an-about-grid">
           <div><p className="eyebrow">ABOUT ALPHA NATION</p><h2>Clear insurance information. Real guidance when you need it.</h2></div>
           <div><p>Insurance decisions are personal. Alpha Nation helps individuals and families explore coverage information, understand the questions worth asking and connect with a professional for guidance.</p><p>We’ll confirm licensing, carrier appointments, product availability, eligibility and policy terms for the relevant state and situation. Not every product is available everywhere.</p><Link className="an-inline-link" href="/contact">Contact Alpha Nation <span aria-hidden="true">↗</span></Link></div>
-        </div>
-      </section>
-
-      <section className="section an-carriers-section" id="carriers">
-        <div className="wrap">
-          <div className="an-carriers-heading"><div><p className="eyebrow">CARRIER DIRECTORY</p><h2>Get to know the insurance companies.</h2></div><p>See carrier information and ask us about options in your state. A directory listing does not guarantee an active appointment or product availability.</p></div>
-          <PublicCarriers />
-          <Link className="an-inline-link" href="/carriers">View carrier information <span aria-hidden="true">↗</span></Link>
         </div>
       </section>
 
