@@ -1,5 +1,5 @@
 import Link from "next/link";
-import PublicCarriers from "@/components/PublicCarriers";
+import PublicCarriers, { CarrierTrustLogos } from "@/components/PublicCarriers";
 import QuoteJourney from "@/components/QuoteJourney";
 import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
@@ -40,7 +40,7 @@ export default function PublicHome() {
       <section className="an-carrier-trust-band" aria-label="Carrier information">
         <div className="wrap an-carrier-trust-inner">
           <strong><span aria-hidden="true">✓</span> Trusted by Americans Nationwide</strong>
-          <div className="an-carrier-wordmarks" aria-label="Carrier names"><span>Aetna</span><span>Cigna</span><span>Foresters <small>Financial</small></span><span>Transamerica</span></div>
+          <CarrierTrustLogos />
         </div>
       </section>
 
