@@ -15,18 +15,20 @@ const fallbackCoverageOptions: CoverageOption[] = [
   { id: "default-40000", amount: 40000, label: "$40,000" },
   { id: "default-50000", amount: 50000, label: "$50,000" },
 ];
-const products = ["Life Insurance","Final Expense","Term Life Insurance","Whole Life Insurance","Mortgage Protection","Medicare","ACA Health Insurance"];
+const primaryProducts = ["Life Insurance", "Final Expense", "Home Insurance"];
+const otherProducts = ["Mortgage Protection", "Term Life Insurance", "Whole Life Insurance", "Auto Insurance", "ACA Health Insurance", "Medicare"];
 const ageBands = ["Under 30","30–39","40–49","50–59","60–69","70–79","80 or older"];
 
 export default function QuoteJourney() {
   const [step,setStep]=useState(1);
   const [product,setProduct]=useState("Life Insurance");
+  const [showOtherProducts,setShowOtherProducts]=useState(false);
   const [state,setState]=useState("");
   const [ageBand,setAgeBand]=useState("");
   const [coverage,setCoverage]=useState("unsure");
   const [customCoverage,setCustomCoverage]=useState("");
   const [coverageOptions,setCoverageOptions]=useState<CoverageOption[]>(fallbackCoverageOptions);
-  const requiresCoverageAmount = product !== "Medicare" && product !== "ACA Health Insurance";
+  const requiresCoverageAmount = !["Medicare", "ACA Health Insurance", "Auto Insurance", "Home Insurance"].includes(product);
   const [busy,setBusy]=useState(false);
   const [message,setMessage]=useState("");
   const [states,setStates]=useState<StateOption[]>([]);
@@ -84,7 +86,7 @@ export default function QuoteJourney() {
       })});
       const result=await response.json().catch(()=>({error:"We could not send your request."}));
       if(!response.ok){window.turnstile?.reset();setMessage(result.error||"We could not send your request. Please try again.");return;}
-      form.reset();setStep(1);setProduct("Life Insurance");setState("");setAgeBand("");setCoverage("unsure");setCustomCoverage("");window.turnstile?.reset();
+      form.reset();setStep(1);setProduct("Life Insurance");setShowOtherProducts(false);setState("");setAgeBand("");setCoverage("unsure");setCustomCoverage("");window.turnstile?.reset();
       setMessage("Your request has been received. Alpha Nation will contact you to discuss options. This is not an insurance quote or an application.");
     } catch {window.turnstile?.reset();setMessage("The request could not be sent. Check your connection and try again.");}
     finally {setBusy(false);}
@@ -95,14 +97,14 @@ export default function QuoteJourney() {
     <form onSubmit={submit}>
       {step===1?<section className="quote-step">
         <p className="eyebrow">LET'S START WITH THE BASICS</p><h2>What kind of protection are you exploring?</h2><p className="quote-step-copy">Choose the option closest to what you have in mind. A licensed professional will confirm which products are available in your state.</p>
-        <label className="quote-field-label">Coverage type</label><div className="quote-product-grid">{products.map((item)=> <button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} aria-pressed={product===item} onClick={()=>setProduct(item)}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}</div>
+        <label className="quote-field-label">What type of insurance are you looking for?</label><div className="quote-product-grid">{primaryProducts.map((item)=> <button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} aria-pressed={product===item} onClick={()=>{setProduct(item);setShowOtherProducts(false);}}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}<button type="button" className={showOtherProducts?"quote-choice selected":"quote-choice"} aria-expanded={showOtherProducts} onClick={()=>{setShowOtherProducts(value=>!value);if(!showOtherProducts)setProduct("");}}><span>Other</span><b>{showOtherProducts?"Hide options":"More options"}</b></button></div>{showOtherProducts&&<div className="quote-product-grid quote-other-products" aria-label="Other insurance options">{otherProducts.map((item)=><button type="button" key={item} className={product===item?"quote-choice selected":"quote-choice"} aria-pressed={product===item} onClick={()=>setProduct(item)}><span>{item}</span><b>{product===item?"Selected":"Choose"}</b></button>)}</div>}
         <div className="quote-form-grid">
           <label>Where do you live?<input required list="quote-us-states" value={state} onChange={e=>{const value=e.target.value;const match=states.find(item=>item.state_code.toLowerCase()===value.trim().toLowerCase()||item.state_name.toLowerCase()===value.trim().toLowerCase());setState(match?match.state_code:value);}} placeholder={statesLoading?"Loading states…":"Type or select your state"} autoComplete="address-level1"/><datalist id="quote-us-states">{states.map(item=><option key={item.state_code} value={item.state_name}>{item.state_code}</option>)}</datalist></label>
           <label>What is your age range?<select required value={ageBand} onChange={e=>setAgeBand(e.target.value)}><option value="">Select age range</option>{ageBands.map(a=><option key={a}>{a}</option>)}</select></label>
           {requiresCoverageAmount&&<label className="quote-wide">What coverage amount are you considering?<select value={coverage} onChange={e=>setCoverage(e.target.value)}>{coverageOptions.map(option=><option key={option.id} value={String(option.amount)}>{option.label}</option>)}<option value="custom">Enter a custom amount</option><option value="unsure">Not sure yet</option></select></label>}
           {requiresCoverageAmount&&coverage==="custom"&&<label className="quote-wide">Custom coverage amount (USD)<input type="number" min="2000" max="1000000" step="1" required value={customCoverage} onChange={e=>setCustomCoverage(e.target.value)} placeholder="For example, 7500"/></label>}
         </div>
-        <button type="button" className="button quote-next" onClick={()=>{if(!state||!ageBand){setMessage("Select your state and age range to continue.");return;}if(requiresCoverageAmount&&coverage==="custom"&&!selectedCoverageLabel()){setMessage("Enter a valid coverage amount between $2,000 and $1,000,000.");return;}setMessage("");setStep(2);}}>Continue <span aria-hidden="true">→</span></button>
+        <button type="button" className="button quote-next" onClick={()=>{if(!product||!state||!ageBand){setMessage("Select an insurance type, state and age range to continue.");return;}if(requiresCoverageAmount&&coverage==="custom"&&!selectedCoverageLabel()){setMessage("Enter a valid coverage amount between $2,000 and $1,000,000.");return;}setMessage("");setStep(2);}}>Continue <span aria-hidden="true">→</span></button>
       </section>:<section className="quote-step">
         <p className="eyebrow">ONE LAST STEP</p><h2>Where should we reach you?</h2><p className="quote-step-copy">Share your contact details so our team can follow up about your request. Do not enter medical details or Social Security numbers here.</p>
         <div className="quote-form-grid">

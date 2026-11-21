@@ -879,3 +879,185 @@ body{background:var(--an-white);color:var(--an-ink)}
   .site-header .nav-cta { padding-inline: 5px; font-size: 8px; }
   .site-header .nav-actions { gap: 3px; }
 }
+
+
+/* Place the nationwide trust statement and carrier marks within the hero copy,
+   directly below the three reassurance points. Keep the requested desktop gap,
+   while tightening it on smaller screens so the logos remain easy to see. */
+.an-hero-trust {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 18px;
+  color: #fff;
+}
+.an-hero-trust > strong {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .1px;
+}
+.an-hero-trust > strong span {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #f7b91c;
+  color: #102b50;
+  font-weight: 900;
+}
+.an-hero-trust .an-carrier-wordmarks {
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: clamp(72px, 12vw, 192px);
+}
+.an-hero-trust .an-featured-carrier {
+  border-left-color: #ffffff55;
+}
+@media (max-width: 820px) {
+  .an-hero-trust .an-carrier-wordmarks {
+    margin-top: 48px;
+  }
+}
+@media (max-width: 560px) {
+  .an-hero-trust {
+    margin-top: 16px;
+  }
+  .an-hero-trust > strong {
+    font-size: 12px;
+  }
+  .an-hero-trust .an-carrier-wordmarks {
+    margin-top: 28px;
+  }
+}
+
+
+/* Compact coverage choices and show the full carrier logo row directly below the quote form. */
+.quote-product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.quote-other-products { margin-top: 8px; }
+.quote-step-copy { margin-bottom: 9px !important; }
+.quote-field-label { margin-bottom: 6px; }
+.an-form-carriers {
+  margin: 14px 0 0;
+  padding: 12px 14px 10px;
+  border: 1px solid #ffffff35;
+  border-radius: 12px;
+  background: #ffffff12;
+  color: #fff;
+}
+.an-form-carriers > strong {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .4px;
+}
+.an-form-carriers .an-carrier-wordmarks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2px 0;
+}
+.an-form-carriers .an-featured-carrier {
+  min-height: 34px;
+  padding: 2px 8px;
+  border-left: 1px solid #ffffff40;
+  gap: 6px;
+}
+.an-form-carriers .an-featured-carrier:first-child { border-left: 0; padding-left: 0; }
+.an-form-carriers .an-featured-carrier .carrier-logo {
+  width: 24px;
+  height: 24px;
+  padding: 3px;
+}
+.an-form-carriers .an-featured-carrier b {
+  color: #fff;
+  font-size: 10px;
+}
+@media (max-width: 820px) {
+  .an-form-carriers { margin-top: 12px; }
+  .an-form-carriers .an-featured-carrier { padding-inline: 6px; }
+}
+@media (max-width: 560px) {
+  .an-form-carriers { padding: 10px; }
+  .an-form-carriers .an-featured-carrier { min-height: 30px; padding-inline: 5px; }
+  .an-form-carriers .an-featured-carrier .carrier-logo { width: 21px; height: 21px; }
+  .an-form-carriers .an-featured-carrier b { font-size: 9px; }
+}
+
+/* Keep the complete carrier set compact directly beneath the homepage quote form. */
+.an-form-carriers {
+  margin-top: 9px;
+  padding: 9px 11px 8px;
+}
+.an-form-carriers > strong {
+  margin-bottom: 6px;
+  font-size: 10px;
+}
+.an-form-carriers .an-carrier-wordmarks {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px 8px;
+  justify-content: stretch;
+  align-items: center;
+}
+.an-form-carriers .an-featured-carrier {
+  display: flex !important;
+  min-width: 0;
+  min-height: 27px;
+  justify-content: flex-start;
+  gap: 5px;
+  padding: 1px 3px;
+  border: 0;
+  white-space: normal;
+}
+.an-form-carriers .an-featured-carrier:first-child {
+  padding-left: 3px;
+}
+.an-form-carriers .an-featured-carrier .carrier-logo {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  padding: 2px;
+}
+.an-form-carriers .an-featured-carrier b {
+  min-width: 0;
+  color: #fff;
+  font-size: 8px;
+  line-height: 1.15;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 560px) {
+  .an-form-carriers {
+    margin-top: 8px;
+    padding: 8px;
+  }
+  .an-form-carriers .an-carrier-wordmarks {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 3px 4px;
+  }
+  .an-form-carriers .an-featured-carrier {
+    min-height: 25px;
+    gap: 3px;
+    padding: 1px;
+  }
+  .an-form-carriers .an-featured-carrier:first-child {
+    padding-left: 1px;
+  }
+  .an-form-carriers .an-featured-carrier .carrier-logo {
+    width: 17px;
+    height: 17px;
+    flex-basis: 17px;
+    padding: 1px;
+  }
+  .an-form-carriers .an-featured-carrier b {
+    font-size: 7px;
+  }
+}
