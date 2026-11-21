@@ -74,10 +74,10 @@ function CarrierLogo({ name, domain }: { name: string; domain?: string }) {
   );
 }
 
-export function CarrierTrustLogos() {
+export function CarrierTrustLogos({ limit = topCarriers.length }: { limit?: number }) {
   return (
     <div className="an-carrier-wordmarks" aria-label="Featured insurance carriers">
-      {topCarriers.map((carrier) => (
+      {topCarriers.slice(0, limit).map((carrier) => (
         <span className="an-featured-carrier" key={carrier.name}>
           <CarrierLogo name={carrier.name} domain={carrier.domain} />
           <b>{carrier.name}</b>
