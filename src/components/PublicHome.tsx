@@ -19,27 +19,28 @@ const planningTools = [
 export default function PublicHome() {
   return (
     <>
-      <section className="an-hero">
+      <section className="an-hero an-hero-reference">
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
-            <p className="eyebrow">INSURANCE GUIDANCE, WITHOUT THE GUESSWORK</p>
-            <h1>Let’s find a clear place <em>to start.</em></h1>
-            <p className="an-hero-lead">Choosing coverage can bring up a lot of questions. Explore clear information, understand the options available where you live, and speak with a properly licensed professional when you are ready.</p>
-            <div className="an-hero-actions">
-              <Link className="button" href="/quote">Explore Your Options <span aria-hidden="true">↗</span></Link>
-              <Link className="an-text-button" href="/request-appointment">Request a Free Conversation</Link>
+            <p className="eyebrow">ALPHA NATION · INSURANCE GUIDANCE</p>
+            <h1>Insurance Guide <em>Without the Guesswork</em></h1>
+            <p className="an-hero-lead">Get clear answers. Compare coverage options. Find the right next step for your needs with straightforward life insurance guidance.</p>
+            <div className="an-hero-points">
+              <span><b aria-hidden="true">✓</b> Trusted Coverage</span>
+              <span><b aria-hidden="true">↗</b> Quick Quotes</span>
+              <span><b aria-hidden="true">✦</b> Expert Support</span>
             </div>
-            <div className="an-trust-line"><span>Start with a few simple questions</span><i /><span>No obligation to apply</span><i /><span>State availability is checked</span></div>
           </div>
-          <div className="an-hero-visual an-hero-quote-visual"><QuoteJourney /></div>
+          <div className="an-hero-visual an-hero-quote-visual">
+            <div className="an-hero-form-heading"><h2>Get Your Free Quote</h2><p>Find the right life insurance options for you.</p></div>
+            <QuoteJourney />
+          </div>
         </div>
       </section>
-
-      <section className="an-intro-band">
-        <div className="wrap an-intro-band-inner">
-          <p className="eyebrow">A GOOD PLACE TO BEGIN</p>
-          <h2>You don’t need to know all the insurance terms before you talk to someone.</h2>
-          <p>Start with what matters to you. We’ll help make the next steps easier to understand, without pressure to apply.</p>
+      <section className="an-carrier-trust-band" aria-label="Carrier information">
+        <div className="wrap an-carrier-trust-inner">
+          <strong><span aria-hidden="true">✓</span> Trusted by Americans Nationwide</strong>
+          <div className="an-carrier-wordmarks" aria-label="Carrier names"><span>Aetna</span><span>Cigna</span><span>Foresters <small>Financial</small></span><span>Transamerica</span></div>
         </div>
       </section>
 
