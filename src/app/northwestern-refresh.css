@@ -1144,3 +1144,11 @@
 .alpha-intro-content .alpha-wordmark b {
   color: #1687d8;
 }
+
+/* Use the original complete Alpha Nation logo asset across the public site. */
+.alpha-brand { display: inline-flex; align-items: center; justify-content: flex-start; min-width: 0; }
+.alpha-full-logo { display: block; width: 190px; max-width: 100%; max-height: 54px; height: auto; object-fit: contain; object-position: left center; }
+.alpha-brand-compact { justify-content: center; }
+.alpha-brand-compact .alpha-full-logo { width: min(320px, 72vw); max-height: 110px; object-position: center; }
+.site-header .alpha-full-logo, .site-footer .alpha-full-logo { width: 190px; max-height: 54px; }
+@media (max-width: 560px) { .site-header .alpha-full-logo { width: 150px; max-height: 44px; } .site-footer .alpha-full-logo { width: 180px; } }
