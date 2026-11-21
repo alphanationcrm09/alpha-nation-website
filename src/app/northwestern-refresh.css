@@ -400,24 +400,24 @@
   line-height: 1.6;
 }
 
-.page-hero {
+.page-hero:not(:has(+ .an-calculator-section)) {
   padding: clamp(56px, 6vw, 78px) 0 clamp(48px, 5vw, 66px);
   background: #f4f2ed;
   border-bottom: 1px solid #e2e6eb;
 }
-.page-hero .eyebrow {
+.page-hero:not(:has(+ .an-calculator-section)) .eyebrow {
   color: #987a48;
   font-size: 11px;
   letter-spacing: 2px;
 }
-.page-hero h1 {
+.page-hero:not(:has(+ .an-calculator-section)) h1 {
   max-width: 850px;
   margin: 0 0 15px;
   color: #102b4a;
   font: 600 clamp(38px, 4.6vw, 58px)/1.12 var(--an-heading, Georgia, serif);
   letter-spacing: -.8px;
 }
-.page-hero .lead {
+.page-hero:not(:has(+ .an-calculator-section)) .lead {
   max-width: 740px;
   margin: 0;
   color: #58697c;
