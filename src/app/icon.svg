@@ -1,1 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 92"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0577ff"/><stop offset="1" stop-color="#63d3ff"/></linearGradient></defs><rect width="120" height="92" rx="16" fill="#02050a"/><path d="M12 72 41 10h15l29 62H70l-7-17H34l-7 17H12Zm28-30h18l-9-21-9 21Z" fill="url(#g)"/><path d="M60 10h13l24 39V10h13v62H97L73 33v39H60V10Z" fill="#eef6ff"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 92">
+  <defs>
+    <linearGradient id="alphaMark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1687D8"/>
+      <stop offset="1" stop-color="#55BFF2"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="92" rx="16" fill="#071A31"/>
+  <path d="M12 72 41 10h15l29 62H70l-7-17H34l-7 17H12Zm28-30h18l-9-21-9 21Z" fill="url(#alphaMark)"/>
+  <path d="M60 10h13l24 39V10h13v62H97L73 33v39H60V10Z" fill="#55BFF2"/>
+</svg>
