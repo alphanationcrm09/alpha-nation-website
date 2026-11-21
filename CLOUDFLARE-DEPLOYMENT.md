@@ -81,9 +81,11 @@ Authenticate Wrangler against the intended Cloudflare account, then run:
 npm run deploy
 ```
 
-**Workers Builds build command:** `npm run cf:build` (this runs the existing Webpack Next.js build, then runs OpenNext with `--skipNextBuild` so it does not rebuild with Turbopack).
+**Workers Builds build command:** `npm run build` or `npm run cf:build`. Both now run the Webpack Next.js production build and generate the `.open-next` Worker bundle in the same build step. The OpenNext adapter uses `--skipNextBuild` to avoid a second Next.js build with Turbopack.
 
-**Workers Builds deploy command:** `npx opennextjs-cloudflare deploy`.
+**Workers Builds deploy command:** `npx wrangler deploy` or `npx opennextjs-cloudflare deploy`. Both deploy the already-generated `.open-next` bundle. Do not configure the build step as `next build` alone: it does not create the OpenNext Worker bundle required by Wrangler.
+
+The standard `npm run build` intentionally includes the Cloudflare adapter build. This keeps common Workers Builds settings (`npm run build` + `npx wrangler deploy`) compatible and ensures CI tests the same artifact that is deployed.
 
 The Worker name is `alpha-ins`, matching `name` in `wrangler.jsonc`. Do not deploy this project to `alpha-nation-site`; that is a different Worker. Check the `alpha-ins` Worker logs and test `https://alpha-ins.aalphanation.workers.dev`. Preserve configured environment values when deploying from Wrangler; do not overwrite secrets.
 
