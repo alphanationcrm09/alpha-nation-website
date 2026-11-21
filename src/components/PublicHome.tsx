@@ -1,54 +1,128 @@
 import Link from "next/link";
+import PublicCarriers from "@/components/PublicCarriers";
+import QuoteJourney from "@/components/QuoteJourney";
+import FinancialNeedsCalculator from "@/components/FinancialNeedsCalculator";
 
-const services = [
-  { n: "01", title: "Telemarketing", text: "Outbound calling support built around your campaign goals, audience and operating process." },
-  { n: "02", title: "Customer Support", text: "Professional customer communication across the key stages of your customer journey." },
-  { n: "03", title: "Sales Outsourcing", text: "Dedicated sales support to help your business manage conversations and grow consistently." },
-  { n: "04", title: "Lead Generation", text: "Structured prospect outreach and lead qualification aligned with your target market." },
-  { n: "05", title: "Appointment Setting", text: "Qualified appointment-setting support that keeps your pipeline moving." },
-  { n: "06", title: "Staffing & Team Support", text: "Campaign-focused teams with onboarding, training and ongoing operational support." },
+const solutions = [
+  { title: "Life Insurance", text: "Understand the main types of life insurance and what to consider before choosing a policy.", href: "/life-insurance", number: "01" },
+  { title: "Final Expense", text: "Learn how final expense coverage works and what beneficiaries should know.", href: "/final-expense", number: "02" },
+  { title: "Term Life", text: "Explore coverage for a set period, often while raising a family or paying down a mortgage.", href: "/term-life", number: "03" },
+  { title: "Whole Life", text: "Learn about lifelong coverage, premiums, cash value and the details to review.", href: "/whole-life", number: "04" },
 ];
 
-const industries = ["Final Expense", "Medicare", "ACA", "Auto", "Solar", "Debt Relief", "Real Estate", "Credit Repair", "Roofing"];
+const planningTools = [
+  ["How it works", "See what happens when you ask about coverage and decide whether to apply.", "/how-it-works"],
+  ["Beneficiary support", "Find guidance on contacting the issuing carrier and preparing for next steps.", "/beneficiary-services"],
+  ["Insurance FAQs", "Get straightforward answers to common questions about coverage and applications.", "/faq"],
+];
 
 export default function PublicHome() {
   return (
     <>
-      <section className="an-bpo-hero">
-        <div className="wrap an-bpo-hero-grid">
-          <div className="an-bpo-copy">
-            <p className="an-bpo-eyebrow">ALPHA NATION · BUSINESS PROCESS OUTSOURCING</p>
-            <h1>People-powered conversations. <span>Business growth.</span></h1>
-            <p className="an-bpo-lead">We help businesses build stronger customer connections through telemarketing, customer support and sales operations delivered by trained teams in Pakistan.</p>
-            <div className="an-bpo-actions">
-              <Link className="an-bpo-button" href="/contact">Discuss Your Campaign <span>↗</span></Link>
-              <a className="an-bpo-textlink" href="https://wa.me/923165573057" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+      <section className="an-hero">
+        <div className="wrap an-hero-grid">
+          <div className="an-hero-copy">
+            <p className="eyebrow">INSURANCE GUIDANCE, WITHOUT THE GUESSWORK</p>
+            <h1>Let’s find a clear place <em>to start.</em></h1>
+            <p className="an-hero-lead">Choosing coverage can bring up a lot of questions. Explore clear information, understand the options available where you live, and speak with a properly licensed professional when you are ready.</p>
+            <div className="an-hero-actions">
+              <Link className="button" href="/quote">Explore Your Options <span aria-hidden="true">↗</span></Link>
+              <Link className="an-text-button" href="/request-appointment">Request a Free Conversation</Link>
             </div>
-            <div className="an-bpo-proof"><span>Campaign-focused teams</span><i /><span>Training & quality support</span><i /><span>Flexible operations</span></div>
+            <div className="an-trust-line"><span>Start with a few simple questions</span><i /><span>No obligation to apply</span><i /><span>State availability is checked</span></div>
           </div>
-          <div className="an-bpo-visual">
-            <div className="an-bpo-visual-glow" />
-            <div className="an-bpo-visual-card">
-              <div className="an-bpo-card-top"><span className="an-bpo-live-dot" /> ALPHA NATION OPERATIONS</div>
-              <div className="an-bpo-orbit"><div className="an-bpo-core">AN</div><span className="an-bpo-node an-bpo-node-one">SALES</span><span className="an-bpo-node an-bpo-node-two">SUPPORT</span><span className="an-bpo-node an-bpo-node-three">LEADS</span></div>
-              <div className="an-bpo-visual-caption"><b>One team. Clear objectives.</b><span>Focused on every customer interaction.</span></div>
-            </div>
+          <div className="an-hero-visual an-hero-quote-visual"><QuoteJourney /></div>
+        </div>
+      </section>
+
+      <section className="an-intro-band">
+        <div className="wrap an-intro-band-inner">
+          <p className="eyebrow">A GOOD PLACE TO BEGIN</p>
+          <h2>You don’t need to know all the insurance terms before you talk to someone.</h2>
+          <p>Start with what matters to you. We’ll help make the next steps easier to understand, without pressure to apply.</p>
+        </div>
+      </section>
+
+      <section className="section an-calculator-section" id="financial-needs">
+        <div className="wrap">
+          <div className="an-calculator-intro">
+            <p className="eyebrow">FREE COVERAGE PLANNING TOOL</p>
+            <h2>Understand the coverage your family might need.</h2>
+            <p>Enter the expenses your family might need to cover, then subtract savings and insurance already in place. You can change the numbers at any time and see the estimate update.</p>
+            <p className="an-calculator-helper">You don’t need to enter personal details. Use the calculator as a starting point for a conversation, not as a recommendation to buy a particular amount.</p>
+          </div>
+          <FinancialNeedsCalculator />
+        </div>
+      </section>
+
+      <section className="section an-tools-section" id="planning">
+        <div className="wrap">
+          <div className="section-heading an-heading-row">
+            <div><p className="eyebrow">HERE TO HELP YOU GET ORIENTED</p><h2>Take the next step at your own pace.</h2></div>
+            <p className="lead">Read through the basics, see how the process works or find help with an existing policy. Start wherever it makes sense for you.</p>
+          </div>
+          <div className="an-tool-grid">
+            {planningTools.map(([title, text, href], index) => <article className="an-tool-card" key={title}>
+              <span className="an-tool-index">0{index + 1}</span><h3>{title}</h3><p>{text}</p><Link href={href}>Read more <span aria-hidden="true">↗</span></Link>
+            </article>)}
           </div>
         </div>
       </section>
 
-      <section className="an-bpo-intro"><div className="wrap an-bpo-intro-grid"><p className="an-bpo-eyebrow">YOUR OUTSOURCING PARTNER</p><h2>Build a team that keeps your business moving.</h2><p>From first contact to ongoing customer support, Alpha Nation provides practical operational support shaped around your campaign requirements.</p></div></section>
+      <section className="section an-solutions-section" id="insurance">
+        <div className="wrap">
+          <div className="section-heading"><p className="eyebrow">COVERAGE OPTIONS</p><h2>Different needs call for different kinds of coverage.</h2><p className="lead">Get familiar with the basics. A licensed professional can help confirm which options are available in your state and fit your circumstances.</p></div>
+          <div className="an-solution-grid">
+            {solutions.map((item) => <article className="an-solution-card" key={item.title}><span>{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><Link href={item.href}>Learn about this coverage <span aria-hidden="true">↗</span></Link></article>)}
+          </div>
+        </div>
+      </section>
 
-      <section className="an-bpo-section" id="services"><div className="wrap">
-        <div className="an-bpo-section-head"><div><p className="an-bpo-eyebrow">WHAT WE DO</p><h2>Services built around your goals.</h2></div><p>Bring us your campaign objectives. We’ll discuss the workflow, team requirements and support needed to move forward.</p></div>
-        <div className="an-bpo-service-grid">{services.map(s=><article className="an-bpo-service" key={s.n}><span>{s.n}</span><h3>{s.title}</h3><p>{s.text}</p></article>)}</div>
-      </div></section>
+      <section className="section an-beneficiary-section" id="beneficiary-services">
+        <div className="wrap an-beneficiary-grid">
+          <div className="an-beneficiary-photo" role="img" aria-label="An adult daughter talking with an older parent" />
+          <div>
+            <p className="eyebrow">FOR POLICYHOLDERS & BENEFICIARIES</p>
+            <h2>When you have a policy question, start here.</h2>
+            <p>If you need help with a claim, a beneficiary update or another policy question, we’ll point you toward the right next step and the issuing carrier.</p>
+            <Link className="button" href="/beneficiary-services">Find beneficiary support</Link>
+            <p className="an-small-note">Claims decisions and benefit payments are determined by the issuing insurance carrier under the policy terms.</p>
+          </div>
+        </div>
+      </section>
 
-      <section className="an-bpo-industries" id="industries"><div className="wrap an-bpo-industries-grid"><div><p className="an-bpo-eyebrow">CAMPAIGN EXPERIENCE</p><h2>Support across multiple industries.</h2><p>Our teams support campaign operations across a range of sectors. Scope, compliance requirements and staffing are discussed before launch.</p><Link className="an-bpo-button" href="/contact">Talk About Your Industry <span>↗</span></Link></div><div className="an-bpo-industry-list">{industries.map((item,i)=><div key={item}><span>0{i+1}</span><b>{item}</b><span>↗</span></div>)}</div></div></section>
+      <section className="section an-about-section" id="about">
+        <div className="wrap an-about-grid">
+          <div><p className="eyebrow">ABOUT ALPHA NATION</p><h2>Clear insurance information. Real guidance when you need it.</h2></div>
+          <div><p>Insurance decisions are personal. Alpha Nation helps individuals and families explore coverage information, understand the questions worth asking and connect with a professional for guidance.</p><p>We’ll confirm licensing, carrier appointments, product availability, eligibility and policy terms for the relevant state and situation. Not every product is available everywhere.</p><Link className="an-inline-link" href="/contact">Contact Alpha Nation <span aria-hidden="true">↗</span></Link></div>
+        </div>
+      </section>
 
-      <section className="an-bpo-approach" id="approach"><div className="wrap"><div className="an-bpo-section-head"><div><p className="an-bpo-eyebrow">HOW WE WORK</p><h2>A clear process from first call to launch.</h2></div><p>We align the team and workflow with your expectations before campaign activity begins.</p></div><div className="an-bpo-steps"><article><b>01</b><h3>Understand</h3><p>We learn about your business, audience, campaign goals and operating requirements.</p></article><article><b>02</b><h3>Prepare</h3><p>We align staffing, training, scripts and quality expectations with the agreed scope.</p></article><article><b>03</b><h3>Operate & improve</h3><p>We support day-to-day campaign activity and review performance with your team.</p></article></div></div></section>
+      <section className="section an-carriers-section" id="carriers">
+        <div className="wrap">
+          <div className="an-carriers-heading"><div><p className="eyebrow">CARRIER DIRECTORY</p><h2>Get to know the insurance companies.</h2></div><p>See carrier information and ask us about options in your state. A directory listing does not guarantee an active appointment or product availability.</p></div>
+          <PublicCarriers />
+          <Link className="an-inline-link" href="/carriers">View carrier information <span aria-hidden="true">↗</span></Link>
+        </div>
+      </section>
 
-      <section className="an-bpo-contact" id="contact"><div className="wrap an-bpo-contact-inner"><div><p className="an-bpo-eyebrow">LET’S TALK BUSINESS</p><h2>Tell us what you’re building.</h2><p>Share your campaign requirements and the Alpha Nation team will follow up to discuss the next steps.</p></div><div className="an-bpo-contact-actions"><Link className="an-bpo-button an-bpo-button-light" href="/contact">Contact Alpha Nation <span>↗</span></Link><a href="mailto:aalphanation@gmail.com">aalphanation@gmail.com</a><a href="https://wa.me/923165573057" target="_blank" rel="noreferrer">+92 316 5573057 · WhatsApp</a></div></div></section>
+      <section className="section an-process-section" id="how-it-works">
+        <div className="wrap">
+          <div className="section-heading"><p className="eyebrow">WHAT HAPPENS NEXT</p><h2>A simple process, with room for your questions.</h2></div>
+          <div className="an-process-grid">
+            <article><b>01</b><h3>Tell us what you’re looking for</h3><p>Share a few basics, such as your state and the kind of coverage you have in mind.</p></article>
+            <article><b>02</b><h3>Talk through the options</h3><p>A properly licensed professional can explain relevant options and answer your questions.</p></article>
+            <article><b>03</b><h3>Decide whether to continue</h3><p>If you choose to apply, the insurer reviews the application and determines eligibility and final terms.</p></article>
+          </div>
+          <Link className="an-inline-link" href="/how-it-works">See how it works <span aria-hidden="true">↗</span></Link>
+        </div>
+      </section>
+
+      <section className="section an-faq-teaser"><div className="wrap an-faq-teaser-inner"><div><p className="eyebrow">QUESTIONS ARE WELCOME</p><h2>It’s okay if you’re still figuring things out.</h2><p>Browse straightforward answers about coverage, applications, underwriting and what happens after you apply.</p></div><Link className="button" href="/faq">Read the FAQs <span aria-hidden="true">↗</span></Link></div></section>
+
+      <section className="an-help-section" id="help">
+        <div className="wrap an-help-inner"><div><p className="eyebrow">PREFER TO SPEAK WITH SOMEONE?</p><h2>Let’s talk about what you need.</h2><p>Request a free conversation with Alpha Nation. Tell us a little about your question and a team member will contact you to confirm the next step.</p></div><div className="an-hero-actions"><Link className="button button-light" href="/request-appointment">Request a Free Appointment</Link><Link className="an-text-button" href="/contact">Send us a message</Link></div></div>
+      </section>
     </>
   );
 }
