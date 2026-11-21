@@ -636,3 +636,67 @@ body{background:var(--an-white);color:var(--an-ink)}
     transition: none;
   }
 }
+
+
+/* Requested compact header and top-aligned homepage hero */
+.site-header {
+  border-bottom: 1px solid #edf0f3;
+  box-shadow: none;
+}
+.site-header .nav-row {
+  height: 56px;
+  min-height: 56px;
+  gap: clamp(8px, 1.1vw, 14px);
+}
+.site-header .desktop-nav {
+  gap: clamp(8px, 1vw, 14px);
+}
+.site-header .desktop-nav a {
+  font-size: .88rem;
+}
+.site-header .alpha-mark {
+  width: 29px;
+  height: 22px;
+  filter: brightness(.58) saturate(1.15);
+}
+.site-header .nav-book-cta,
+.site-header .nav-cta {
+  min-height: 36px;
+  padding: 6px 12px;
+}
+.site-header.is-scrolled .nav-row {
+  height: 52px;
+  min-height: 52px;
+}
+.site-header.is-scrolled {
+  box-shadow: none;
+}
+.an-hero {
+  padding-top: 48px;
+}
+.an-hero-grid {
+  align-items: start;
+}
+@media (max-width: 720px) {
+  .site-header .nav-row {
+    height: 52px;
+    min-height: 52px;
+    gap: 8px;
+  }
+  .site-header .alpha-mark {
+    width: 27px;
+    height: 21px;
+  }
+  .site-header .nav-cta,
+  .site-header .mobile-menu summary {
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+  .site-header.is-scrolled .nav-row {
+    height: 48px;
+    min-height: 48px;
+  }
+  .an-hero {
+    padding-top: 48px;
+  }
+}
