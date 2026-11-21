@@ -27,7 +27,7 @@ const carrierDomains: Record<string, string> = {
   "corebridge financial": "corebridgefinancial.com",
   "american amicable": "americanamicable.com",
   "americo": "americo.com",
-  "baltimore life": "baltimor life.com",
+  "baltimore life": "baltimorelife.com",
   "cica life": "cicalife.com",
   "fidelity life": "fidelitylife.com",
   "foresters financial": "foresters.com",
