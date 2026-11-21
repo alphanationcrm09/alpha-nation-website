@@ -118,3 +118,38 @@ These are not code changes that can be completed without the owner's account set
 ## Launch decision
 
 **The source and database hardening work is prepared, but the website is not yet approved for public launch.** Do not publish until the latest Cloudflare Worker preview succeeds, Cloudflare runtime secrets and Turnstile are verified, the owner account completes MFA, the legal disclosures are approved, and live acceptance tests pass.
+
+
+## Current verification addendum — 21 November 2026
+
+This section supersedes any conflicting earlier status statements in this historical audit.
+
+### Verified in the current Supabase project
+
+- Project status is `ACTIVE_HEALTHY`.
+- The production schema contains the customer profile and policy tables, quote coverage options (8 rows), and service-state records (51 rows).
+- There is one active owner role, and that owner's account has a verified TOTP factor. This confirms factor enrollment in Auth; an end-to-end browser login test has not been performed.
+- Current Security Advisor result: one warning remains — leaked-password protection is disabled. Do not describe the current advisor result as zero findings.
+- Performance Advisor reports seven unused indexes and four tables with multiple permissive SELECT policies. The unused-index notices are informational; no index was removed.
+- Supabase reports 23 applied migration versions. The repository currently contains only one versioned file under `supabase/migrations`, with other SQL scripts stored outside that directory. The remote schema is present, but local migration history is incomplete. Do not run migration repair or fabricate historical migrations to hide this mismatch.
+
+### Current source and release checks
+
+- PR #27 contains the privacy notice correction and matching setup/deployment documentation updates.
+- GitHub Actions completed successfully for commit `7dbc04c446cdc3e3544aedac83dbca1a3ddcb6ec`, including dependency installation, ESLint and `npm run cf:build`.
+- A subsequent commit removes a duplicate privacy warning paragraph. No new GitHub Actions build was triggered for that final documentation-only commit; the preceding build is not a direct check of the latest SHA.
+- The Supabase Preview check is skipped because the repository branch is not associated with a Supabase preview branch.
+- The previous Cloudflare `alpha-ins` build failure remains unresolved. GitHub's OpenNext build passing does not prove that Cloudflare Workers Builds succeeds.
+- No production Worker deployment or production database migration was performed during this review.
+
+### Remaining release gates
+
+1. Inspect and resolve the failed Cloudflare `alpha-ins` build using its Cloudflare build log.
+2. Enable leaked-password protection in Supabase Auth settings.
+3. Restore complete, authentic local migration history before relying on Supabase migration-based preview or deployment workflows.
+4. Run a fresh build on the exact final PR commit.
+5. Verify the Cloudflare runtime secrets, Turnstile hostname allowlist, and admin rate-limiting rule in the Cloudflare dashboard.
+6. Complete live desktop/mobile acceptance tests for public pages, Turnstile-protected forms, admin login/logout, MFA, customer portal access, and response headers.
+7. Obtain business/legal approval for the privacy and terms disclosures, including retention, referral sharing, legal operator/contact details, and applicable telemarketing consent language.
+
+**Release decision: NOT READY.** The source build previously passed, and the owner TOTP factor is verified, but the Cloudflare build, current security warning, latest-commit CI, legal approval, and live acceptance tests are not yet verified.
