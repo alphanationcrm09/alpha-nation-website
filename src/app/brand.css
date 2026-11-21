@@ -1061,3 +1061,63 @@ body{background:var(--an-white);color:var(--an-ink)}
     font-size: 7px;
   }
 }
+
+
+/* Homepage hero: keep the nationwide trust statement on the left and only four featured carrier marks by the quote form. */
+.an-nationwide-trust {
+  margin: 22px 0 0;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: .2px;
+}
+.an-form-carriers {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #ffffff35;
+  border-radius: 12px;
+  background: #ffffff12;
+  color: #fff;
+}
+.an-form-carriers > strong {
+  display: block;
+  margin: 0 0 7px;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.an-form-carriers .an-carrier-wordmarks {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px 12px;
+}
+.an-form-carriers .an-featured-carrier {
+  display: inline-flex !important;
+  min-height: 30px;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 4px;
+  border: 0;
+}
+.an-form-carriers .an-featured-carrier .carrier-logo {
+  width: 24px;
+  height: 24px;
+  padding: 2px;
+}
+.an-form-carriers .an-featured-carrier b {
+  color: #fff;
+  font-size: 10px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .an-nationwide-trust { margin-top: 16px; font-size: 12px; }
+  .an-form-carriers { padding: 9px 10px; }
+  .an-form-carriers .an-carrier-wordmarks { gap: 4px 8px; }
+  .an-form-carriers .an-featured-carrier { min-height: 27px; gap: 5px; }
+  .an-form-carriers .an-featured-carrier .carrier-logo { width: 21px; height: 21px; }
+  .an-form-carriers .an-featured-carrier b { font-size: 9px; }
+}
