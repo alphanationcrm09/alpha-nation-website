@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabase";
 
 const fallbackCarrierNames = [
   "Aetna",
+  "Cigna",
   "AIG / Corebridge Financial",
   "American Amicable",
   "Americo",
@@ -28,6 +29,11 @@ const carrierDomains: Record<string, string> = {
   "american amicable": "americanamicable.com",
   "americo": "americo.com",
   "baltimore life": "baltimorelife.com",
+  "the baltimore life companies": "baltimorelife.com",
+  "cigna": "cigna.com",
+  "cica life of america": "cicalife.com",
+  "guarantee trust life": "gtlic.com",
+  "mutual of omaha (moo)": "mutualofomaha.com",
   "cica life": "cicalife.com",
   "fidelity life": "fidelitylife.com",
   "foresters financial": "foresters.com",
