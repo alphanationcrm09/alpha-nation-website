@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { AlphaLogo } from "@/components/AlphaLogo";
 
 const links = [
@@ -14,8 +15,17 @@ function NavigationLinks() {
 }
 
 export function Header() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateScrollState = () => setIsScrolled(window.scrollY > 24);
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrollState);
+  }, []);
+
   return (
-    <header className="site-header">
+    <header className={`site-header${isScrolled ? " is-scrolled" : ""}`}>
       <div className="wrap nav-row">
         <Link href="/" className="logo-link" aria-label="Alpha Nation home"><AlphaLogo /></Link>
         <nav className="desktop-nav" aria-label="Main navigation"><NavigationLinks /></nav>
