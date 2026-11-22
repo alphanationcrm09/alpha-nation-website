@@ -136,6 +136,11 @@
   max-width: 650px;
   padding-top: 0;
 }
+@media (min-width: 981px) {
+  .an-hero-reference .an-hero-copy {
+    transform: translateY(-84px);
+  }
+}
 .an-hero-reference .eyebrow {
   color: #d8bb82;
   font-size: 11px;
