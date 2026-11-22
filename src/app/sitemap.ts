@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/request-appointment", priority: 0.85 },
     { path: "/life-insurance", priority: 0.8 },
     { path: "/final-expense", priority: 0.8 },
+    { path: "/burial-insurance-cost", priority: 0.75 },
     { path: "/term-life", priority: 0.8 },
     { path: "/whole-life", priority: 0.8 },
     { path: "/calculator", priority: 0.7 },
