@@ -21,7 +21,7 @@ export default function PublicHome() {
       <section className="an-hero an-hero-reference">
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
-            <p className="eyebrow">ALPHA NATION · INSURANCE GUIDANCE</p>
+            <p className="eyebrow">PROTECTING · PLANNING · PEACE OF MIND</p>
             <h1>Insurance Guide <em>Without the Guesswork</em></h1>
             <p className="an-hero-lead">Get clear answers. Compare coverage options. Find the right next step for your needs with straightforward life insurance guidance.</p>
             <div className="an-hero-points">
