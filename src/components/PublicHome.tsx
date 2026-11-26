@@ -21,9 +21,9 @@ export default function PublicHome() {
       <section className="an-hero an-hero-reference">
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
-            <p className="eyebrow">PROTECTING · PLANNING · PEACE OF MIND</p>
+            <p className="eyebrow">INSURANCE INFORMATION FOR U.S. INDIVIDUALS & FAMILIES</p>
             <h1>Life Insurance and <em>Final Expense Coverage Guidance</em></h1>
-            <p className="an-hero-lead">Explore life, term, whole life and final expense coverage. Get clear information and request guidance about options available in your state.</p>
+            <p className="an-hero-lead">Explore life, term, whole life and final expense coverage in the United States. Get clear information and request guidance about options available in your state. Availability and eligibility vary by state.</p>
             <div className="an-hero-points">
               <span><b aria-hidden="true">✓</b> Clear Information</span>
               <span><b aria-hidden="true">↗</b> State-Specific Options</span>
