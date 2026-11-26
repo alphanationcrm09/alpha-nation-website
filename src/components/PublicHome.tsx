@@ -22,16 +22,16 @@ export default function PublicHome() {
         <div className="wrap an-hero-grid">
           <div className="an-hero-copy">
             <p className="eyebrow">PROTECTING · PLANNING · PEACE OF MIND</p>
-            <h1>Insurance Guide <em>Without the Guesswork</em></h1>
-            <p className="an-hero-lead">Get clear answers. Compare coverage options. Find the right next step for your needs with straightforward life insurance guidance.</p>
+            <h1>Life Insurance and <em>Final Expense Coverage Guidance</em></h1>
+            <p className="an-hero-lead">Explore life, term, whole life and final expense coverage. Get clear information and request guidance about options available in your state.</p>
             <div className="an-hero-points">
-              <span><b aria-hidden="true">✓</b> Trusted Coverage</span>
-              <span><b aria-hidden="true">↗</b> Quick Quotes</span>
-              <span><b aria-hidden="true">✦</b> Expert Support</span>
+              <span><b aria-hidden="true">✓</b> Clear Information</span>
+              <span><b aria-hidden="true">↗</b> State-Specific Options</span>
+              <span><b aria-hidden="true">✦</b> Professional Guidance</span>
             </div>
           </div>
           <div className="an-hero-visual an-hero-quote-visual">
-            <div className="an-hero-form-heading"><h2>Get Your Free Quote</h2><p>Find the right life insurance options for you.</p></div>
+            <div className="an-hero-form-heading"><h2>Request Coverage Guidance</h2><p>Tell us what you’re looking for and we’ll help identify the next step.</p></div>
             <QuoteJourney />
           </div>
         </div>
