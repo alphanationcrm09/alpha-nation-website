@@ -6,6 +6,7 @@ import { AlphaLogo } from "@/components/AlphaLogo";
 
 const links = [
   ["/life-insurance", "Insurance"],
+  ["/home-insurance", "Home Insurance"],
   ["/how-it-works", "How It Works"],
   ["/carriers", "Carriers"],
   ["/faq", "FAQs"],
