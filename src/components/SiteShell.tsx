@@ -9,7 +9,7 @@ export function Footer() {
     <footer className="site-footer">
       <div className="wrap footer-grid">
         <div><Link href="/" className="logo-link"><AlphaLogo /></Link><p>Clear insurance information and personal guidance for individuals and families.</p></div>
-        <div><b>Insurance</b><Link href="/life-insurance">Life insurance</Link><Link href="/term-life">Term life</Link><Link href="/whole-life">Whole life</Link><Link href="/final-expense">Final expense</Link><Link href="/burial-insurance-cost">Burial insurance cost guide</Link><Link href="/carriers">Carrier information</Link></div>
+        <div><b>Insurance</b><Link href="/life-insurance">Life insurance</Link><Link href="/term-life">Term life</Link><Link href="/whole-life">Whole life</Link><Link href="/final-expense">Final expense</Link><Link href="/home-insurance">Home insurance</Link><Link href="/burial-insurance-cost">Burial insurance cost guide</Link><Link href="/carriers">Carrier information</Link></div>
         <div><b>Resources & Support</b><Link href="/calculator">Coverage calculator</Link><Link href="/how-it-works">How it works</Link><Link href="/beneficiary-services">Beneficiary services</Link><Link href="/faq">Frequently asked questions</Link><Link href="/contact">Contact Alpha Nation</Link><Link href="/request-appointment">Book a Call</Link><Link href="/customer/login">Customer login</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><a href="mailto:aalphanation@gmail.com">aalphanation@gmail.com</a></div>
       </div>
       <div className="wrap legal-note">
