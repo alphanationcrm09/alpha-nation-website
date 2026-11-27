@@ -7,6 +7,7 @@ const solutions = [
   { title: "Final Expense", text: "Learn how final expense coverage works and what beneficiaries should know.", href: "/final-expense", number: "02" },
   { title: "Term Life", text: "Explore coverage for a set period, often while raising a family or paying down a mortgage.", href: "/term-life", number: "03" },
   { title: "Whole Life", text: "Learn about lifelong coverage, premiums, cash value and the details to review.", href: "/whole-life", number: "04" },
+  { title: "Home Insurance", text: "Understand homeowners coverage for your property, belongings and personal liability.", href: "/home-insurance", number: "05" },
 ];
 
 const planningTools = [
