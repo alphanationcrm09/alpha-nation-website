@@ -12,6 +12,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/burial-insurance-cost", priority: 0.75 },
     { path: "/term-life", priority: 0.8 },
     { path: "/whole-life", priority: 0.8 },
+    { path: "/term-vs-whole-life", priority: 0.75 },
     { path: "/home-insurance", priority: 0.8 },
     { path: "/calculator", priority: 0.7 },
     { path: "/how-it-works", priority: 0.7 },
