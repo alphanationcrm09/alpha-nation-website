@@ -6,6 +6,26 @@ import "./northwestern-refresh.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alpha-ins.aalphanation.workers.dev";
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Alpha Nation",
+      url: siteUrl,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "Alpha Nation",
+      url: siteUrl,
+      publisher: { "@id": `${siteUrl}/#organization` },
+      inLanguage: "en-US",
+    },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: { default: "Life Insurance Information & Coverage Guidance", template: "%s | Alpha Nation" },
@@ -29,5 +49,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
+  return <html lang="en"><body><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} /><SiteChrome /><main>{children}</main><SiteFooter /></body></html>;
 }
