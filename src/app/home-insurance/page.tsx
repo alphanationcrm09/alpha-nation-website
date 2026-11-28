@@ -1,5 +1,6 @@
 import type {Metadata} from "next";
 import ProductLanding from "@/components/ProductLanding";
+import Link from "next/link";
 
 export const metadata:Metadata={
   title:"Homeowners Insurance Guide in the U.S.",
@@ -7,7 +8,7 @@ export const metadata:Metadata={
 };
 
 export default function Page(){
-  return <ProductLanding
+  return <><ProductLanding
     eyebrow="HOMEOWNERS INSURANCE"
     title="Understand the coverage that helps protect your home."
     description="Explore homeowners insurance basics, from your dwelling and belongings to personal liability, deductibles and common policy exclusions."
@@ -35,5 +36,7 @@ export default function Page(){
       {q:"Is homeowners insurance required by law?",a:"There is no single nationwide rule requiring every homeowner to carry a homeowners policy. A mortgage lender commonly requires insurance as a condition of the loan. Requirements and available products vary."},
       {q:"Can I get coverage for valuable jewelry or home businesses?",a:"Some policies have special limits or exclusions for certain valuables and business property. A scheduled personal property endorsement or separate policy might be available, depending on the insurer."}
     ]}
-  />;
+  />
+    <section className="section"><div className="wrap"><div className="section-heading"><p className="eyebrow">HOMEOWNERS INSURANCE RESOURCE</p><h2>Read the detailed homeowners insurance guide.</h2><p className="lead">Explore coverage limits, deductibles, replacement cost, exclusions and questions to ask before choosing a policy.</p><Link className="button" href="/homeowners-insurance-guide">Read the homeowners insurance guide ↗</Link></div></div></section>
+  </>;
 }
