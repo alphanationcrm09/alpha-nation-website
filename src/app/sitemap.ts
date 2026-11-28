@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/whole-life", priority: 0.8 },
     { path: "/term-vs-whole-life", priority: 0.75 },
     { path: "/home-insurance", priority: 0.8 },
+    { path: "/homeowners-insurance-guide", priority: 0.75 },
     { path: "/calculator", priority: 0.7 },
     { path: "/how-it-works", priority: 0.7 },
     { path: "/beneficiary-services", priority: 0.65 },
