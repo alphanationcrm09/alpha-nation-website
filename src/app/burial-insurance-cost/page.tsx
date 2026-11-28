@@ -3,9 +3,9 @@ import Link from "next/link";
 import { PageHero } from "@/components/SiteShell";
 
 export const metadata: Metadata = {
-  title: "How Much Does Burial Insurance Cost? | Alpha Nation",
+  title: "Burial Insurance Cost: What Affects Monthly Premiums? | Alpha Nation",
   description:
-    "Learn what affects burial insurance premiums, how final expense coverage works, and what to compare before requesting life insurance information.",
+    "Understand what affects burial insurance costs, how age, health, coverage amount and policy type influence premiums, and what to compare before applying.",
   alternates: { canonical: "/burial-insurance-cost" },
   openGraph: {
     title: "How Much Does Burial Insurance Cost?",
@@ -78,6 +78,24 @@ export default function BurialInsuranceCostPage() {
             Decide whether the policy should cover only those expenses or provide an additional amount to a beneficiary. Then compare the premium with your ongoing budget. A policy that becomes difficult to maintain could fail to meet the purpose you had in mind.
           </p>
 
+          <h2>How should you compare monthly burial insurance premiums?</h2>
+          <p>
+            Compare policies using the same applicant details and benefit amount wherever possible. Check whether the quoted premium is guaranteed for the life of the policy or can change, how often payments are due, and whether the policy remains in force only while premiums are paid. Ask for the full premium schedule and written policy information.
+          </p>
+          <p>
+            A monthly payment is only one part of the comparison. Review the amount beneficiaries would receive, when the full benefit becomes payable, any waiting-period provisions, exclusions, grace period and what happens if a payment is missed. A lower initial payment does not automatically mean better value.
+          </p>
+
+          <h2>Common mistakes when comparing burial insurance</h2>
+          <ul>
+            <li>Comparing advertised prices without checking the age, benefit amount and product assumptions behind them.</li>
+            <li>Assuming no medical exam means guaranteed acceptance.</li>
+            <li>Overlooking graded benefits or waiting periods.</li>
+            <li>Choosing a premium that is difficult to maintain over time.</li>
+            <li>Replacing an existing policy before a new policy is approved, issued and active.</li>
+            <li>Relying on a verbal summary instead of reviewing the insurer's policy documents.</li>
+          </ul>
+
           <h2>Questions to ask before choosing a policy</h2>
           <ul>
             <li>Is the death benefit level from the first day, or is there a graded or limited-benefit period?</li>
@@ -97,6 +115,22 @@ export default function BurialInsuranceCostPage() {
           <p>
             Some products do not require a traditional medical exam, but that does not mean every applicant is automatically accepted. An insurer might ask health questions or use other underwriting information. Guaranteed-issue coverage, where offered, has its own eligibility rules, pricing and benefit limitations. Confirm the details in the policy before applying.
           </p>
+
+          <h2>Frequently asked questions about burial insurance costs</h2>
+          <h3>Does burial insurance cost more as you get older?</h3>
+          <p>Age is an important factor in life insurance pricing, so applying at an older age often results in a higher premium for comparable coverage. Actual rates depend on the insurer, product, state and application details.</p>
+
+          <h3>Does better health lower the premium?</h3>
+          <p>For products that assess health, health history and underwriting results can affect eligibility and pricing. Guaranteed-issue products use different rules and should be compared separately.</p>
+
+          <h3>Is a higher coverage amount always better?</h3>
+          <p>No. A larger benefit generally costs more. Consider the expenses you want to address and choose an amount with a premium you expect to keep paying.</p>
+
+          <h3>Can burial insurance premiums increase?</h3>
+          <p>Premium guarantees depend on the policy. Ask whether the premium is level, what conditions apply and where the contract explains any possible changes.</p>
+
+          <h3>Can I get a personal price from an online example?</h3>
+          <p>No. An advertised example is not a personal quote or approval. An insurer or properly licensed professional must confirm product availability, application requirements and the premium for your circumstances.</p>
 
           <h2>Compare options with the right information</h2>
           <p>
